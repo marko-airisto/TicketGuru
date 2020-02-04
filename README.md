@@ -34,43 +34,41 @@ Järjestelmä on tarkoitettu käytettäväksi selaimen kautta päätteellä, ja 
 
  
 
--   User case diagram: 
-
-![User case diagram](https://github.com/marko-airisto/TicketGuru/blob/master/Usercase__NZ_30012010.pdf) 
+- [User case diagram](https://github.com/marko-airisto/TicketGuru/blob/master/Usercase__NZ_30012010.pdf) 
 
  
 
--   Käyttäjätarinat: 
+### Käyttäjätarinat: 
 
-Myyjänä haluan, että saan esille tapahtumien listauksen, jotta näen koko valikoiman 
+- Myyjänä haluan, että saan esille tapahtumien listauksen, jotta näen koko valikoiman 
 
-Myyjänä haluan, että saan tapahtumien listan järjestetty eri tavalla, jotta saan valita tarvittavan 
+- Myyjänä haluan, että saan tapahtumien listan järjestetty eri tavalla, jotta saan valita tarvittavan 
 
-Myyjänä haluan, että saan esille valitun tapahtuman tiedot, jotta voin selvittää myyntiehdot 
+- Myyjänä haluan, että saan esille valitun tapahtuman tiedot, jotta voin selvittää myyntiehdot 
 
-Myyjänä haluan, että saan luoda uuden myyntitapahtuman (Osto), jotta voin aloittaa asiakaspalvelun 
+- Myyjänä haluan, että saan luoda uuden myyntitapahtuman (Osto), jotta voin aloittaa asiakaspalvelun 
 
-Myyjänä haluan, että saan lisätä tapahtumalle eri tapahtumien liput, jotta valmistan asiakkaan ostoskorin 
+- Myyjänä haluan, että saan lisätä tapahtumalle eri tapahtumien liput, jotta valmistan asiakkaan ostoskorin 
 
-Myyjänä haluan, että pystyn muokkaamaan ja poistamaan tapahtumissa olevat liput, jotta kykenen korjaamaan asiakkaan ostoskorin 
+- Myyjänä haluan, että pystyn muokkaamaan ja poistamaan tapahtumissa olevat liput, jotta kykenen korjaamaan asiakkaan ostoskorin 
 
-Myyjänä haluan, että pystyn siirtymään helposti yhdestä napista takaisin edelliseen näkymään. 
+- Myyjänä haluan, että pystyn siirtymään helposti yhdestä napista takaisin edelliseen näkymään. 
 
-Myyjänä haluan, että valmistan (tallennan, vahvistan) myyntitapahtuman asiakkaan ostoskorista, jotta suoritan maksun ja tulostan liput 
+- Myyjänä haluan, että valmistan (tallennan, vahvistan) myyntitapahtuman asiakkaan ostoskorista, jotta suoritan maksun ja tulostan liput 
 
-Myyjänä haluan, että jo olleet tapahtumat eivät näy myyntinäkymässä, mutta voin silti tarvittaessa etsiä myös vanhoja tapahtumia. 
+- Myyjänä haluan, että jo olleet tapahtumat eivät näy myyntinäkymässä, mutta voin silti tarvittaessa etsiä myös vanhoja tapahtumia. 
 
-Asiakkaana haluan, että saan maksetut liput tulostettuna myyjältä, jotka esitän tarkastajalle 
+- Asiakkaana haluan, että saan maksetut liput tulostettuna myyjältä, jotka esitän tarkastajalle 
 
-Tarkastajana haluan, että liput voidaan yksinkertaisesti ja yksiselitteisesti tarkista tapahtumaan sisäänpääsyä varten 
+- Tarkastajana haluan, että liput voidaan yksinkertaisesti ja yksiselitteisesti tarkista tapahtumaan sisäänpääsyä varten 
 
-Myyjänä haluan, että saan ostotapahtuman peruttua, jos ostaja peruu kaupan, tai myyjänä teen virheen. 
+- Myyjänä haluan, että saan ostotapahtuman peruttua, jos ostaja peruu kaupan, tai myyjänä teen virheen. 
 
-Myyntikoordinaattorina haluan, että saan tapahtumia tallennettu järjestelmään, jotta lippuja ko. tapahtumiin voidaan myydä jälleenmyyntipisteessä 
+- Myyntikoordinaattorina haluan, että saan tapahtumia tallennettu järjestelmään, jotta lippuja ko. tapahtumiin voidaan myydä jälleenmyyntipisteessä 
 
-Myyntikoordinaattorina haluan, että myyntipisteissä ei voida muuttaa tapahtumien tietoja, jottei myyntiprosessi keskeydy. 
+- Myyntikoordinaattorina haluan, että myyntipisteissä ei voida muuttaa tapahtumien tietoja, jottei myyntiprosessi keskeydy. 
 
-Myyntikoordinaattorina haluan, että pystyn syöttämään tietoja massana (excel, csv), jottei jokaista tapahtumaa pidä syöttää rivi kerrallaan. 
+- Myyntikoordinaattorina haluan, että pystyn syöttämään tietoja massana (excel, csv), jottei jokaista tapahtumaa pidä syöttää rivi kerrallaan. 
 
  
 
@@ -78,14 +76,8 @@ Myyntikoordinaattorina haluan, että pystyn syöttämään tietoja massana (exce
 
   
 
-Homepage 
+[Homepage](https://github.com/marko-airisto/TicketGuru/blob/master/Homepage.png) 
 
-![Homepage](https://github.com/marko-airisto/TicketGuru/blob/master/Homepage.png) 
+[Ticket Window](https://github.com/marko-airisto/TicketGuru/blob/master/ChooseTicket.png) 
 
-Choose Ticket 
-
-![Ticket Window](https://github.com/marko-airisto/TicketGuru/blob/master/ChooseTicket.png) 
-
-Edit Event 
-
-![Edit Event](https://github.com/marko-airisto/TicketGuru/blob/master/EditTicket.png) 
+[Edit Event](https://github.com/marko-airisto/TicketGuru/blob/master/EditTicket.png) 
