@@ -75,9 +75,8 @@ Järjestelmä on tarkoitettu käytettäväksi selaimen kautta päätteellä, ja 
  ## Käyttöliittymä 
 
   
+- [Homepage](https://github.com/marko-airisto/TicketGuru/blob/master/Homepage.png) 
 
-[Homepage](https://github.com/marko-airisto/TicketGuru/blob/master/Homepage.png) 
+- [Ticket Window](https://github.com/marko-airisto/TicketGuru/blob/master/ChooseTicket.png) 
 
-[Ticket Window](https://github.com/marko-airisto/TicketGuru/blob/master/ChooseTicket.png) 
-
-[Edit Event](https://github.com/marko-airisto/TicketGuru/blob/master/EditTicket.png) 
+- [Edit Event](https://github.com/marko-airisto/TicketGuru/blob/master/EditTicket.png) 
