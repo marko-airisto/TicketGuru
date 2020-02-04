@@ -2,6 +2,6 @@
 Ohjelmistoprojekti I
 
 
-If you want to embed images, this is how you do it:
+Homepage:
 
-![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
+![Homepage](https://marko-airisto.github.com/TicketGuru/Homepage.png)
