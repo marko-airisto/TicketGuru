@@ -14,13 +14,13 @@ Lipunmyyntijärjestelmä on tarkoitettu aluksi käytettäväksi TicketGurun myyn
 
 Toteutus- ja toimintaympäristö: 
 
-Java 
+- Java 
 
-SpringBoot 
+- SpringBoot 
 
-Thymeleaf / React 
+- Thymeleaf / React 
 
-MariaDB 
+- MariaDB 
 
 Järjestelmä on tarkoitettu käytettäväksi selaimen kautta päätteellä, ja sen on tarkoitus olla selainriippumaton. 
 
