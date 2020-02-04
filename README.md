@@ -4,4 +4,4 @@ Ohjelmistoprojekti I
 
 Homepage:
 
-![Homepage](https://marko-airisto.github.com/TicketGuru/Homepage.png)
+![Homepage](https://github.com/marko-airisto/TicketGuru/Homepage.png)
