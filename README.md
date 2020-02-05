@@ -2,7 +2,7 @@
 
 Projektin tarkoituksena on tuottaa lipunmyyntijärjestelmä TicketGuru –nimiselle toimitsijalle. Toimitsija toimii projektin aloittaessa kivijalkaliike-periaatteella, mutta toimitsijan tarkoituksena on jatkokehittää ja laajentaa palveluitaan myös verkkokaupan suuntaan, jonka myötä asiakkaat voivat itse ostaa ja tulostaa lippuja suoraan järjestelmän verkkokaupasta.
 
-Toimitsijan tulee pystyä määrittelemään järjestelmään tapahtumat tietoineen (tapahtuma, lippukapasiteetti, lipputyypit, aika ja paikka, jne.), joihin lippuja myydään. Liput tulee pystyä tulostamaan järjestelmästä asiakkaalle myynnin yhteydessä. Lisäksi, ennakkomyynnin loputtua, jäljellä olevien lippujen tulostus, ovella myynti sekä lippujen tarkastaminen ovella lipulla olevan koodin perusteella tulee mahdollistaa järjestelmän kautta.
+Toimitsijan tulee pystyä määrittelemään järjestelmään tapahtumat tietoineen (tapahtuma, lippukapasiteetti, lipputyypit, aika ja paikka, jne.), joihin lippuja myydään. Liput tulee pystyä tulostamaan järjestelmästä asiakkaalle myynnin yhteydessä. Lisäksi, ennakkomyynnin loputtua, jäljellä olevien lippujen tulostus, ovella myynti sekä lippujen tarkastaminen ovella lipulla olevan koodin perusteella tulee mahdollistaa järjestelmän kautta. Järjestelmästä on myös pystyttävä myyntiraportti halutusta tilaisuudesta ja tarkempi myyntitapahtuma listaus samaisen tapahtuman myyntitapahtumista.
 
 TicketGurun tilaaman lipunmyyntijärjestelmän tarkoituksena on koota tiedot järjestettävistä tilaisuuksista (tilaisuuden laji, paikka, ikärajat, lippuryhmät, jne.) yhden ja saman tietojärjestelmän sisälle, joka mahdollistaa lippumyynnin helposti.
 
@@ -24,7 +24,7 @@ Järjestelmä on tarkoitettu käytettäväksi selaimen kautta päätteellä, ja 
 
 - TicketGuru-järjestelmän käyttäjinä ovat pääasiassa lippupisteiden jälleenmyyjät sekä lippupisteiden myyntikoordinaattorit: jälleenmyyjät toimivat kivijalkaliikkeessä myynnin puolella, myyntikoordinaattorit puolestaan toimivat linkkinä tapahtumien järjestäjiin, syöttäen tapahtumat ja niiden tiedot järjestelmään.
 
-* [User case diagram](https://github.com/marko-airisto/TicketGuru/blob/master/Usercase__NZ_30012010.pdf)
+* [User case diagram](https://github.com/marko-airisto/TicketGuru/blob/master/Usercase_RBMK_05022020.pdf)
 
 ### Käyttäjätarinat:
 
@@ -57,6 +57,10 @@ Järjestelmä on tarkoitettu käytettäväksi selaimen kautta päätteellä, ja 
 - Myyntikoordinaattorina haluan, että myyntipisteissä ei voida muuttaa tapahtumien tietoja, jottei myyntiprosessi keskeydy.
 
 - Myyntikoordinaattorina haluan, että pystyn syöttämään tietoja massana (excel, csv), jottei jokaista tapahtumaa pidä syöttää rivi kerrallaan.
+
+- Myyntikoordinaattorina haluan, että saada järjestelmästä myyntiraportin, josta näen haluamani tapahtuman lipputyyppien myyntimäärät ja summat sekä yhteisumman.
+
+- Myyntikoordinaattorina haluan, että saada järjestelmästä myyntiraportista listauksen kaikista myyntitapahtumista (sis. timestamp, myyntitapahtuma nro ja summa), jotta näen ko. myyntitapahtuman sisällön.
 
 ## Käyttöliittymä
 
