@@ -1,82 +1,77 @@
-## TicketGuru - lipunmyyntijärjestelmä 
+## TicketGuru - lipunmyyntijärjestelmä
 
-Projektin tarkoituksena on tuottaa lipunmyyntijärjestelmä TicketGuru –nimiselle toimitsijalle. Toimitsija toimii projektin aloittaessa kivijalkaliike-periaatteella, mutta toimitsijan tarkoituksena on jatkokehittää ja laajentaa palveluitaan myös verkkokaupan suuntaan, jonka myötä asiakkaat voivat itse ostaa ja tulostaa lippuja suoraan järjestelmän verkkokaupasta. 
+Projektin tarkoituksena on tuottaa lipunmyyntijärjestelmä TicketGuru –nimiselle toimitsijalle. Toimitsija toimii projektin aloittaessa kivijalkaliike-periaatteella, mutta toimitsijan tarkoituksena on jatkokehittää ja laajentaa palveluitaan myös verkkokaupan suuntaan, jonka myötä asiakkaat voivat itse ostaa ja tulostaa lippuja suoraan järjestelmän verkkokaupasta.
 
- 
+Toimitsijan tulee pystyä määrittelemään järjestelmään tapahtumat tietoineen (tapahtuma, lippukapasiteetti, lipputyypit, aika ja paikka, jne.), joihin lippuja myydään. Liput tulee pystyä tulostamaan järjestelmästä asiakkaalle myynnin yhteydessä. Lisäksi, ennakkomyynnin loputtua, jäljellä olevien lippujen tulostus, ovella myynti sekä lippujen tarkastaminen ovella lipulla olevan koodin perusteella tulee mahdollistaa järjestelmän kautta.
 
-Toimitsijan tulee pystyä määrittelemään järjestelmään tapahtumat tietoineen (tapahtuma, lippukapasiteetti, lipputyypit, aika ja paikka, jne.), joihin lippuja myydään. Liput tulee pystyä tulostamaan järjestelmästä asiakkaalle myynnin yhteydessä. Lisäksi, ennakkomyynnin loputtua, jäljellä olevien lippujen tulostus, ovella myynti sekä lippujen tarkastaminen ovella lipulla olevan koodin perusteella tulee mahdollistaa järjestelmän kautta. 
+TicketGurun tilaaman lipunmyyntijärjestelmän tarkoituksena on koota tiedot järjestettävistä tilaisuuksista (tilaisuuden laji, paikka, ikärajat, lippuryhmät, jne.) yhden ja saman tietojärjestelmän sisälle, joka mahdollistaa lippumyynnin helposti.
 
-  
+Lipunmyyntijärjestelmä on tarkoitettu aluksi käytettäväksi TicketGurun myyntipisteessä TicketGurun työntekijöiden toimesta, myöhemmin tarkoitus laajentaa käytettäväksi myös asiakkaiden toimesta verkkokaupan muodossa.
 
-TicketGurun tilaaman lipunmyyntijärjestelmän tarkoituksena on koota tiedot järjestettävistä tilaisuuksista (tilaisuuden laji, paikka, ikärajat, lippuryhmät, jne.) yhden ja saman tietojärjestelmän sisälle, joka mahdollistaa lippumyynnin helposti. 
+Toteutus- ja toimintaympäristö:
 
-Lipunmyyntijärjestelmä on tarkoitettu aluksi käytettäväksi TicketGurun myyntipisteessä TicketGurun työntekijöiden toimesta, myöhemmin tarkoitus laajentaa käytettäväksi myös asiakkaiden toimesta verkkokaupan muodossa. 
+- Java
 
-Toteutus- ja toimintaympäristö: 
+- SpringBoot
 
-- Java 
+- Thymeleaf / React
 
-- SpringBoot 
+- MariaDB
 
-- Thymeleaf / React 
+Järjestelmä on tarkoitettu käytettäväksi selaimen kautta päätteellä, ja sen on tarkoitus olla selainriippumaton.
 
-- MariaDB 
+## Järjestelmän määrittely
 
-Järjestelmä on tarkoitettu käytettäväksi selaimen kautta päätteellä, ja sen on tarkoitus olla selainriippumaton. 
+- TicketGuru-järjestelmän käyttäjinä ovat pääasiassa lippupisteiden jälleenmyyjät sekä lippupisteiden myyntikoordinaattorit: jälleenmyyjät toimivat kivijalkaliikkeessä myynnin puolella, myyntikoordinaattorit puolestaan toimivat linkkinä tapahtumien järjestäjiin, syöttäen tapahtumat ja niiden tiedot järjestelmään.
 
-  
+* [User case diagram](https://github.com/marko-airisto/TicketGuru/blob/master/Usercase__NZ_30012010.pdf)
 
-## Järjestelmän määrittely 
+### Käyttäjätarinat:
 
-  
+- Myyjänä haluan, että saan esille tapahtumien listauksen, jotta näen koko valikoiman
 
--   TicketGuru-järjestelmän käyttäjinä ovat pääasiassa lippupisteiden jälleenmyyjät sekä lippupisteiden myyntikoordinaattorit: jälleenmyyjät toimivat kivijalkaliikkeessä myynnin puolella, myyntikoordinaattorit puolestaan toimivat linkkinä tapahtumien järjestäjiin, syöttäen tapahtumat ja niiden tiedot järjestelmään. 
+- Myyjänä haluan, että saan tapahtumien listan järjestetty eri tavalla, jotta saan valita tarvittavan
 
- 
+- Myyjänä haluan, että saan esille valitun tapahtuman tiedot, jotta voin selvittää myyntiehdot
 
-- [User case diagram](https://github.com/marko-airisto/TicketGuru/blob/master/Usercase__NZ_30012010.pdf) 
+- Myyjänä haluan, että saan luoda uuden myyntitapahtuman (Osto), jotta voin aloittaa asiakaspalvelun
 
- 
+- Myyjänä haluan, että saan lisätä tapahtumalle eri tapahtumien liput, jotta valmistan asiakkaan ostoskorin
 
-### Käyttäjätarinat: 
+- Myyjänä haluan, että pystyn muokkaamaan ja poistamaan tapahtumissa olevat liput, jotta kykenen korjaamaan asiakkaan ostoskorin
 
-- Myyjänä haluan, että saan esille tapahtumien listauksen, jotta näen koko valikoiman 
+- Myyjänä haluan, että pystyn siirtymään helposti yhdestä napista takaisin edelliseen näkymään.
 
-- Myyjänä haluan, että saan tapahtumien listan järjestetty eri tavalla, jotta saan valita tarvittavan 
+- Myyjänä haluan, että valmistan (tallennan, vahvistan) myyntitapahtuman asiakkaan ostoskorista, jotta suoritan maksun ja tulostan liput
 
-- Myyjänä haluan, että saan esille valitun tapahtuman tiedot, jotta voin selvittää myyntiehdot 
+- Myyjänä haluan, että jo olleet tapahtumat eivät näy myyntinäkymässä, mutta voin silti tarvittaessa etsiä myös vanhoja tapahtumia.
 
-- Myyjänä haluan, että saan luoda uuden myyntitapahtuman (Osto), jotta voin aloittaa asiakaspalvelun 
+- Asiakkaana haluan, että saan maksetut liput tulostettuna myyjältä, jotka esitän tarkastajalle
 
-- Myyjänä haluan, että saan lisätä tapahtumalle eri tapahtumien liput, jotta valmistan asiakkaan ostoskorin 
+- Tarkastajana haluan, että liput voidaan yksinkertaisesti ja yksiselitteisesti tarkista tapahtumaan sisäänpääsyä varten
 
-- Myyjänä haluan, että pystyn muokkaamaan ja poistamaan tapahtumissa olevat liput, jotta kykenen korjaamaan asiakkaan ostoskorin 
+- Myyjänä haluan, että saan ostotapahtuman peruttua, jos ostaja peruu kaupan, tai myyjänä teen virheen.
 
-- Myyjänä haluan, että pystyn siirtymään helposti yhdestä napista takaisin edelliseen näkymään. 
+- Myyntikoordinaattorina haluan, että saan tapahtumia tallennettu järjestelmään, jotta lippuja ko. tapahtumiin voidaan myydä jälleenmyyntipisteessä
 
-- Myyjänä haluan, että valmistan (tallennan, vahvistan) myyntitapahtuman asiakkaan ostoskorista, jotta suoritan maksun ja tulostan liput 
+- Myyntikoordinaattorina haluan, että myyntipisteissä ei voida muuttaa tapahtumien tietoja, jottei myyntiprosessi keskeydy.
 
-- Myyjänä haluan, että jo olleet tapahtumat eivät näy myyntinäkymässä, mutta voin silti tarvittaessa etsiä myös vanhoja tapahtumia. 
+- Myyntikoordinaattorina haluan, että pystyn syöttämään tietoja massana (excel, csv), jottei jokaista tapahtumaa pidä syöttää rivi kerrallaan.
 
-- Asiakkaana haluan, että saan maksetut liput tulostettuna myyjältä, jotka esitän tarkastajalle 
+## Käyttöliittymä
 
-- Tarkastajana haluan, että liput voidaan yksinkertaisesti ja yksiselitteisesti tarkista tapahtumaan sisäänpääsyä varten 
+Alkuperäinen UI wireframe dokumentti, josta näkyy perus toiminallisuus.
 
-- Myyjänä haluan, että saan ostotapahtuman peruttua, jos ostaja peruu kaupan, tai myyjänä teen virheen. 
+- [UI Wireframes](https://github.com/marko-airisto/TicketGuru/blob/master/TicketGuru_UI.pdf)
 
-- Myyntikoordinaattorina haluan, että saan tapahtumia tallennettu järjestelmään, jotta lippuja ko. tapahtumiin voidaan myydä jälleenmyyntipisteessä 
+Esimerkillinen landing page sisäänkirjautumisen jälkeen.
 
-- Myyntikoordinaattorina haluan, että myyntipisteissä ei voida muuttaa tapahtumien tietoja, jottei myyntiprosessi keskeydy. 
+- [Homepage](https://github.com/marko-airisto/TicketGuru/blob/master/images/Homepage.png)
 
-- Myyntikoordinaattorina haluan, että pystyn syöttämään tietoja massana (excel, csv), jottei jokaista tapahtumaa pidä syöttää rivi kerrallaan. 
+Esimerkillinen lipunmyynti näkymä.
 
- 
+- [Ticket Window](https://github.com/marko-airisto/TicketGuru/blob/master/images/ChooseTicket.png)
 
- ## Käyttöliittymä 
+Esimerkillinen tapahtuman luonti/editointi näkymä.
 
-  
-- [Homepage](https://github.com/marko-airisto/TicketGuru/blob/master/Homepage.png) 
-
-- [Ticket Window](https://github.com/marko-airisto/TicketGuru/blob/master/ChooseTicket.png) 
-
-- [Edit Event](https://github.com/marko-airisto/TicketGuru/blob/master/EditTicket.png) 
+- [Edit Event](https://github.com/marko-airisto/TicketGuru/blob/master/images/EditTicket.png)
