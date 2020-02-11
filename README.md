@@ -1,2 +1,0 @@
-# TicketGuru
-Ohjelmistoprojekti I
