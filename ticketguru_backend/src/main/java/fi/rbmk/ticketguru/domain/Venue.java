@@ -20,7 +20,7 @@ public class Venue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Venue_ID")
-    private Long venue_id;
+    private Long id;
 
     @NotEmpty(message = "Venue name is required")
     @Length(max = 100)
@@ -46,6 +46,15 @@ public class Venue {
     @Column(name = "VenueEmail")
     private String email;
 
+    @Length(max = 250)
+    @Column(name = "VenueWWW")
+    private String www;
+
+    @NotEmpty(message = "Venue contact person is required")
+    @Length(max = 150)
+    @Column(name = "VenueContactPerson")
+    private String contactPerson;
+
     public Venue() {}
     
     public Venue(Venue venue) {}
@@ -58,9 +67,19 @@ public class Venue {
         this.email = email;
     }
 
+    public Venue(String name, String address, Postcode postcode, String tel, String email, String www, String contactPerson) {
+        this.name = name;
+        this.address = address;
+        this.postcode = postcode;
+        this.tel = tel;
+        this.email = email;
+        this.www = www;
+        this.contactPerson = contactPerson;
+    }
+
     //Getters
     public Long getId() {
-        return this.venue_id;
+        return this.id;
     }
     public String getName() {
         return this.name;
@@ -77,6 +96,12 @@ public class Venue {
     public String getEmail() {
         return this.email;
     }
+    public String getWWW() {
+        return this.www;
+    }
+    public String getContactPerson() {
+        return this.contactPerson;
+    }
     //Setters
     public void setName(String name) {
         this.name = name;
@@ -92,5 +117,11 @@ public class Venue {
     }
     public void setEmail(String email) {
         this.email = email;
+    }
+    public void setWWW(String www) {
+        this.www = www;
+    }
+    public void setContactPerson(String contactPerson) {
+        this.contactPerson = contactPerson;
     }
 }
