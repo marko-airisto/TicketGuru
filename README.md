@@ -84,6 +84,6 @@ Esimerkillinen tapahtuman luonti/editointi näkymä.
 
 - [ER-kaavio tietokannasta](https://github.com/marko-airisto/TicketGuru/blob/master/TicketGuru_ER.pdf)
 
-## Tieothakemisto
+## Tietohakemisto
 
 - [Tietohakemisto](https://github.com/marko-airisto/TicketGuru/blob/master/TicketGuruDB.md)
