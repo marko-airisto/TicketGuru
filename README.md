@@ -79,3 +79,7 @@ Esimerkillinen lipunmyynti näkymä.
 Esimerkillinen tapahtuman luonti/editointi näkymä.
 
 - [Edit Event](https://github.com/marko-airisto/TicketGuru/blob/master/images/EditTicket.png)
+
+## Tietokanta
+
+- [ER-kaavio tietokannasta]()
