@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class PostCodes {
+public class PostCode {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -20,11 +20,11 @@ public class PostCodes {
 	@OneToMany(cascade= CascadeType.ALL, mappedBy = "postcode_ID")
 	private List<Venue> venue;
 	
-	public PostCodes() {
+	public PostCode() {
 		super();
 	}
 	
-	public PostCodes(Long postcode_ID, String city, String country) {
+	public PostCode(Long postcode_ID, String city, String country) {
 		super();
 		this.postcode_ID = postcode_ID;
 		this.city = city;
