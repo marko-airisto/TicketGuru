@@ -11,7 +11,7 @@ import javax.persistence.OneToMany;
 
 
 @Entity
-public class SaleEvent {
+public class SaleEvents {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -20,13 +20,13 @@ public class SaleEvent {
 	private Long user_ID;
 	
 	@OneToMany(cascade= CascadeType.ALL, mappedBy = "saleEvent_ID")
-	private List<SaleRow> saleRows;
+	private List<SaleRows> saleRows;
 	
-	public SaleEvent() {
+	public SaleEvents() {
 		super();
 	}
 	
-	public SaleEvent(Long saleEvent_ID, Date saleEventDateTime, Long user_ID) {
+	public SaleEvents(Long saleEvent_ID, Date saleEventDateTime, Long user_ID) {
 		super();
 		this.saleEvent_ID = saleEvent_ID;
 		this.saleEventDateTime = saleEventDateTime;
@@ -47,7 +47,7 @@ public class SaleEvent {
 		return user_ID;
 	}
 
-	public List<SaleRow> getSaleRows() {
+	public List<SaleRows> getSaleRows() {
 		return saleRows;
 	}
 	
@@ -65,7 +65,7 @@ public class SaleEvent {
 		this.user_ID = user_ID;
 	}
 
-	public void setSaleRows(List<SaleRow> saleRows) {
+	public void setSaleRows(List<SaleRows> saleRows) {
 		this.saleRows = saleRows;
 	}
 

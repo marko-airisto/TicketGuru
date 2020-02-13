@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class SaleRow {
+public class SaleRows {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -20,15 +20,15 @@ public class SaleRow {
 	private Long discount; // Pitäisikö olla % vai alennus euroina vai...?
 
 	@OneToMany(cascade= CascadeType.ALL, mappedBy = "saleEvent_ID")
-	private List<SaleEvent> saleEvents;
+	private List<SaleEvents> saleEvents;
 	
 	// Miten tehdään OneToOne liittymä (Yksi SaleRow vastaa yhtä Tickets -taulun riviä)
 	
-	public SaleRow() {
+	public SaleRows() {
 		super();
 	}
 	
-	public SaleRow(Long saleRow_ID, Long saleEvent_ID, Long ticket_ID, Long discount) {
+	public SaleRows(Long saleRow_ID, Long saleEvent_ID, Long ticket_ID, Long discount) {
 		super();
 		this.saleRow_ID = saleRow_ID;
 		this.saleEvent_ID = saleEvent_ID;
@@ -38,7 +38,7 @@ public class SaleRow {
 
 	// Getterit
 
-	public List<SaleEvent> getSaleEvents() {
+	public List<SaleEvents> getSaleEvents() {
 		return saleEvents;
 	}
 
@@ -58,7 +58,7 @@ public class SaleRow {
 		return discount;
 	}
 
-	public void setSaleEvents(List<SaleEvent> saleEvents) {
+	public void setSaleEvents(List<SaleEvents> saleEvents) {
 		this.saleEvents = saleEvents;
 	}
 	
