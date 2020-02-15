@@ -13,10 +13,10 @@ public class TicketStatus {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long ticketStatus_ID;
+	private Long id;
 	private String ticketStatusName;
 	
-	@OneToMany(cascade= CascadeType.ALL, mappedBy = "ticketStatus_ID")
+	@OneToMany(cascade= CascadeType.ALL, mappedBy = "id")
 	private List<Ticket> tickets;
 	
 	public TicketStatus() {
@@ -24,11 +24,11 @@ public class TicketStatus {
 	}
 
 	public Long getTicketStatus_ID() {
-		return ticketStatus_ID;
+		return id;
 	}
 
 	public void setTicketStatus_ID(Long ticketStatus_ID) {
-		this.ticketStatus_ID = ticketStatus_ID;
+		this.id = ticketStatus_ID;
 	}
 
 	public String getTicketStatusName() {
@@ -49,13 +49,13 @@ public class TicketStatus {
 
 	@Override
 	public String toString() {
-		return "TicketStatus [ticketStatus_ID=" + ticketStatus_ID + ", ticketStatusName=" + ticketStatusName
+		return "TicketStatus [ticketStatus_ID=" + id + ", ticketStatusName=" + ticketStatusName
 				+ ", tickets=" + tickets + "]";
 	}
 
 	public TicketStatus(Long ticketStatus_ID, String ticketStatusName, List<Ticket> tickets) {
 		super();
-		this.ticketStatus_ID = ticketStatus_ID;
+		this.id = ticketStatus_ID;
 		this.ticketStatusName = ticketStatusName;
 		this.tickets = tickets;
 	}
