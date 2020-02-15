@@ -19,24 +19,24 @@ import javax.persistence.ManyToOne;
 @Table(name="Events")
 public class Event {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "event_ID")
-    private Long id;
+    @Id // Määritellään kenttä ID:ksi
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Automaattinen juoksenva numerointi. HUOM! Käytetään GenerationType.IDENTITY spring bootin bugin vuoksi
+    @Column(name = "event_ID") // Tietokannassa olevan kentän nimi
+    private Long id; // Muuttujan nimi, ei välttämättä sama kuin tietokannassa. Tässä tapauksessa id jotta automaattisesti generoidut funktiot toimivat
 
-    @NotEmpty(message = "Event name is required")
-    @Length(max = 250)
+    @NotEmpty(message = "Event name is required") // Lisätään pakollisiin kenttiin virheilmoituksen kera
+    @Length(max = 250) // Määritellään kaikille kentille jotka sen vaativat maksimipituus
     @Column(name = "name")
     private String name;
 
     @NotEmpty(message = "Event type is required")
-    @ManyToOne
-    @JoinColumn(name = "eventType_ID")
-    private EventType eventType;
+    @ManyToOne // Relaatio
+    @JoinColumn(name = "eventType_ID") // Mitä kenttää tietokannassa viitataan
+    private EventType eventType; // Huomatkaa että FK tyyppiset kentät ovat objektityyppi, ei string, long tai int
 
     @NotEmpty(message = "Event datetime is required")
     @Column(name = "dateTime")
-    private LocalDateTime dateTime;
+    private LocalDateTime dateTime; // Aikaleimoihin joissa vaaditaan sekä päivä että kellonaika käytetään LocalDateTime tyyppiä
 
     @NotEmpty(message = "Event organizer is required")
     @ManyToOne
@@ -61,10 +61,11 @@ public class Event {
     @Column(name = "info")
     private String info;
 
+    // Tyhjä construktori
     public Event() {}
-    
+    // Kopioidaan olemassaolevasta/ syötetään olemassa oleva constructorille
     public Event(Event event) {}
-
+    // Constuctori vain pakollisille kentille
     public Event(String name, EventType eventType, LocalDateTime eventDateTime, EventOrganizer eventOrganizer, Venue venue, Long ticketCapacity, AgeLimit ageLimit) {
         this.name = name;
         this.eventType = eventType;
@@ -74,7 +75,7 @@ public class Event {
         this.ticketCapacity = ticketCapacity;
         this.ageLimit = ageLimit;
     }
-
+    // Constructori missä mukana vapaaehtoiset kentät
     public Event(String name, EventType eventType, LocalDateTime eventDateTime, EventOrganizer eventOrganizer, Venue venue, Long ticketCapacity, AgeLimit ageLimit, String eventInfo) {
         this.name = name;
         this.eventType = eventType;
@@ -86,7 +87,7 @@ public class Event {
         this.info = eventInfo;
     }
 
-    //Getters
+    //Getterit
     public Long getId() { return this.id; }
     public String getName() { return this.name; }
     public EventType getEventType() { return eventType; }
@@ -96,7 +97,7 @@ public class Event {
     public Long getTicketCapacity() { return ticketCapacity; }
     public AgeLimit getAgeLimit() { return ageLimit; }
     public String getInfo() { return info; }
-    //Setters
+    //Setterit
     public void setName(String name) { this.name = name; }
     public void setEventType(EventType eventType) { this.eventType = eventType; }
     public void setDateTime(LocalDateTime eventDateTime) { this.dateTime = eventDateTime; }
