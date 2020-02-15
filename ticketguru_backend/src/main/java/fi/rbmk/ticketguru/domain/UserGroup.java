@@ -3,6 +3,7 @@ package fi.rbmk.ticketguru.domain;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,19 +15,21 @@ import javax.persistence.OneToMany;
 @Entity
 public class UserGroup {
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-	private Long userGroup_ID;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "userGroup_ID")
+	private Long id;
+
 	private String userGroupName;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "userGroup_ID")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
 	private List<User> users;
 
 	public Long getUserGroup_ID() {
-		return userGroup_ID;
+		return id;
 	}
 
-	public void setUserGroup_ID(Long userGroup_ID) {
-		this.userGroup_ID = userGroup_ID;
+	public void setUserGroup(Long userGroup_ID) {
+		this.id = userGroup_ID;
 	}
 
 	public String getUserGroupName() {
@@ -47,13 +50,13 @@ public class UserGroup {
 
 	@Override
 	public String toString() {
-		return "UserGroup [userGroup_ID=" + userGroup_ID + ", userGroupName=" + userGroupName + ", users=" + users
+		return "UserGroup [userGroup_ID=" + id + ", userGroupName=" + userGroupName + ", users=" + users
 				+ "]";
 	}
 
 	public UserGroup(Long userGroup_ID, String userGroupName, List<User> users) {
 		super();
-		this.userGroup_ID = userGroup_ID;
+		this.id = userGroup_ID;
 		this.userGroupName = userGroupName;
 		this.users = users;
 	}

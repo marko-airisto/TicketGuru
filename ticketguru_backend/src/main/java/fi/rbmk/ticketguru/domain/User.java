@@ -1,18 +1,19 @@
 package fi.rbmk.ticketguru.domain;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-
+@Entity
 public class User {
 	
 	 	@Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    @Column(name = "User_ID", nullable = false, updatable = false)
+	    @Column(name = "user_ID", nullable = false, updatable = false)
 	    private Long id;
 
 	    // Username with unique constraint
@@ -23,8 +24,8 @@ public class User {
 	    private String passwordHash;
 
 	    @ManyToOne
-		@JoinColumn(name = "UserGroup_ID")
-	    private String userGroup;
+		@JoinColumn(name = "userGroup_ID")
+	    private UserGroup userGroup;
 
 	public Long getId() {
 			return id;
@@ -50,11 +51,11 @@ public class User {
 			this.passwordHash = passwordHash;
 		}
 
-		public String getUserGroup() {
+		public UserGroup getUserGroup() {
 			return userGroup;
 		}
 
-		public void setUserGroup(String userGroup) {
+		public void setUserGroup(UserGroup userGroup) {
 			this.userGroup = userGroup;
 		}
 
@@ -64,7 +65,7 @@ public class User {
 					+ userGroup + "]";
 		}
 
-	public User(Long id, String userName, String passwordHash, String userGroup) {
+	public User(Long id, String userName, String passwordHash, UserGroup userGroup) {
 			super();
 			this.id = id;
 			this.userName = userName;
