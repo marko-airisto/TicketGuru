@@ -13,10 +13,11 @@ public class AgeLimit {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long ageLimit_ID;
+	private Long id;
+
 	private String ageLimitName, ageLimitSpecifier;
 	
-	@OneToMany(cascade= CascadeType.ALL, mappedBy = "ageLimit_ID")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "ageLimit")
 	private List<Event> events;
 	
 	public AgeLimit() {
@@ -24,11 +25,11 @@ public class AgeLimit {
 	}
 	
 	public Long getAgeLimit_ID() {
-		return ageLimit_ID;
+		return id;
 	}
 
 	public void setAgeLimit_ID(Long ageLimit_ID) {
-		this.ageLimit_ID = ageLimit_ID;
+		this.id = ageLimit_ID;
 	}
 
 	public String getAgeLimitName() {
@@ -57,13 +58,13 @@ public class AgeLimit {
 
 	@Override
 	public String toString() {
-		return "AgeLimit [ageLimit_ID=" + ageLimit_ID + ", ageLimitName=" + ageLimitName + ", ageLimitSpecifier="
+		return "AgeLimit [ageLimit_ID=" + id + ", ageLimitName=" + ageLimitName + ", ageLimitSpecifier="
 				+ ageLimitSpecifier + ", events=" + events + "]";
 	}
 
 	public AgeLimit(Long ageLimit_ID, String ageLimitName, String ageLimitSpecifier, List<Event> events) {
 		super();
-		this.ageLimit_ID = ageLimit_ID;
+		this.id = ageLimit_ID;
 		this.ageLimitName = ageLimitName;
 		this.ageLimitSpecifier = ageLimitSpecifier;
 		this.events = events;

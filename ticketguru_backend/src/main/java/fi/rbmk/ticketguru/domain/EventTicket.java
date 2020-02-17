@@ -9,26 +9,26 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class EventTickets {
+public class EventTicket {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long eventTickets_ID;
-	private Long event_ID, ticketType_ID, ticket_Count, price;
+	private Long id;
+	private Long event_ID, ticketType_ID, ticketCount, price;
 	
-	@OneToMany(cascade= CascadeType.ALL, mappedBy = "eventTicket_ID")
+	@OneToMany(cascade= CascadeType.ALL, mappedBy = "id")
 	private List<Event> events;
 	
-	public EventTickets() {
+	public EventTicket() {
 		super();
 	}
 	
 	public Long getEventTickets_ID() {
-		return eventTickets_ID;
+		return id;
 	}
 
 	public void setEventTickets_ID(Long eventTickets_ID) {
-		this.eventTickets_ID = eventTickets_ID;
+		this.id = eventTickets_ID;
 	}
 
 	public Long getEvent_ID() {
@@ -66,13 +66,13 @@ public class EventTickets {
 
 	@Override
 	public String toString() {
-		return "EventTickets [eventTickets_ID=" + eventTickets_ID + ", event_ID=" + event_ID + ", ticketType_ID="
-				+ ticketType_ID + ", ticket_Count=" + ticket_Count + ", price=" + price + "]";
+		return "EventTickets [eventTickets_ID=" + id + ", event_ID=" + event_ID + ", ticketType_ID="
+				+ ticketType_ID + ", ticket_Count=" + ticketCount + ", price=" + price + "]";
 	}
 
-	public EventTickets(Long eventTickets_ID, Long event_ID, Long ticketType_ID, Long ticketCount, Long price, List<Event> events) {
+	public EventTicket(Long eventTickets_ID, Long event_ID, Long ticketType_ID, Long ticketCount, Long price, List<Event> events) {
 		super();
-		this.eventTickets_ID = eventTickets_ID;
+		this.id = eventTickets_ID;
 		this.event_ID = event_ID;
 		this.ticketType_ID = ticketType_ID;
 		this.ticketCount = ticketCount;
