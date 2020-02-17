@@ -17,7 +17,7 @@ public class TicketType {
 	private String ticketTypeName;
 	
 	@OneToMany(cascade= CascadeType.ALL, mappedBy = "ticketType_ID")
-	private List<EventTickets> eventTickets;
+	private List<EventTicket> eventTickets;
 	
 	public TicketType() {
 		super();
@@ -39,11 +39,11 @@ public class TicketType {
 		this.ticketTypeName = ticketTypeName;
 	}
 
-	public List<EventTickets> getEventTickets() {
+	public List<EventTicket> getEventTickets() {
 		return eventTickets;
 	}
 
-	public void setEventTickets(List<EventTickets> eventTickets) {
+	public void setEventTickets(List<EventTicket> eventTickets) {
 		this.eventTickets = eventTickets;
 	}
 
@@ -52,7 +52,7 @@ public class TicketType {
 		return "TicketType [ticketType_ID=" + ticketType_ID + ", ticketTypeName=" + ticketTypeName + "]";
 	}
 
-	public TicketType(Long ticketType_ID, String ticketTypeName, List<EventTickets> eventTickets) {
+	public TicketType(Long ticketType_ID, String ticketTypeName, List<EventTicket> eventTickets) {
 		super();
 		this.ticketType_ID = ticketType_ID;
 		this.ticketTypeName = ticketTypeName;

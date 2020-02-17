@@ -9,27 +9,27 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class EventOrganizers {
+public class EventOrganizer {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long eventOrganizer_ID;
+	private Long id;
 	private String companyName, companyStreetAddress, companyTel, companyEmail, companyWWW, companyContactPerson;
 	private Long postcode_ID;
 	
-	@OneToMany(cascade= CascadeType.ALL, mappedBy = "eventOrganizer_ID")
+	@OneToMany(cascade= CascadeType.ALL, mappedBy = "eventOrganizer")
 	private List<Event> events;
 	
-	public EventOrganizers() {
+	public EventOrganizer() {
 		super();
 	}
 	
 	public Long getEventOrganizer_ID() {
-		return eventOrganizer_ID;
+		return id;
 	}
 
 	public void setEventOrganizer_ID(Long eventOrganizer_ID) {
-		this.eventOrganizer_ID = eventOrganizer_ID;
+		this.id = eventOrganizer_ID;
 	}
 	
 	public Long getPostcode_ID() {
@@ -53,7 +53,7 @@ public class EventOrganizers {
 	}
 
 	public void setCompanyStreetAddress(String companyStreetAddress) {
-		this.companyStreetAddress = CompanyStreetAddress;
+		this.companyStreetAddress = companyStreetAddress;
 	}	
 	
 	public String getCompanyTel() {
@@ -92,15 +92,15 @@ public class EventOrganizers {
 	
 	@Override
 	public String toString() {
-		return "EventOrganizers[eventOrganizer_ID=" + eventOrganizer_ID + ", companyName=" + companyName + ", companyStreetAddress="
+		return "EventOrganizers[eventOrganizer_ID=" + id + ", companyName=" + companyName + ", companyStreetAddress="
 				+ companyStreetAddress + ", companyTel=" + companyTel + ", companyEmail=" + companyEmail
 				+ ", companyWWW=" + companyWWW+ ", companyContactPerson=" + companyContactPerson + ", postcode_ID=" + postcode_ID + "]";
 	}
 
-	public EventOrganizers(Long eventOrganizer_ID, Long postcode_ID, String companyName, String companyStreetAddress, 
+	public EventOrganizer(Long eventOrganizer_ID, Long postcode_ID, String companyName, String companyStreetAddress, 
 			String companyTel, String companyEmail, String companyWWW, String companyContactPerson, List<Event> events) {
 		super();
-		this.eventOrganizer_ID = eventOrganizer_ID;
+		this.id = eventOrganizer_ID;
 		this.postcode_ID = postcode_ID;
 		this.companyName = companyName;
 		this.companyStreetAddress = companyStreetAddress;
