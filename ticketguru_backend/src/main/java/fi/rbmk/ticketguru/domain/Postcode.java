@@ -24,16 +24,16 @@ public class Postcode {
 		super();
 	}
 	
-	public Postcode(Long postcode_ID, String city, String country) {
+	public Postcode(Long id, String city, String country) {
 		super();
-		this.id = postcode_ID;
+		this.id = id;
 		this.city = city;
 		this.country = country;
 	}
 
 	// Getterit
 	
-	public Long getPostcode_ID() {
+	public Long getID() {
 		return id;
 	}
 
@@ -51,8 +51,8 @@ public class Postcode {
 
 	// Setterit
 	
-	public void setPostcode_ID(Long postcode_ID) {
-		this.id = postcode_ID;
+	public void setID(Long id) {
+		this.id = id;
 	}
 
 	public void setCity(String city) {
@@ -69,7 +69,7 @@ public class Postcode {
 
 	@Override
 	public String toString() {
-		return "PostCodes [postcode_ID=" + id + ", city=" + city + ", country=" + country + "]";
+		return "PostCodes [id=" + id + ", city=" + city + ", country=" + country + "]";
 	}
 	
 }
