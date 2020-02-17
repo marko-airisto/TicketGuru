@@ -9,24 +9,24 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Postcode {
+public class PostCode {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
+	private Long postcode_ID;
 	private String city;
 	private String country;
 	
-	@OneToMany(cascade= CascadeType.ALL, mappedBy = "id")
+	@OneToMany(cascade= CascadeType.ALL, mappedBy = "postcode_ID")
 	private List<Venue> venue;
 	
-	public Postcode() {
+	public PostCode() {
 		super();
 	}
 	
-	public Postcode(Long postcode_ID, String city, String country) {
+	public PostCode(Long postcode_ID, String city, String country) {
 		super();
-		this.id = postcode_ID;
+		this.postcode_ID = postcode_ID;
 		this.city = city;
 		this.country = country;
 	}
@@ -34,7 +34,7 @@ public class Postcode {
 	// Getterit
 	
 	public Long getPostcode_ID() {
-		return id;
+		return postcode_ID;
 	}
 
 	public String getCity() {
@@ -52,7 +52,7 @@ public class Postcode {
 	// Setterit
 	
 	public void setPostcode_ID(Long postcode_ID) {
-		this.id = postcode_ID;
+		this.postcode_ID = postcode_ID;
 	}
 
 	public void setCity(String city) {
@@ -69,7 +69,7 @@ public class Postcode {
 
 	@Override
 	public String toString() {
-		return "PostCodes [postcode_ID=" + id + ", city=" + city + ", country=" + country + "]";
+		return "PostCodes [postcode_ID=" + postcode_ID + ", city=" + city + ", country=" + country + "]";
 	}
 	
 }
