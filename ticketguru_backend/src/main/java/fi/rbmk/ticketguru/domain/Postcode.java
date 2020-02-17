@@ -17,7 +17,7 @@ public class Postcode {
 	private String city;
 	private String country;
 	
-	@OneToMany(cascade= CascadeType.ALL, mappedBy = "postcode_ID")
+	@OneToMany(cascade= CascadeType.ALL, mappedBy = "id")
 	private List<Venue> venue;
 	
 	public Postcode() {
