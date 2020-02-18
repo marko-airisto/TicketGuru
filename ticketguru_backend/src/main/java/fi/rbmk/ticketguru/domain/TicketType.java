@@ -9,11 +9,13 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
+@Table(name="TicketTypes")
 public class TicketType {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long ticketType_ID;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "ticketType_ID")
+	private Long id;
 	private String ticketTypeName;
 	
 	@OneToMany(cascade= CascadeType.ALL, mappedBy = "ticketType_ID")
