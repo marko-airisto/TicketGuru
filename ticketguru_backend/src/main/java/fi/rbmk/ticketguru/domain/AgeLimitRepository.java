@@ -5,6 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface AgeLimitRepository extends CrudRepository<AgeLimit, Long> {
 	
-	List<AgeLimit> findByAgeLimitName(String ageLimitName);
+	List<AgeLimit> findByName(String name);
+	List<AgeLimit> findAll();
 	
 }
