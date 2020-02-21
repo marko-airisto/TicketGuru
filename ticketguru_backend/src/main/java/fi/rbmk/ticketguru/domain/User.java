@@ -16,27 +16,6 @@ import org.hibernate.validator.constraints.Length;
 @Table(name = "Users")
 public class User {
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", passwordHash=" + passwordHash + ", userGroup=" + userGroup
-				+ "]";
-	}
-
-	public User(Long id, @NotEmpty(message = "User name is required") @Length(max = 50) String name,
-			@NotEmpty(message = "Password is required") @Length(max = 100) String passwordHash,
-			@NotEmpty(message = "User group is required") UserGroup userGroup) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.passwordHash = passwordHash;
-		this.userGroup = userGroup;
-	}
-
-	public User() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_ID", nullable = false, updatable = false)
@@ -57,32 +36,49 @@ public class User {
 	@JoinColumn(name = "userGroup_ID")
 	private UserGroup userGroup;
 
-	public Long getId() {
-		return id;
+	public User() {
+
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public User(User user) {
+	}
+
+	public User(String name, String passwordHash, UserGroup userGroup) {
+		this.name = name;
+		this.passwordHash = passwordHash;
+		this.userGroup = userGroup;
+	}
+
+	// Getters
+
+	public Long getId() {
+		return id;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getPasswordHash() {
 		return passwordHash;
 	}
 
-	public void setPasswordHash(String passwordHash) {
-		this.passwordHash = passwordHash;
-	}
-
 	public UserGroup getUserGroup() {
 		return userGroup;
+	}
+
+	// Setters
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPasswordHash(String passwordHash) {
+		this.passwordHash = passwordHash;
 	}
 
 	public void setUserGroup(UserGroup userGroup) {
