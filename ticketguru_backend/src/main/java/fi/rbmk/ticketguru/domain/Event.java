@@ -1,6 +1,7 @@
 package fi.rbmk.ticketguru.domain;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 @Table(name="Events")
@@ -61,6 +63,9 @@ public class Event {
     @Column(name = "info")
     private String info;
 
+    @OneToMany(mappedBy = "eventTicket")
+    private List<EventTicket> eventTickets;
+
     // Tyhjä construktori
     public Event() {}
     // Kopioidaan olemassaolevasta/ syötetään olemassa oleva constructorille
@@ -97,6 +102,7 @@ public class Event {
     public Long getTicketCapacity() { return ticketCapacity; }
     public AgeLimit getAgeLimit() { return ageLimit; }
     public String getInfo() { return info; }
+    public List<EventTicket> getEventTickets() { return eventTickets; }
     //Setterit
     public void setName(String name) { this.name = name; }
     public void setEventType(EventType eventType) { this.eventType = eventType; }

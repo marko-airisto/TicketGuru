@@ -12,6 +12,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 @Table(name="Tickets")
@@ -19,21 +20,24 @@ public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Ticket_ID")
+    @Column(name = "ticket_ID")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "EventTicket_ID")
+    @JoinColumn(name = "eventTicket_ID")
     private EventTicket eventTicket;
 
     @ManyToOne
-    @JoinColumn(name = "TicketStatus_ID")
+    @JoinColumn(name = "ticketStatus_ID")
     private TicketStatus ticketStatus;
 
     @NotEmpty(message = "Ticket checksum is required")
     @Length(max = 20)
-    @Column(name = "TicketCheckSum")
+    @Column(name = "ticketCheckSum")
     private String checkSum;
+
+    @OneToOne(mappedBy = "ticket")
+    private SaleRow saleRow;
 
     public Ticket() {}
     
@@ -46,26 +50,13 @@ public class Ticket {
     }
 
     //Getters
-    public Long getId() {
-        return this.id;
-    }
-    public EventTicket getEventTicket() {
-        return this.eventTicket;
-    }
-    public TicketStatus getTicketStatus() {
-        return this.ticketStatus;
-    }
-    public String getCheckSum() {
-        return this.checkSum;
-    }
+    public Long getId() { return this.id; }
+    public EventTicket getEventTicket() { return this.eventTicket; }
+    public TicketStatus getTicketStatus() { return this.ticketStatus; }
+    public String getCheckSum() { return this.checkSum; }
+    public SaleRow getSaleRow() { return saleRow; }
     //Setters
-    public void setEventTicket(EventTicket eventTicket) {
-        this.eventTicket = eventTicket;
-    }
-    public void setTicketStatus(TicketStatus ticketStatus) {
-        this.ticketStatus = ticketStatus;
-    }
-    public void setTicketCheckSum(String checkSum) {
-        this.checkSum = checkSum;
-    }
+    public void setEventTicket(EventTicket eventTicket) { this.eventTicket = eventTicket; }
+    public void setTicketStatus(TicketStatus ticketStatus) { this.ticketStatus = ticketStatus; }
+    public void setTicketCheckSum(String checkSum) { this.checkSum = checkSum; }
 }
