@@ -63,7 +63,7 @@ public class Event {
     @Column(name = "info")
     private String info;
 
-    @OneToMany(mappedBy = "eventTicket")
+    @OneToMany(mappedBy = "id")
     private List<EventTicket> eventTickets;
 
     // Tyhjä construktori
