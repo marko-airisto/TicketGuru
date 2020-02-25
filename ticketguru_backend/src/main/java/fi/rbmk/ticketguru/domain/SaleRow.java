@@ -7,7 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class SaleRow {
@@ -16,23 +18,27 @@ public class SaleRow {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long saleRow_ID;
 	private Long saleEvent_ID;
-	private Long ticket_ID;
-	private Long discount; // Pitäisikö olla % vai alennus euroina vai...?
+	// private Long ticket_ID;
+	private Long discount; // Pitäisikö olla % vai alennus euroina vai...? Varmaan % olisi paras -Mika
 
 	@OneToMany(cascade= CascadeType.ALL, mappedBy = "saleEvent_ID")
 	private List<SaleEvent> saleEvents;
 	
 	// Miten tehdään OneToOne liittymä (Yksi SaleRow vastaa yhtä Tickets -taulun riviä)
+	// OneToOne liittymä voidaan tehdä vaikka kuten alla -Mika
+	@OneToOne
+	@JoinColumn(name = "ticket_ID", referencedColumnName = "id")
+	private Ticket ticket;
 	
 	public SaleRow() {
 		super();
 	}
 	
-	public SaleRow(Long saleRow_ID, Long saleEvent_ID, Long ticket_ID, Long discount) {
+	public SaleRow(Long saleRow_ID, Long saleEvent_ID, Ticket ticket, Long discount) {
 		super();
 		this.saleRow_ID = saleRow_ID;
 		this.saleEvent_ID = saleEvent_ID;
-		this.ticket_ID = ticket_ID;
+		this.ticket = ticket;
 		this.discount = discount;
 	}
 
@@ -50,8 +56,8 @@ public class SaleRow {
 		return saleEvent_ID;
 	}
 
-	public Long getTicket_ID() {
-		return ticket_ID;
+	public Ticket getTicket() {
+		return ticket;
 	}
 
 	public Long getDiscount() {
@@ -73,8 +79,8 @@ public class SaleRow {
 		this.saleEvent_ID = saleEvent_ID;
 	}
 
-	public void setTicket_ID(Long ticket_ID) {
-		this.ticket_ID = ticket_ID;
+	public void setTicket(Ticket ticket) {
+		this.ticket = ticket;
 	}
 
 	public void setDiscount(Long discount) {
@@ -84,7 +90,7 @@ public class SaleRow {
 	
 	@Override
 	public String toString() {
-		return "SaleRows [saleRow_ID=" + saleRow_ID + ", saleEvent_ID=" + saleEvent_ID + ", ticket_ID=" + ticket_ID
+		return "SaleRows [saleRow_ID=" + saleRow_ID + ", saleEvent_ID=" + saleEvent_ID + ", ticket_ID=" + ticket
 				+ ", discount=" + discount + ", saleEvents=" + saleEvents + "]";
 	}
 
