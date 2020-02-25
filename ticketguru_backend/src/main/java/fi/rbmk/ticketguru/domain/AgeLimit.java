@@ -1,14 +1,17 @@
 package fi.rbmk.ticketguru.domain;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+
 import org.hibernate.validator.constraints.Length;
-import javax.persistence.Id;
-//import javax.persistence.OneToMany;
 
 @Entity
 @Table(name = "AgeLimits")
@@ -27,6 +30,9 @@ public class AgeLimit {
 	@Length(max = 500)
 	@Column(name = "specifier")
 	private String specifier;
+	
+	@OneToMany(Cascade = CascadeType.ALL, mappedBy = "ageLimit")
+	private List<Event> events;
 
 	public AgeLimit() {
 	}
@@ -61,6 +67,14 @@ public class AgeLimit {
 
 	public void setSpecifier(String specifier) {
 		this.specifier = specifier;
+	}
+
+	public List<Event> getEvents() {
+		return events;
+	}
+
+	public void setEvents(List<Event> events) {
+		this.events = events;
 	}
 
 }

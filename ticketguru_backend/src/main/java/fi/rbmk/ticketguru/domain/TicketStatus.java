@@ -1,14 +1,17 @@
 package fi.rbmk.ticketguru.domain;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+
 import org.hibernate.validator.constraints.Length;
-import javax.persistence.Id;
-//import javax.persistence.OneToMany;
 
 @Entity
 @Table(name = "TicketStatus")
@@ -23,6 +26,9 @@ public class TicketStatus {
 	@Length(max = 50)
 	@Column(name = "name")
 	private String name;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "ticketStatus")
+	private List<Ticket> tickets;
 
 	public TicketStatus() {
 	}
@@ -44,6 +50,14 @@ public class TicketStatus {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public List<Ticket> getTickets() {
+		return tickets;
+	}
+
+	public void setTickets(List<Ticket> tickets) {
+		this.tickets = tickets;
 	}
 
 }
