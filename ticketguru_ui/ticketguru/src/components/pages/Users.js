@@ -26,7 +26,7 @@ export default function Users() {
 
   const fetchUsers = () => {
     setIsLoading(true);
-    fetch('http://localhost:8080/api/rest/v1/users')
+    fetch('http://localhost:8080/api/users')
       .then(response => response.json())
       .then(data => setUsers(data.content));
     setIsLoading(false);
@@ -86,15 +86,15 @@ export default function Users() {
   const columns = [
     {
       Header: 'Name',
-      accessor: ''
+      accessor: 'name'
     },
     {
       Header: 'Paswword',
-      accessor: ''
+      accessor: 'passwordHash'
     },
     {
       Header: 'Usergroup',
-      accessor: ''
+      accessor: '_links[2].href'
     }
   ];
 

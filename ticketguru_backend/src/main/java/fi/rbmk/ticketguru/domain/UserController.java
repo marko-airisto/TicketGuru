@@ -16,13 +16,13 @@ public class UserController {
     @Autowired
     private UserGroupRepository ugrepository;
 
-    @GetMapping("api/rest/v1/userGroups")
+    @GetMapping("api/userGroups")
     // @RequestMapping(value = "api/rest/v1/userGroups", method = RequestMethod.GET)
     public List<UserGroup> userGroupListRest() {
         return (List<UserGroup>) ugrepository.findAll();
     }
 
-    @GetMapping("api/rest/v1/users")
+    @GetMapping("api/users")
     // @RequestMapping(value = "api/rest/v1/users", method = RequestMethod.GET)
     public List<User> userListRest() {
         return (List<User>) urepository.findAll();

@@ -37,11 +37,6 @@ public class UserGroup {
 	public UserGroup(UserGroup userGroup) {
 	}
 
-	public UserGroup(String name, List<User> users) {
-		this.name = name;
-		this.users = users;
-	}
-
 	// Getters
 
 	public Long getId() {
