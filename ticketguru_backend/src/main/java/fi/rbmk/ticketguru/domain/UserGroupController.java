@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-public class UserController {
+public class UserGroupController {
 
     @Autowired
-    private UserRepository urepository;
+    private UserGroupRepository ugrepository;
 
-    @GetMapping("api/users")
+    @GetMapping("api/userGroups")
 
-    public List<User> userListRest() {
-        return (List<User>) urepository.findAll();
+    public List<UserGroup> userGroupListRest() {
+        return (List<UserGroup>) ugrepository.findAll();
     }
 }

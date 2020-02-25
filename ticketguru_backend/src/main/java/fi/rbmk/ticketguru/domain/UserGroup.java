@@ -28,18 +28,13 @@ public class UserGroup {
 	@Column(name = "name")
 	private String name;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "userGroup")
 	private List<User> users;
 
 	public UserGroup() {
 	}
 
 	public UserGroup(UserGroup userGroup) {
-	}
-
-	public UserGroup(String name, List<User> users) {
-		this.name = name;
-		this.users = users;
 	}
 
 	// Getters
