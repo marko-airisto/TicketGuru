@@ -27,7 +27,7 @@ public class SaleRow {
 	// Miten tehdään OneToOne liittymä (Yksi SaleRow vastaa yhtä Tickets -taulun riviä)
 	// OneToOne liittymä voidaan tehdä vaikka kuten alla -Mika
 	@OneToOne
-	@JoinColumn(name = "ticket_ID", referencedColumnName = "id")
+	@JoinColumn(name = "ticket_ID", referencedColumnName = "ticket_ID")
 	private Ticket ticket;
 	
 	public SaleRow() {
