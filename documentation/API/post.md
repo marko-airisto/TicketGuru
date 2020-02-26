@@ -1,4 +1,4 @@
-# Create Event
+# Create an Event
 
 Create an Event.
 
