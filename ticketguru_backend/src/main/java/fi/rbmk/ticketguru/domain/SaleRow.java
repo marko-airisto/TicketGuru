@@ -1,24 +1,36 @@
 package fi.rbmk.ticketguru.domain;
 
-
+import java.time.LocalDateTime;
 import java.util.List;
+
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 public class SaleRow {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long saleRow_ID;
-	private Long saleEvent_ID;
-	// private Long ticket_ID;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "saleRow_ID")
+	private Long id;
+	
+	@NotEmpty(message = "Sale event is required")
+	@Column(name = "saleEvent_ID")
+	private SaleEvent saleEvent;
+	
+	
+	@Column(name = "Discount")
 	private Long discount; // Pitäisikö olla % vai alennus euroina vai...? Varmaan % olisi paras -Mika
 
 	@OneToMany(cascade= CascadeType.ALL, mappedBy = "saleEvent_ID")
@@ -34,10 +46,10 @@ public class SaleRow {
 		super();
 	}
 	
-	public SaleRow(Long saleRow_ID, Long saleEvent_ID, Ticket ticket, Long discount) {
+	public SaleRow(Long id, SaleEvent saleEvent_ID, Ticket ticket, Long discount) {
 		super();
-		this.saleRow_ID = saleRow_ID;
-		this.saleEvent_ID = saleEvent_ID;
+		this.id = id;
+		this.saleEvent = saleEvent_ID;
 		this.ticket = ticket;
 		this.discount = discount;
 	}
@@ -49,11 +61,11 @@ public class SaleRow {
 	}
 
 	public Long getSaleRow_ID() {
-		return saleRow_ID;
+		return id;
 	}
 
 	public Long getSaleEvent_ID() {
-		return saleEvent_ID;
+		return id;
 	}
 
 	public Ticket getTicket() {
@@ -72,11 +84,11 @@ public class SaleRow {
 	
 	
 	public void setSaleRow_ID(Long saleRow_ID) {
-		this.saleRow_ID = saleRow_ID;
+		this.id = saleRow_ID;
 	}
 
-	public void setSaleEvent_ID(Long saleEvent_ID) {
-		this.saleEvent_ID = saleEvent_ID;
+	public void setSaleEvent_ID(SaleEvent saleEvent) {
+		this.saleEvent = saleEvent;
 	}
 
 	public void setTicket(Ticket ticket) {
@@ -90,7 +102,7 @@ public class SaleRow {
 	
 	@Override
 	public String toString() {
-		return "SaleRows [saleRow_ID=" + saleRow_ID + ", saleEvent_ID=" + saleEvent_ID + ", ticket_ID=" + ticket
+		return "SaleRows [saleRow_ID=" + id + ", saleEvent_ID=" + saleEvent + ", ticket_ID=" + ticket
 				+ ", discount=" + discount + ", saleEvents=" + saleEvents + "]";
 	}
 
