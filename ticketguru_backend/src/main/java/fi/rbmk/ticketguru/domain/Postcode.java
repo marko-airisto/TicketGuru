@@ -1,32 +1,44 @@
 package fi.rbmk.ticketguru.domain;
 
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
-public class PostCode {
+public class Postcode {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long postcode_ID;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "postcode_ID")
+	private Long id;
+	
+	@NotEmpty(message = "City name is required")
+	@Length(max = 250)
+	@Column(name = "city")
 	private String city;
+	
+	@NotEmpty(message = "Country name is required")
+	@Length(max = 250)
+	@Column(name = "country")
 	private String country;
 	
 	@OneToMany(cascade= CascadeType.ALL, mappedBy = "postcode_ID")
 	private List<Venue> venue;
 	
-	public PostCode() {
+	public Postcode() {
 		super();
 	}
 	
-	public PostCode(Long postcode_ID, String city, String country) {
+	public Postcode(Long id, String city, String country) {
 		super();
-		this.postcode_ID = postcode_ID;
+		this.id = id;
 		this.city = city;
 		this.country = country;
 	}
@@ -34,7 +46,7 @@ public class PostCode {
 	// Getterit
 	
 	public Long getPostcode_ID() {
-		return postcode_ID;
+		return id;
 	}
 
 	public String getCity() {
@@ -52,7 +64,7 @@ public class PostCode {
 	// Setterit
 	
 	public void setPostcode_ID(Long postcode_ID) {
-		this.postcode_ID = postcode_ID;
+		this.id = postcode_ID;
 	}
 
 	public void setCity(String city) {
@@ -69,7 +81,7 @@ public class PostCode {
 
 	@Override
 	public String toString() {
-		return "PostCodes [postcode_ID=" + postcode_ID + ", city=" + city + ", country=" + country + "]";
+		return "PostCodes [postcode_ID=" + id + ", city=" + city + ", country=" + country + "]";
 	}
 	
 }
