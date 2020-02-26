@@ -1,7 +1,6 @@
 # Show Accessible Events
 
 Show all Events the active User can access and with what permission level.
-Includes their own Account if they have one.
 
 **URL** : `/api/events/`
 
