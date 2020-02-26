@@ -39,7 +39,7 @@ public class Event {
     @JsonIgnore
     @ManyToOne // Relaatio
     @JoinColumn(name = "eventType_ID") // Mitä kenttää tietokannassa viitataan
-    private EventType eventType; // Huomatkaa että FK tyyppiset kentät ovat objektityyppi, ei string, long tai
+    private EventTypes eventTypes; // Huomatkaa että FK tyyppiset kentät ovat objektityyppi, ei string, long tai
                                  // int
 
     @NotEmpty(message = "Event datetime is required")
@@ -51,7 +51,7 @@ public class Event {
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "eventOrganizer_ID")
-    private EventOrganizer eventOrganizer;
+    private EventOrganizers eventOrganizers;
 
     @NotEmpty(message = "Event venue is required")
     @JsonIgnore
@@ -74,7 +74,7 @@ public class Event {
     private String info;
 
     @OneToMany(mappedBy = "id")
-    private List<EventTicket> eventTickets;
+    private List<EventTickets> eventTickets;
 
     // Tyhjä construktori
     public Event() {
@@ -85,24 +85,24 @@ public class Event {
     }
 
     // Constuctori vain pakollisille kentille
-    public Event(String name, EventType eventType, LocalDateTime eventDateTime, EventOrganizer eventOrganizer,
+    public Event(String name, EventTypes eventTypes, LocalDateTime eventDateTime, EventOrganizers eventOrganizers,
             Venue venue, Long ticketCapacity, AgeLimit ageLimit) {
         this.name = name;
-        this.eventType = eventType;
+        this.eventTypes = eventTypes;
         this.dateTime = eventDateTime;
-        this.eventOrganizer = eventOrganizer;
+        this.eventOrganizers = eventOrganizers;
         this.venue = venue;
         this.ticketCapacity = ticketCapacity;
         this.ageLimit = ageLimit;
     }
 
     // Constructori missä mukana vapaaehtoiset kentät
-    public Event(String name, EventType eventType, LocalDateTime eventDateTime, EventOrganizer eventOrganizer,
+    public Event(String name, EventTypes eventTypes, LocalDateTime eventDateTime, EventOrganizers eventOrganizers,
             Venue venue, Long ticketCapacity, AgeLimit ageLimit, String eventInfo) {
         this.name = name;
-        this.eventType = eventType;
+        this.eventTypes = eventTypes;
         this.dateTime = eventDateTime;
-        this.eventOrganizer = eventOrganizer;
+        this.eventOrganizers = eventOrganizers;
         this.venue = venue;
         this.ticketCapacity = ticketCapacity;
         this.ageLimit = ageLimit;
@@ -118,16 +118,16 @@ public class Event {
         return this.name;
     }
 
-    public EventType getEventType() {
-        return eventType;
+    public EventTypes getEventType() {
+        return eventTypes;
     }
 
     public LocalDateTime getDateTime() {
         return dateTime;
     }
 
-    public EventOrganizer getEventOrganizer() {
-        return eventOrganizer;
+    public EventOrganizers getEventOrganizer() {
+        return eventOrganizers;
     }
 
     public Venue getVenue() {
@@ -146,7 +146,7 @@ public class Event {
         return info;
     }
 
-    public List<EventTicket> getEventTickets() {
+    public List<EventTickets> getEventTickets() {
         return eventTickets;
     }
 
@@ -155,16 +155,16 @@ public class Event {
         this.name = name;
     }
 
-    public void setEventType(EventType eventType) {
-        this.eventType = eventType;
+    public void setEventType(EventTypes eventTypes) {
+        this.eventTypes = eventTypes;
     }
 
     public void setDateTime(LocalDateTime eventDateTime) {
         this.dateTime = eventDateTime;
     }
 
-    public void setEventOrganizer(EventOrganizer eventOrganizer) {
-        this.eventOrganizer = eventOrganizer;
+    public void setEventOrganizer(EventOrganizers eventOrganizers) {
+        this.eventOrganizers = eventOrganizers;
     }
 
     public void setVenue(Venue venue) {
