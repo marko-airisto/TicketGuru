@@ -1,5 +1,7 @@
 package fi.rbmk.ticketguru.domain;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,36 +13,58 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/api/events", produces = "application/hal+json")
 class EventController {
 
-    @Autowired private EventRepository erepository;
+    @Autowired private EventRepository eRepository;
+    @Autowired private EventTicketRepository eTicketRepository;
+    @Autowired private EventResourceAssembler eAssembler;
+    @Autowired private EventTicketResourceAssembler eTicketAssembler;
 
     // Get all Events
     @GetMapping
-    List<Event> all() {
-        return erepository.findAll();
+    CollectionModel<EntityModel<Event>> getAll() {
+        List<EntityModel<Event>> events = eRepository.findAll().stream()
+            .map(eAssembler::toModel)
+            .collect(Collectors.toList());
+        return new CollectionModel<>(events,
+            linkTo(methodOn(EventController.class).getAll()).withSelfRel());
     }
     // Get single Event
     @GetMapping("/{id}")
-    Event one(@PathVariable Long id) {
-        return erepository.findById(id)
+    EntityModel<Event> getEvent(@PathVariable Long id) {
+        Event event = eRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        return eAssembler.toModel(event);
+    }
+    // Get Event tickets
+    @GetMapping("/{id}/eventTickets")
+    CollectionModel<EntityModel<EventTicket>> getEventTickets(@PathVariable Long id) {
+        Event event = eRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        List<EntityModel<EventTicket>> eventTickets = eTicketRepository.findByEvent(event).stream()
+            .map(eTicketAssembler::toModel)
+            .collect(Collectors.toList());
+        return new CollectionModel<>(eventTickets,
+            linkTo(methodOn(EventController.class).getEventTickets(id)).withSelfRel());
     }
     // Create event
     @PostMapping
     Event event(@RequestBody Event event) {
-        return erepository.save(event);
+        return eRepository.save(event);
     }
     // Edit event
     @PatchMapping("/{id}")
     Event editEvent(@RequestBody Event newEvent, @PathVariable Long id) {
-        Event event = erepository.findById(id)
+        Event event = eRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if(newEvent.getName() != "") { event.setName(newEvent.getName()); }
         if(newEvent.getEventType() != null) { event.setEventType(newEvent.getEventType()); }
@@ -50,12 +74,12 @@ class EventController {
         if(newEvent.getTicketCapacity() != null) { event.setTicketCapacity(newEvent.getTicketCapacity()); }
         if(newEvent.getAgeLimit() != null) { event.setAgeLimit(newEvent.getAgeLimit()); }
         if(newEvent.getInfo() != "") { event.setInfo(newEvent.getInfo()); }
-        erepository.save(event);
+        eRepository.save(event);
         return event;
     }
     // Delete event
     @DeleteMapping("/{id}")
     void deleteEvent(@PathVariable Long id) {
-        erepository.deleteById(id);
+        eRepository.deleteById(id);
     }
 }

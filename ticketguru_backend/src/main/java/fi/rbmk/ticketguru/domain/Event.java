@@ -73,6 +73,7 @@ public class Event {
     @Column(name = "info")
     private String info;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "id")
     private List<EventTicket> eventTickets;
 
