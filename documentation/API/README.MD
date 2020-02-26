@@ -2,32 +2,24 @@
 
 Here's documentation for TicketGuru REST API.
 
+## Base path
+
+'GET /api
+
 ## Open Endpoints
 
 Open endpoints require no Authentication.
 
-* [Login](login.md) : `POST /api/login/`
+At the moment all endpoints are open. Authentication will be added soon.
 
 ## Endpoints that require Authentication
 
 Closed endpoints require a valid Token to be included in the header of the
-request. A Token can be acquired from the Login view above.
+request.
 
-### Current User related
+### Current Endpoints
 
-Each endpoint manipulates or displays information related to the User whose
-Token is provided with the request:
+Each endpoint manipulates or displays information::
 
-* [Show info](user/get.md) : `GET /api/user/`
-* [Update info](user/put.md) : `PUT /api/user/`
-
-### Account related
-
-Endpoints for viewing and manipulating the Accounts that the Authenticated User
-has permissions to access.
-
-* [Show Accessible Accounts](accounts/get.md) : `GET /api/accounts/`
-* [Create Account](accounts/post.md) : `POST /api/accounts/`
-* [Show An Account](accounts/pk/get.md) : `GET /api/accounts/:pk/`
-* [Update An Account](accounts/pk/put.md) : `PUT /api/accounts/:pk/`
-* [Delete An Account](accounts/pk/delete.md) : `DELETE /api/accounts/:pk/`
+* [Show events](get.md) : `GET /api/events/`
+* [Create event](put.md) : `PUT /api/events/`
