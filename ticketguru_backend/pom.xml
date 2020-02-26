@@ -57,13 +57,6 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-<<<<<<< HEAD
-      <groupId>org.springframework.hateoas</groupId>
-      <artifactId>spring-hateoas</artifactId>
-    </dependency>
-    <dependency>
-=======
->>>>>>> a19a5ffb932461f8c22c3aa2ab3b01d4bc4df141
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-hateoas</artifactId>
       <scope>compile</scope>
