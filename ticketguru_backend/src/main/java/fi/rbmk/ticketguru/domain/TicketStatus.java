@@ -1,42 +1,55 @@
 package fi.rbmk.ticketguru.domain;
 
 import java.util.List;
-import javax.persistence.CascadeType;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
+@Table(name = "TicketStatus")
 public class TicketStatus {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ticketStatus_ID")
 	private Long id;
-	private String ticketStatusName;
+
+	@NotEmpty(message = "Ticket status is required")
+	@Length(max = 50)
+	@Column(name = "name")
+	private String name;
 	
-	@OneToMany(cascade= CascadeType.ALL, mappedBy = "id")
+	@OneToMany(mappedBy = "ticketStatus")
 	private List<Ticket> tickets;
-	
+
 	public TicketStatus() {
-		super();
 	}
 
-	public Long getTicketStatus_ID() {
-		return id;
+	public TicketStatus(TicketStatus ticketStatus) {
 	}
 
-	public void setTicketStatus_ID(Long ticketStatus_ID) {
-		this.id = ticketStatus_ID;
+	public TicketStatus(String name) {
+		this.name = name;
 	}
 
-	public String getTicketStatusName() {
-		return ticketStatusName;
+	public Long getId() {
+		return this.id;
 	}
 
-	public void setTicketStatusName(String ticketStatusName) {
-		this.ticketStatusName = ticketStatusName;
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public List<Ticket> getTickets() {
@@ -47,17 +60,4 @@ public class TicketStatus {
 		this.tickets = tickets;
 	}
 
-	@Override
-	public String toString() {
-		return "TicketStatus [ticketStatus_ID=" + id + ", ticketStatusName=" + ticketStatusName
-				+ ", tickets=" + tickets + "]";
-	}
-
-	public TicketStatus(Long ticketStatus_ID, String ticketStatusName, List<Ticket> tickets) {
-		super();
-		this.id = ticketStatus_ID;
-		this.ticketStatusName = ticketStatusName;
-		this.tickets = tickets;
-	}
-	
 }

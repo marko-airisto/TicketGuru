@@ -17,23 +17,6 @@ import org.hibernate.validator.constraints.Length;
 @Entity
 @Table(name = "UserGroups")
 public class UserGroup {
-	@Override
-	public String toString() {
-		return "UserGroup [id=" + id + ", name=" + name + ", users=" + users + "]";
-	}
-
-	public UserGroup(Long id, @NotEmpty(message = "User group name is required") @Length(max = 1000) String name,
-			List<User> users) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.users = users;
-	}
-
-	public UserGroup() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,20 +28,26 @@ public class UserGroup {
 	@Column(name = "name")
 	private String name;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "userGroup")
 	private List<User> users;
 
-	public Long getId() {
-		return id;
+	public UserGroup() {
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public UserGroup(UserGroup userGroup) {
+	}
+
+	// Getters
+
+	public Long getId() {
+		return this.id;
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
+
+	// Setters
 
 	public void setName(String name) {
 		this.name = name;

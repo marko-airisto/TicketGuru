@@ -5,8 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface TicketStatusRepository extends CrudRepository<TicketStatus, Long> {
 
-	// TicketStatus findByTicketStatus_ID(Long ticketStatus_ID);
-	
-	List<TicketStatus> findByTicketStatusName(String ticketStatusName);
+	List<TicketStatus> findByName(String name);
+	List<TicketStatus> findAll();
 	
 }
