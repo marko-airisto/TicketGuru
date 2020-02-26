@@ -14,7 +14,7 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
-@Table(name = "TicketStatuses")
+@Table(name = "TicketStatus")
 public class TicketStatus {
 
 	@Id
@@ -26,7 +26,7 @@ public class TicketStatus {
 	@Length(max = 50)
 	@Column(name = "name")
 	private String name;
-
+	
 	@OneToMany(mappedBy = "ticketStatus")
 	private List<Ticket> tickets;
 
