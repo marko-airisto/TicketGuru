@@ -1,50 +1,72 @@
 package fi.rbmk.ticketguru.domain;
 
 import java.util.List;
-import javax.persistence.CascadeType;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
+@Table(name = "AgeLimits")
 public class AgeLimit {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long ageLimit_ID;
-	private String ageLimitName, ageLimitSpecifier;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ageLimit_ID")
+	private Long id;
+
+	@NotEmpty(message = "Age limit must be set")
+	@Length(max = 50)
+	@Column(name = "name")
+	private String name;
+
+	@Length(max = 500)
+	@Column(name = "specifier")
+	private String specifier;
 	
-	@OneToMany(cascade= CascadeType.ALL, mappedBy = "ageLimit_ID")
+	@OneToMany(mappedBy = "ageLimit")
 	private List<Event> events;
-	
+
 	public AgeLimit() {
-		super();
-	}
-	
-	public Long getAgeLimit_ID() {
-		return ageLimit_ID;
 	}
 
-	public void setAgeLimit_ID(Long ageLimit_ID) {
-		this.ageLimit_ID = ageLimit_ID;
+	public AgeLimit(AgeLimit ageLimit) {
 	}
 
-	public String getAgeLimitName() {
-		return ageLimitName;
+	public AgeLimit(String name) {
+		this.name = name;
 	}
 
-	public void setAgeLimitName(String ageLimitName) {
-		this.ageLimitName = ageLimitName;
+	public AgeLimit(String name, String specifier) {
+		this.name = name;
+		this.specifier = specifier;
 	}
 
-	public String getAgeLimitSpecifier() {
-		return ageLimitSpecifier;
+	public Long getId() {
+		return this.id;
 	}
 
-	public void setAgeLimitSpecifier(String ageLimitSpecifier) {
-		this.ageLimitSpecifier = ageLimitSpecifier;
+	public String getName() {
+		return this.name;
+	}
+
+	public String getSpecifier() {
+		return this.specifier;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setSpecifier(String specifier) {
+		this.specifier = specifier;
 	}
 
 	public List<Event> getEvents() {
@@ -55,18 +77,4 @@ public class AgeLimit {
 		this.events = events;
 	}
 
-	@Override
-	public String toString() {
-		return "AgeLimit [ageLimit_ID=" + ageLimit_ID + ", ageLimitName=" + ageLimitName + ", ageLimitSpecifier="
-				+ ageLimitSpecifier + ", events=" + events + "]";
-	}
-
-	public AgeLimit(Long ageLimit_ID, String ageLimitName, String ageLimitSpecifier, List<Event> events) {
-		super();
-		this.ageLimit_ID = ageLimit_ID;
-		this.ageLimitName = ageLimitName;
-		this.ageLimitSpecifier = ageLimitSpecifier;
-		this.events = events;
-	}
-	
 }

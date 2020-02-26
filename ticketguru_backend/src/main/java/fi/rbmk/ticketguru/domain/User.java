@@ -1,80 +1,91 @@
 package fi.rbmk.ticketguru.domain;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.hibernate.validator.constraints.Length;
+
+@Entity
+@Table(name = "Users")
 public class User {
-	
-	 	@Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    @Column(name = "User_ID", nullable = false, updatable = false)
-	    private Long id;
 
-	    // Username with unique constraint
-	    @Column(name = "UserName", nullable = false, unique = true)
-	    private String userName;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_ID", nullable = false, updatable = false)
+	private Long id;
 
-	    @Column(name = "Password", nullable = false)
-	    private String passwordHash;
+	@Column(name = "name", unique = true)
+	@NotEmpty(message = "User name is required")
+	@Length(max = 50)
+	private String name;
 
-	    @ManyToOne
-		@JoinColumn(name = "UserGroup_ID")
-	    private String userGroup;
+	@NotEmpty(message = "Password is required")
+	@Column(name = "password", nullable = false, unique = true)
+	@Length(max = 100)
+	private String passwordHash;
 
-	public Long getId() {
-			return id;
-		}
-
-		public void setId(Long id) {
-			this.id = id;
-		}
-
-		public String getUserName() {
-			return userName;
-		}
-
-		public void setUserName(String userName) {
-			this.userName = userName;
-		}
-
-		public String getPasswordHash() {
-			return passwordHash;
-		}
-
-		public void setPasswordHash(String passwordHash) {
-			this.passwordHash = passwordHash;
-		}
-
-		public String getUserGroup() {
-			return userGroup;
-		}
-
-		public void setUserGroup(String userGroup) {
-			this.userGroup = userGroup;
-		}
-
-	@Override
-		public String toString() {
-			return "User [id=" + id + ", userName=" + userName + ", passwordHash=" + passwordHash + ", userGroup="
-					+ userGroup + "]";
-		}
-
-	public User(Long id, String userName, String passwordHash, String userGroup) {
-			super();
-			this.id = id;
-			this.userName = userName;
-			this.passwordHash = passwordHash;
-			this.userGroup = userGroup;
-		}
+	@NotEmpty(message = "User group is required")
+	@ManyToOne
+	@JsonIgnore
+	@JoinColumn(name = "userGroup_ID")
+	private UserGroup userGroup;
 
 	public User() {
-		super();
-		// TODO Auto-generated constructor stub
+
+	}
+
+	public User(User user) {
+	}
+
+	public User(String name, String passwordHash, UserGroup userGroup) {
+		this.name = name;
+		this.passwordHash = passwordHash;
+		this.userGroup = userGroup;
+	}
+
+	// Getters
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getPasswordHash() {
+		return passwordHash;
+	}
+
+	public UserGroup getUserGroup() {
+		return userGroup;
+	}
+
+	// Setters
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPasswordHash(String passwordHash) {
+		this.passwordHash = passwordHash;
+	}
+
+	public void setUserGroup(UserGroup userGroup) {
+		this.userGroup = userGroup;
 	}
 
 }

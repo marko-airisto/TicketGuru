@@ -7,32 +7,32 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
-public class EventTypes {
-	
+@Table(name = "EventTypes")
+public class EventType {
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long eventType_ID;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 	private String eventTypeName, eventTypeInfo;
-	
-	
-	@OneToMany(cascade= CascadeType.ALL, mappedBy = "eventType_ID")
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
 	private List<Event> events;
-	
-	public EventTypes() {
+
+	public EventType() {
 		super();
 	}
-	
+
 	public Long getEventType_ID() {
-		return eventType_ID;
+		return id;
 	}
 
 	public void setEventType_ID(Long eventType_ID) {
-		this.eventType_ID = eventType_ID;
+		this.id = eventType_ID;
 	}
-	
-	
+
 	public String getEventTypeName() {
 		return eventTypeName;
 	}
@@ -40,7 +40,7 @@ public class EventTypes {
 	public void setEventTypeName(String eventTypeName) {
 		this.eventTypeName = eventTypeName;
 	}
-	
+
 	public String getEventTypeInfo() {
 		return eventTypeInfo;
 	}
@@ -48,22 +48,21 @@ public class EventTypes {
 	public void setEventTypeInfo(String eventTypeInfo) {
 		this.eventTypeInfo = eventTypeInfo;
 	}
-	
-		
-	
+
 	@Override
 	public String toString() {
-		return "EventTypes[eventType_ID=" + eventType_ID + ", eventTypeName=" + eventTypeName + ", eventTypeInfo=" + eventTypeInfo + "]";
+		return "EventTypes[eventType_ID=" + id + ", eventTypeName=" + eventTypeName + ", eventTypeInfo=" + eventTypeInfo
+				+ "]";
 	}
 
-	public EventTypes(Long eventType_ID, String eventTypeName, String eventTypeInfo, List<Event> events) {
+	public EventType(Long eventType_ID, String eventTypeName, String eventTypeInfo, List<Event> events) {
 		super();
-		this.eventType_ID = eventType_ID;
-		
+		this.id = eventType_ID;
+
 		this.eventTypeName = eventTypeName;
 		this.eventTypeInfo = eventTypeInfo;
-		
+
 		this.events = events;
 	}
-	
+
 }

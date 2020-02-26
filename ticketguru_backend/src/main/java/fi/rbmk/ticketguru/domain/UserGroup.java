@@ -3,38 +3,54 @@ package fi.rbmk.ticketguru.domain;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
-
+import org.hibernate.validator.constraints.Length;
 
 @Entity
+@Table(name = "UserGroups")
 public class UserGroup {
+
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-	private Long userGroup_ID;
-	private String userGroupName;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "userGroup_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "userGroup_ID")
+	private Long id;
+
+	@NotEmpty(message = "User group name is required")
+	@Length(max = 100)
+	@Column(name = "name")
+	private String name;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "userGroup")
 	private List<User> users;
 
-	public Long getUserGroup_ID() {
-		return userGroup_ID;
+	public UserGroup() {
 	}
 
-	public void setUserGroup_ID(Long userGroup_ID) {
-		this.userGroup_ID = userGroup_ID;
+	public UserGroup(UserGroup userGroup) {
 	}
 
-	public String getUserGroupName() {
-		return userGroupName;
+	// Getters
+
+	public Long getId() {
+		return this.id;
 	}
 
-	public void setUserGroupName(String userGroupName) {
-		this.userGroupName = userGroupName;
+	public String getName() {
+		return this.name;
+	}
+
+	// Setters
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public List<User> getUsers() {
@@ -43,24 +59,6 @@ public class UserGroup {
 
 	public void setUsers(List<User> users) {
 		this.users = users;
-	}
-
-	@Override
-	public String toString() {
-		return "UserGroup [userGroup_ID=" + userGroup_ID + ", userGroupName=" + userGroupName + ", users=" + users
-				+ "]";
-	}
-
-	public UserGroup(Long userGroup_ID, String userGroupName, List<User> users) {
-		super();
-		this.userGroup_ID = userGroup_ID;
-		this.userGroupName = userGroupName;
-		this.users = users;
-	}
-
-	public UserGroup() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
 }
