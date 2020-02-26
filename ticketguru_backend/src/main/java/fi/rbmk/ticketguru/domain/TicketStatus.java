@@ -27,7 +27,7 @@ public class TicketStatus {
 	@Column(name = "name")
 	private String name;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "ticketStatus")
+	@OneToMany(mappedBy = "ticketStatus")
 	private List<Ticket> tickets;
 
 	public TicketStatus() {

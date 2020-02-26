@@ -31,7 +31,7 @@ public class AgeLimit {
 	@Column(name = "specifier")
 	private String specifier;
 	
-	@OneToMany(Cascade = CascadeType.ALL, mappedBy = "ageLimit")
+	@OneToMany(mappedBy = "ageLimit")
 	private List<Event> events;
 
 	public AgeLimit() {
