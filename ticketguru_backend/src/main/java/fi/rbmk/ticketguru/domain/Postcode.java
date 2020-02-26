@@ -7,23 +7,25 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "Postcodes")
 public class Postcode {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String city;
 	private String country;
-	
-	@OneToMany(cascade= CascadeType.ALL, mappedBy = "id")
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
 	private List<Venue> venue;
-	
+
 	public Postcode() {
 		super();
 	}
-	
+
 	public Postcode(Long id, String city, String country) {
 		super();
 		this.id = id;
@@ -32,7 +34,7 @@ public class Postcode {
 	}
 
 	// Getterit
-	
+
 	public Long getID() {
 		return id;
 	}
@@ -50,7 +52,7 @@ public class Postcode {
 	}
 
 	// Setterit
-	
+
 	public void setID(Long id) {
 		this.id = id;
 	}
@@ -71,5 +73,5 @@ public class Postcode {
 	public String toString() {
 		return "PostCodes [id=" + id + ", city=" + city + ", country=" + country + "]";
 	}
-	
+
 }
