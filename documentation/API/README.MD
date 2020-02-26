@@ -2,9 +2,9 @@
 
 Here's documentation for TicketGuru REST API.
 
-## Base path
+## Base-URL
 
-`GET /api/`
+`http://localhost:8080/api`
 
 ## Open Endpoints
 
