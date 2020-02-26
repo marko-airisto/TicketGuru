@@ -21,7 +21,7 @@ Provide name of Account to be created.
     "dateTime": "[ISO 8601]"
     "eventOrganizer": "[eventOrganizer_ID]"
     "venue": "[venue_ID]"
-    "ticketCapacity":: "[INT]"
+    "ticketCapacity": "[INT]"
     "ageLimit": "[ageLimit_ID]"
     "info": "[VARCHAR 500 CHARS MAX]"
 }
