@@ -1,13 +1,12 @@
-# Create User's Account
+# Create Event
 
-Create an Account for the authenticated User if an Account for that User does
-not already exist. Each User can only have one Account.
+Create an Event.
 
-**URL** : `/api/accounts/`
+**URL** : `/api/events/`
 
 **Method** : `POST`
 
-**Auth required** : YES
+**Auth required** : NO
 
 **Permissions required** : None
 
