@@ -1,23 +1,36 @@
 package fi.rbmk.ticketguru.domain;
 
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Length;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
 
 @Entity
 public class SaleEvent {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long saleEvent_ID;
-	private Date saleEventDateTime;
-	private Long user_ID;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "saleEvent_ID")
+	private Long id;
+	
+	@NotEmpty(message = "Please enter the date time")
+	@Column(name = "dateTime")
+	private Date dateTime;
+	
+	@NotEmpty(message = "Please enter the user ID")
+	@Column(name = "user_ID")
+	private Long user;
 	
 	@OneToMany(cascade= CascadeType.ALL, mappedBy = "saleEvent_ID")
 	private List<SaleRow> saleRows;
@@ -26,25 +39,25 @@ public class SaleEvent {
 		super();
 	}
 	
-	public SaleEvent(Long saleEvent_ID, Date saleEventDateTime, Long user_ID) {
+	public SaleEvent(Long id, Date dateTime, Long user) {
 		super();
-		this.saleEvent_ID = saleEvent_ID;
-		this.saleEventDateTime = saleEventDateTime;
-		this.user_ID = user_ID;
+		this.id = id;
+		this.dateTime = dateTime;
+		this.user = user;
 	}
 
 	// Getterit
 
 	public Long getSaleEvent_ID() {
-		return saleEvent_ID;
+		return id;
 	}
 
 	public Date getSaleEventDateTime() {
-		return saleEventDateTime;
+		return dateTime;
 	}
 
 	public Long getUser_ID() {
-		return user_ID;
+		return user;
 	}
 
 	public List<SaleRow> getSaleRows() {
@@ -54,15 +67,15 @@ public class SaleEvent {
 	// Setterit
 	
 	public void setSaleEvent_ID(Long saleEvent_ID) {
-		this.saleEvent_ID = saleEvent_ID;
+		this.id = saleEvent_ID;
 	}
 
-	public void setSaleEventDateTime(Date saleEventDateTime) {
-		this.saleEventDateTime = saleEventDateTime;
+	public void setSaleEventDateTime(Date dateTime) {
+		this.dateTime = dateTime;
 	}
 
 	public void setUser_ID(Long user_ID) {
-		this.user_ID = user_ID;
+		this.user = user_ID;
 	}
 
 	public void setSaleRows(List<SaleRow> saleRows) {
@@ -71,8 +84,8 @@ public class SaleEvent {
 
 	@Override
 	public String toString() {
-		return "SaleEvents [saleEvent_ID=" + saleEvent_ID + ", saleEventDateTime=" + saleEventDateTime + ", user_ID="
-				+ user_ID + "]";
+		return "SaleEvents [saleEvent_ID=" + id + ", saleEventDateTime=" + dateTime + ", user_ID="
+				+ user + "]";
 	}
 	
 }
