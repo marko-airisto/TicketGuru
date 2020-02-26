@@ -14,9 +14,23 @@ public class AgeLimitController {
 	private AgeLimitRepository alrepository;
 	
 	@GetMapping("api/ageLimits")
-	
 	public List<AgeLimit> ageLimitListRest() {
 		return (List<AgeLimit>) alrepository.findAll();
 	}
+	
+	@PostMapping
+    AgeLimit ageLimit(@RequestBody AgeLimit ageLimit) {
+        return alrepository.save(ageLimit);
+    }
+	
+	@PatchMapping("/{id}")
+    AgeLimit editAgeLimit(@RequestBody AgeLimit newAgeLimit, @PathVariable Long id) {
+        AgeLimit ageLimit = alrepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        if(newAgeLimit.getName() != "") { AgeLimit.setName(newAgeLimit.getName()); }
+        if(newAgeLimit.getSpecifier() != null) { AgeLimit.setSpecifier(newAgeLimit.getSpecifier()); }
+        alrepository.save(ageLimit);
+        return ageLimit;
+    }
 
 }
