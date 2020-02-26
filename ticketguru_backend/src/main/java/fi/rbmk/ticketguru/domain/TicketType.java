@@ -27,7 +27,7 @@ public class TicketType {
 	@Column(name = "name")
 	private String name;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "ticketType")
+	@OneToMany(mappedBy = "ticketType")
 	private List<EventTicket> eventTickets;
 
 	public TicketType() {
