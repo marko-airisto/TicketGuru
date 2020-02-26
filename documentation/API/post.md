@@ -16,6 +16,7 @@ Provide name of Account to be created.
 
 ```json
 {
+    "name": "[unicode 64 chars max]"
     "name": "[VARCHAR 250 chars max]"
     "eventType": "[eventType_ID]"
     "dateTime": "[ISO 8601]"
