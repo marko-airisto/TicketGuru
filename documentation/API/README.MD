@@ -4,7 +4,7 @@ Here's documentation for TicketGuru REST API.
 
 ## Base path
 
-'GET /api
+`GET /api/`
 
 ## Open Endpoints
 
@@ -22,4 +22,4 @@ request.
 Each endpoint manipulates or displays information::
 
 * [Show events](get.md) : `GET /api/events/`
-* [Create event](put.md) : `PUT /api/events/`
+* [Create event](post.md) : `PUT /api/events/`
