@@ -31,7 +31,7 @@ public class AgeLimit {
 	@Column(name = "specifier")
 	private String specifier;
 	
-	@OneToMany(mappedBy = "ageLimit")
+	@OneToMany(mappedBy = "id")
 	private List<Event> events;
 
 	public AgeLimit() {
