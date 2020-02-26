@@ -1,13 +1,13 @@
-# Show Accessible Accounts
+# Show Accessible Events
 
-Show all Accounts the active User can access and with what permission level.
+Show all Events the active User can access and with what permission level.
 Includes their own Account if they have one.
 
-**URL** : `/api/accounts/`
+**URL** : `/api/events/`
 
 **Method** : `GET`
 
-**Auth required** : YES
+**Auth required** : NO
 
 **Permissions required** : None
 
@@ -15,7 +15,7 @@ Includes their own Account if they have one.
 
 ## Success Responses
 
-**Condition** : User can not see any Accounts.
+**Condition** : User can not see any Events.
 
 **Code** : `200 OK`
 
@@ -23,12 +23,11 @@ Includes their own Account if they have one.
 
 ### OR
 
-**Condition** : User can see one or more Accounts.
+**Condition** : User can see one or more Events.
 
 **Code** : `200 OK`
 
-**Content** : In this example, the User can see three Accounts as AccountAdmin
-`AA`, Viewer `VV`, and Owner `OO` - in that order:
+**Content** : In this example, the User can see one Event as regular user
 
 ```json
 [
