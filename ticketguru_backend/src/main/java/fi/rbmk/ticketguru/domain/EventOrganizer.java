@@ -22,13 +22,13 @@ public class EventOrganizer {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "eventOrganizer_ID")
 	private Long id;
-	private String e_o_name, e_o_streetAddress, e_o_Tel, e_o_email, e_o_www, e_o_contactPerson;
-	private Long e_o_postcode_ID;
+	private String name, streetAddress, tel, email, www, contactPerson;
+	private Long postcode_ID;
 	
 	@NotEmpty(message = "Organizers name is required")
 	@Length(max= 100)
 	@Column(name = "name")
-	private String name;
+	private String cname;
 	
 	@NotEmpty(message = "Postcode is required")
 	@Column(name = "postcode_ID")
@@ -37,7 +37,7 @@ public class EventOrganizer {
 	
 	
 	@OneToMany(cascade= CascadeType.ALL, mappedBy = "eventOrganizers")
-	private List<Event> event_orgs;
+	private List<Event> eventOrgs;
 	
 	public EventOrganizer() {
 	}
@@ -49,74 +49,74 @@ public class EventOrganizer {
 		return id;
 	}
 
-	public String getE_o_name() {
-		return e_o_name;
+	public String getName() {
+		return name;
 	}
 
-	public String getE_o_streetAddress() {
-		return e_o_streetAddress;
+	public String getstreetAddress() {
+		return streetAddress;
 	}
 
-	public String getE_o_Tel() {
-		return e_o_Tel;
+	public String getTel() {
+		return tel;
 	}
 
-	public String getE_o_email() {
-		return e_o_email;
+	public String getEmail() {
+		return email;
 	}
 
-	public String getE_o_www() {
-		return e_o_www;
+	public String getWww() {
+		return www;
 	}
 
-	public String getE_o_contactPerson() {
-		return e_o_contactPerson;
+	public String getContactPerson() {
+		return contactPerson;
 	}
 
-	public Long getE_o_postcode_ID() {
-		return e_o_postcode_ID;
+	public Long getPostcode_ID() {
+		return postcode_ID;
 	}
 
 	
-	public List<Event> getEvent_orgs() {
-		return event_orgs;
+	public List<Event> getEventOrgs() {
+		return eventOrgs;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public void setE_o_name(String e_o_name) {
-		this.e_o_name = e_o_name;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setE_o_streetAddress(String e_o_streetAddress) {
-		this.e_o_streetAddress = e_o_streetAddress;
+	public void setE_o_streetAddress(String streetAddress) {
+		this.streetAddress = streetAddress;
 	}
 
-	public void setE_o_Tel(String e_o_Tel) {
-		this.e_o_Tel = e_o_Tel;
+	public void setTel(String tel) {
+		this.tel = tel;
 	}
 
-	public void setE_o_email(String e_o_email) {
-		this.e_o_email = e_o_email;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public void setE_o_www(String e_o_www) {
-		this.e_o_www = e_o_www;
+	public void setWww(String www) {
+		this.www = www;
 	}
 
-	public void setE_o_contactPerson(String e_o_contactPerson) {
-		this.e_o_contactPerson = e_o_contactPerson;
+	public void setContactPerson(String contactPerson) {
+		this.contactPerson = contactPerson;
 	}
 
-	public void setE_o_postcode_ID(Long e_o_postcode_ID) {
-		this.e_o_postcode_ID = e_o_postcode_ID;
+	public void setPostcode_ID(Long postcode_ID) {
+		this.postcode_ID = postcode_ID;
 	}
 
 	
-	public void setEvent_orgs(List<Event> event_orgs) {
-		this.event_orgs = event_orgs;
+	public void setEventOrgs(List<Event> eventOrgs) {
+		this.eventOrgs = eventOrgs;
 	}
 
 	
