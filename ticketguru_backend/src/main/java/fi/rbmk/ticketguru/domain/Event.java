@@ -120,6 +120,5 @@ public class Event {
     public void setVenue(Venue venue) { this.venue = venue; }
     public void setTicketCapacity(Long ticketCapacity) { this.ticketCapacity = ticketCapacity; }
     public void setAgeLimit(AgeLimit ageLimit) { this.ageLimit = ageLimit; }
-    public void setInfo(String eventInfo) { this.info = eventInfo;
-    }
+    public void setInfo(String info) { this.info = info; }
 }

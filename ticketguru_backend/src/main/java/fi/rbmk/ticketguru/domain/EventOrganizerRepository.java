@@ -2,14 +2,12 @@ package fi.rbmk.ticketguru.domain;
 
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+@RepositoryRestResource
 public interface EventOrganizerRepository extends CrudRepository<EventOrganizer, Long> {
 	
-	List<EventOrganizer> findByCompanyName(String companyName);
-	List<EventOrganizer> findByCompanyStreetAddress(String companyStreetAddress);
-	List<EventOrganizer> findByCompanyEmail(String companyEmail);
-	List<EventOrganizer> findByCompanyTel(String companyTel);
-	List<EventOrganizer> findByCompanyWWW(String companyWWW);
-	List<EventOrganizer> findByCompanyContactPerson(String companyContactPerson);
+	List<EventOrganizer> findByName(@Param("name") String name);
 	
 }

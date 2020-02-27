@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -21,7 +22,7 @@ public class EventOrganizer {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "eventOrganizer_ID")
 	private Long id;
-	private String companyName, companyStreetAddress, companyTel, companyEmail, companyWWW, companyContactPerson;
+	private String name, streetAddress, tel, email, www, contactPerson;
 
 	@NotEmpty(message = "Postcode is required")
     @JsonIgnore
@@ -33,9 +34,11 @@ public class EventOrganizer {
 	private List<Event> events;
 	
 	public EventOrganizer() {
-		super();
 	}
 
+	public EventOrganizer(EventOrganizer eventOrganizer) {
+	}
+  
 	public Long getID() {
 		return id;
 	}
@@ -48,75 +51,91 @@ public class EventOrganizer {
 		this.postcode = postcode;
 	}
 
-	public String getCompanyName() {
-		return companyName;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
+	public String getWWW() {
+		return www;
+	}
+
+	public String getContactPerson() {
+		return contactPerson;
+	}
+
+	public Postcode getPostcode() {
+		return postcode;
 	}
 	
-	public String getCompanyStreetAddress() {
-		return companyStreetAddress;
+	public List<Event> getEvents() {
+		return events;
 	}
 
-	public void setCompanyStreetAddress(String companyStreetAddress) {
-		this.companyStreetAddress = companyStreetAddress;
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	
+	public String getStreetAddress() {
+		return streetAddress;
+	}
+
+	public void setStreetAddress(String streetAddress) {
+		this.streetAddress = streetAddress;
 	}	
 	
-	public String getCompanyTel() {
-		return companyTel;
+	public String getTel() {
+		return tel;
 	}
 
-	public void setCompanyTel(String companyTel) {
-		this.companyTel = companyTel;
+	public void setTel(String tel) {
+		this.tel = tel;
 	}	
 	
-	public String getCompanyEmail() {
+	public String getEmail() {
 		return companyEmail;
 	}
 
-	public void setCompanyEmail(String companyEmail) {
-		this.companyEmail = companyEmail;
+	public void setStreetAddress(String streetAddress) {
+		this.streetAddress = streetAddress;
 	}
 
-	public String getCompanyWWW() {
-		return companyWWW;
+	public void setTel(String tel) {
+		this.tel = tel;
 	}
 
-	public void setCompanyWWW(String companyWWW) {
-		this.companyWWW = companyWWW;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public String getCompanyContactPerson() {
-		return companyContactPerson;
+	public void setWWW(String www) {
+		this.www = www;
 	}
 
-	public void setCompanyContactPerson(String companyContactPerson) {
-		this.companyContactPerson = companyContactPerson;
+	public void setContactPerson(String contactPerson) {
+		this.contactPerson = contactPerson;
 	}
-	
-	
 	
 	@Override
 	public String toString() {
-		return "EventOrganizers[id=" + id + ", companyName=" + companyName + ", companyStreetAddress="
-				+ companyStreetAddress + ", companyTel=" + companyTel + ", companyEmail=" + companyEmail
-				+ ", companyWWW=" + companyWWW+ ", companyContactPerson=" + companyContactPerson + ", postcode_ID=" + postcode + "]";
+		return "EventOrganizer[id=" + id + ", name=" + name + ", streetAddress="
+				+ streetAddress + ", tel=" + tel + ", email=" + email
+				+ ", www=" + www+ ", contactPerson=" + contactPerson + ", postcode=" + postcode + "]";
 	}
 
-	public EventOrganizer(Long id, Postcode postcode, String companyName, String companyStreetAddress,
-			String companyTel, String companyEmail, String companyWWW, String companyContactPerson) {
+	public EventOrganizer(Long id, Postcode postcode, String name, String streetAddress,
+			String tel, String email, String www, String contactPerson) {
 
 		super();
 		this.id = id;
 		this.postcode = postcode;
-		this.companyName = companyName;
-		this.companyStreetAddress = companyStreetAddress;
-		this.companyTel = companyTel;
-		this.companyEmail = companyEmail;
-		this.companyWWW = companyWWW;
-		this.companyContactPerson = companyContactPerson;
+		this.name = name;
+		this.streetAddress = streetAddress;
+		this.tel = tel;
+		this.email = email;
+		this.www = www;
+		this.contactPerson = contactPerson;
 	}
-	
 }
