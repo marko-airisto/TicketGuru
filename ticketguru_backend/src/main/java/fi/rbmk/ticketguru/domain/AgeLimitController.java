@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,12 +15,13 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-public class AgeLimitController {
+@RequestMapping(value = "/api/ageLimits", produces = "application/hal+json")
+class AgeLimitController {
 	
 	@Autowired
 	private AgeLimitRepository alrepository;
 	
-	@GetMapping("api/ageLimits")
+	@GetMapping
 	public List<AgeLimit> ageLimitListRest() {
 		return (List<AgeLimit>) alrepository.findAll();
 	}
