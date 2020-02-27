@@ -38,17 +38,35 @@ public class EventOrganizer {
 
 	public EventOrganizer(EventOrganizer eventOrganizer) {
 	}
+
+	public EventOrganizer(Long id, Postcode postcode, String name, String streetAddress,
+	String tel, String email, String www, String contactPerson) {
+		super();
+		this.id = id;
+		this.postcode = postcode;
+		this.name = name;
+		this.streetAddress = streetAddress;
+		this.tel = tel;
+		this.email = email;
+		this.www = www;
+		this.contactPerson = contactPerson;
+	}
   
-	public Long getID() {
+	// Getters
+	public Long getId() {
 		return id;
 	}
 
-	public Postcode getPostcode() {
-		return postcode;
+	public String getName() {
+		return name;
 	}
 
-	public void setPostcode(Postcode postcode) {
-		this.postcode = postcode;
+	public String getStreetAddress() {
+		return streetAddress;
+	}
+
+	public String getTel() {
+		return tel;
 	}
 
 	public String getEmail() {
@@ -66,37 +84,19 @@ public class EventOrganizer {
 	public Postcode getPostcode() {
 		return postcode;
 	}
-	
+
 	public List<Event> getEvents() {
 		return events;
 	}
 
+	// Setters
 	public void setId(Long id) {
 		this.id = id;
 	}
 
 	public void setName(String name) {
 		this.name = name;
-	
-	public String getStreetAddress() {
-		return streetAddress;
-	}
-
-	public void setStreetAddress(String streetAddress) {
-		this.streetAddress = streetAddress;
 	}	
-	
-	public String getTel() {
-		return tel;
-	}
-
-	public void setTel(String tel) {
-		this.tel = tel;
-	}	
-	
-	public String getEmail() {
-		return companyEmail;
-	}
 
 	public void setStreetAddress(String streetAddress) {
 		this.streetAddress = streetAddress;
@@ -117,25 +117,15 @@ public class EventOrganizer {
 	public void setContactPerson(String contactPerson) {
 		this.contactPerson = contactPerson;
 	}
+
+	public void setPostcode(Postcode postcode) {
+		this.postcode = postcode;
+	}
 	
 	@Override
 	public String toString() {
 		return "EventOrganizer[id=" + id + ", name=" + name + ", streetAddress="
 				+ streetAddress + ", tel=" + tel + ", email=" + email
 				+ ", www=" + www+ ", contactPerson=" + contactPerson + ", postcode=" + postcode + "]";
-	}
-
-	public EventOrganizer(Long id, Postcode postcode, String name, String streetAddress,
-			String tel, String email, String www, String contactPerson) {
-
-		super();
-		this.id = id;
-		this.postcode = postcode;
-		this.name = name;
-		this.streetAddress = streetAddress;
-		this.tel = tel;
-		this.email = email;
-		this.www = www;
-		this.contactPerson = contactPerson;
 	}
 }

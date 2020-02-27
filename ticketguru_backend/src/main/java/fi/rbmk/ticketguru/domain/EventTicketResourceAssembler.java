@@ -11,7 +11,7 @@ class EventTicketResourceAssembler implements RepresentationModelAssembler<Event
     @Override
     public EntityModel<EventTicket> toModel(EventTicket eventTicket) {
         return new EntityModel<>(eventTicket,
-            linkTo(methodOn(EventTicketController.class).one(eventTicket.getID())).withSelfRel(),
+            linkTo(methodOn(EventTicketController.class).one(eventTicket.getId())).withSelfRel(),
             linkTo(methodOn(EventTicketController.class).findAll()).withRel("eventTickets"));
     }
 }

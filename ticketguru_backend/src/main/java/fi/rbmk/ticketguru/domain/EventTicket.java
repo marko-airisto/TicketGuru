@@ -15,73 +15,76 @@ import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 
 @Entity
+@Table(name = "EventTickets")
 public class EventTicket {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "eventTicket_ID")
-  private Long id;
-  private Long ticketCount, price;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "eventTicket_ID")
+    private Long id;
+    private Long ticketCount, price;
 
-  @NotEmpty(message = "Event must be set")
-  @ManyToOne
-  @JoinColumn(name = "event_ID")
-  private Event event; 
+    @NotEmpty(message = "Event must be set")
+    @ManyToOne
+    @JoinColumn(name = "event_ID")
+    private Event event; 
 
-  @NotEmpty(message = "Ticket type must be set")
-  @ManyToOne
-  @JoinColumn(name = "ticketType_ID")
-  private TicketType ticketType; 
+    @NotEmpty(message = "Ticket type must be set")
+    @ManyToOne
+    @JoinColumn(name = "ticketType_ID")
+    private TicketType ticketType; 
 
-  public EventTicket() {
-	  super();
-  }
+    public EventTicket() {
+    super();
+    }
 
-  public EventTicket(EventTicket eventTicket) {
-  }
+    public EventTicket(EventTicket eventTicket) {
+    }
 
-  public Long getId() {
-	  return id;
-  }
-  
-  public void setId(Long id) {
-	  this.id = id;
-  }
+    // Getters
+    public Long getId() {
+        return id;
+    }
 
-  public Long getTicketCount() {
-	  return ticketCount;
-  }
-  
-  public void setTicketCount(Long ticketCount) {
-	  this.ticketCount = ticketCount;
-  }
+    public Long getTicketCount() {
+        return ticketCount;
+    }
 
-  public Long getPrice() {
-	  return price;
-  }
+    public Long getPrice() {
+        return price;
+    }
 
-  public void setPrice(Long price) {
-	  this.price = price;
-  }
+    public Event getEvent() {
+        return event;
+    }
 
-  public Event getEvent() {
-	  return event;
-  }
-  
-  public void setEvent(Event event) {
-    this.event = event;
-  }
+    public TicketType getTicketType() {
+        return ticketType;
+    }
 
-  public TicketType getTicketType() {
-    return ticketType;
-  }
-  
-  public void setTicketTypeD(TicketType ticketType) {
-	  this.ticketType = ticketType;
-  }
+    //Setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    public void setTicketCount(Long ticketCount) {
+        this.ticketCount = ticketCount;
+    }
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+    
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+    
+    public void setTicketTypeD(TicketType ticketType) {
+        this.ticketType = ticketType;
+    }
 
-  @Override
-  public String toString() {
-	  return "EventTicket [eventTickets_ID=" + id + ", event=" + event + ", ticketType="
-			+ ticketType + ", ticketCount=" + ticketCount + ", price=" + price + "]";
-  }
+    @Override
+    public String toString() {
+    return "EventTicket [eventTickets_ID=" + id + ", event=" + event + ", ticketType="
+        + ticketType + ", ticketCount=" + ticketCount + ", price=" + price + "]";
+    }
+}

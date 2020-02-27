@@ -18,9 +18,7 @@ public class EventType {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "eventType_ID")
-	private Long id;
-	private String name, info;
-	
+	private Long id;	
 	
 	@NotEmpty(message = "Event type name is required")
 	@Length(max= 100)
@@ -39,45 +37,47 @@ public class EventType {
 	}
 	
 	public EventType(EventType eventType) {
-  }
+  	}
   
-  public EventType(Long id, String name, String info) {
+  	public EventType(Long id, String name, String info) {
 		super();
 		this.id = id;
 		this.name = name;
-    this.info = info;
+   		this.info = info;
 	}
   
+	//Getters
 	public Long getId() {
 		return id;
-	}
-  
-  public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getInfo() {
 		return info;
-	}
-  
-  public void setInfo(String info) {
-		this.info = info;
 	}
 
 	public List<Event> getEvents() {
 		return events;
-	}		
+	}	
+  
+	//Setters
+  	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+  
+  	public void setInfo(String info) {
+		this.info = info;
+	}
 	
 	@Override
 	public String toString() {
-		return "EventTypes[eventType_ID=" + id + ", eventTypeName=" + eventTypeName + ", eventTypeInfo=" + eventTypeInfo + "]";
+		return "EventType[id=" + id + ", name=" + name + ", info=" + info + "]";
 	}
 }
