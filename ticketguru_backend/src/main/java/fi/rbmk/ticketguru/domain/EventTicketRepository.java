@@ -8,5 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource
 public interface EventTicketRepository extends CrudRepository<EventTicket, Long> {
 
-	List<EventTicket> findByEID(@Param("eID") String eID);
+  List<EventTicket> findByEvent(Event event);
+	// List<EventTicket> findByTicketType_ID(Long ticketType_ID);
+
 }

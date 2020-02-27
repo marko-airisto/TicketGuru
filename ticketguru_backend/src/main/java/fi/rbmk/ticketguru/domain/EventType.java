@@ -10,95 +10,74 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
-
 import org.hibernate.validator.constraints.Length;
 
-
-
 @Entity
-@Table(name = "EventTypes")
 public class EventType {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "eventType_ID")
 	private Long id;
-	private String eventTypeName, eventTypeInfo;
+	private String name, info;
 	
 	
 	@NotEmpty(message = "Event type name is required")
 	@Length(max= 100)
-	@Column(name = "typename")
-	private String typename;
+	@Column(name = "name")
+	private String name;
 	
 	@NotEmpty(message = "Event info is required")
 	@Length(max= 500)
-	@Column(name = "typeinfo")
-	private String typeinfo;
+	@Column(name = "info")
+	private String info;
 	
-	
-	
-	@OneToMany(cascade= CascadeType.ALL, mappedBy = "typeid")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "eventType")
 	private List<Event> events;
 	
 	public EventType() {
 	}
 	
 	public EventType(EventType eventType) {
+  }
+  
+  public EventType(Long id, String name, String info) {
+		super();
+		this.id = id;
+		this.name = name;
+    this.info = info;
 	}
-
+  
 	public Long getId() {
 		return id;
 	}
-
-	public String getEventTypeName() {
-		return eventTypeName;
+  
+  public void setId(Long id) {
+		this.id = id;
 	}
 
-	public String getEventTypeInfo() {
-		return eventTypeInfo;
+	public String getName() {
+		return name;
 	}
 
-	public String getTypename() {
-		return typename;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getTypeinfo() {
-		return typeinfo;
+	public String getInfo() {
+		return info;
+	}
+  
+  public void setInfo(String info) {
+		this.info = info;
 	}
 
 	public List<Event> getEvents() {
 		return events;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public void setEventTypeName(String eventTypeName) {
-		this.eventTypeName = eventTypeName;
-	}
-
-	public void setEventTypeInfo(String eventTypeInfo) {
-		this.eventTypeInfo = eventTypeInfo;
-	}
-
-	public void setTypename(String typename) {
-		this.typename = typename;
-	}
-
-	public void setTypeinfo(String typeinfo) {
-		this.typeinfo = typeinfo;
-	}
-
-	public void setEvents(List<Event> events) {
-		this.events = events;
-	}
+	}		
 	
-	
-	
-		
-	
-	
-	
+	@Override
+	public String toString() {
+		return "EventTypes[eventType_ID=" + id + ", eventTypeName=" + eventTypeName + ", eventTypeInfo=" + eventTypeInfo + "]";
+	}
 }

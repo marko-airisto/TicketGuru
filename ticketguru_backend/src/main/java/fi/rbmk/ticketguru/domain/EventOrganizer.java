@@ -9,63 +9,53 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
-
-import org.hibernate.validator.constraints.Length;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.JoinColumn;
 
 @Entity
-@Table(name = "EventTypes")
+@Table(name = "EventOrganizers")
 public class EventOrganizer {
-	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "eventOrganizer_ID")
 	private Long id;
 	private String name, streetAddress, tel, email, www, contactPerson;
-	private Long postcode_ID;
-	
-	@NotEmpty(message = "Organizers name is required")
-	@Length(max= 100)
-	@Column(name = "name")
-	private String cname;
-	
+
 	@NotEmpty(message = "Postcode is required")
-	@Column(name = "postcode_ID")
-	private Long postcode;
-	
-	
-	
-	@OneToMany(cascade= CascadeType.ALL, mappedBy = "eventOrganizers")
-	private List<Event> eventOrgs;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "postcode_ID")
+    private Postcode postcode;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "eventOrganizer")
+	private List<Event> events;
 	
 	public EventOrganizer() {
 	}
 
 	public EventOrganizer(EventOrganizer eventOrganizer) {
 	}
-	
-	public Long getId() {
+  
+	public Long getID() {
 		return id;
 	}
 
-	public String getName() {
-		return name;
+	public Postcode getPostcode() {
+		return postcode;
 	}
 
-	public String getstreetAddress() {
-		return streetAddress;
-	}
-
-	public String getTel() {
-		return tel;
+	public void setPostcode(Postcode postcode) {
+		this.postcode = postcode;
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
-	public String getWww() {
+	public String getWWW() {
 		return www;
 	}
 
@@ -73,13 +63,12 @@ public class EventOrganizer {
 		return contactPerson;
 	}
 
-	public Long getPostcode_ID() {
-		return postcode_ID;
+	public Postcode getPostcode() {
+		return postcode;
 	}
-
 	
-	public List<Event> getEventOrgs() {
-		return eventOrgs;
+	public List<Event> getEvents() {
+		return events;
 	}
 
 	public void setId(Long id) {
@@ -88,9 +77,28 @@ public class EventOrganizer {
 
 	public void setName(String name) {
 		this.name = name;
+	
+	public String getStreetAddress() {
+		return streetAddress;
 	}
 
-	public void setE_o_streetAddress(String streetAddress) {
+	public void setStreetAddress(String streetAddress) {
+		this.streetAddress = streetAddress;
+	}	
+	
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}	
+	
+	public String getEmail() {
+		return companyEmail;
+	}
+
+	public void setStreetAddress(String streetAddress) {
 		this.streetAddress = streetAddress;
 	}
 
@@ -102,22 +110,32 @@ public class EventOrganizer {
 		this.email = email;
 	}
 
-	public void setWww(String www) {
+	public void setWWW(String www) {
 		this.www = www;
 	}
 
 	public void setContactPerson(String contactPerson) {
 		this.contactPerson = contactPerson;
 	}
-
-	public void setPostcode_ID(Long postcode_ID) {
-		this.postcode_ID = postcode_ID;
+	
+	@Override
+	public String toString() {
+		return "EventOrganizer[id=" + id + ", name=" + name + ", streetAddress="
+				+ streetAddress + ", tel=" + tel + ", email=" + email
+				+ ", www=" + www+ ", contactPerson=" + contactPerson + ", postcode=" + postcode + "]";
 	}
 
-	
-	public void setEventOrgs(List<Event> eventOrgs) {
-		this.eventOrgs = eventOrgs;
-	}
+	public EventOrganizer(Long id, Postcode postcode, String name, String streetAddress,
+			String tel, String email, String www, String contactPerson) {
 
-	
+		super();
+		this.id = id;
+		this.postcode = postcode;
+		this.name = name;
+		this.streetAddress = streetAddress;
+		this.tel = tel;
+		this.email = email;
+		this.www = www;
+		this.contactPerson = contactPerson;
+	}
 }
