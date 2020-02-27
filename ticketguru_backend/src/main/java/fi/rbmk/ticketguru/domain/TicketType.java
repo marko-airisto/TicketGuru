@@ -28,7 +28,7 @@ public class TicketType {
 	private String name;
 	
 	@OneToMany(mappedBy = "ticketType")
-	private List<EventTicket> eventTicket;
+	private List<EventTicket> eventTickets;
 
 	public TicketType() {
 	}
@@ -53,11 +53,7 @@ public class TicketType {
 	}
 
 	public List<EventTicket> getEventTickets() {
-		return eventTicket;
-	}
-
-	public void setEventTickets(List<EventTicket> eventTicket) {
-		this.eventTicket = eventTicket;
+		return eventTickets;
 	}
 
 }
