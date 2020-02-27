@@ -37,12 +37,12 @@ public class EventOrganizer {
 		super();
 	}
 
-	public Long getEventOrganizer_ID() {
+	public Long getID() {
 		return id;
 	}
 
-	public void setEventOrganizer_ID(Long eventOrganizer_ID) {
-		this.id = eventOrganizer_ID;
+	public void setID(Long id) {
+		this.id = id;
 	}
 
 	public Postcode getPostcode() {
@@ -103,16 +103,16 @@ public class EventOrganizer {
 
 	@Override
 	public String toString() {
-		return "EventOrganizers[eventOrganizer_ID=" + id + ", companyName=" + companyName + ", companyStreetAddress="
+		return "EventOrganizers[id=" + id + ", companyName=" + companyName + ", companyStreetAddress="
 				+ companyStreetAddress + ", companyTel=" + companyTel + ", companyEmail=" + companyEmail
 				+ ", companyWWW=" + companyWWW + ", companyContactPerson=" + companyContactPerson + ", postcode_ID="
 				+ postcode + "]";
 	}
 
-	public EventOrganizer(Long eventOrganizer_ID, Postcode postcode, String companyName, String companyStreetAddress,
+	public EventOrganizer(Long id, Postcode postcode, String companyName, String companyStreetAddress,
 			String companyTel, String companyEmail, String companyWWW, String companyContactPerson) {
 		super();
-		this.id = eventOrganizer_ID;
+		this.id = id;
 		this.postcode = postcode;
 		this.companyName = companyName;
 		this.companyStreetAddress = companyStreetAddress;

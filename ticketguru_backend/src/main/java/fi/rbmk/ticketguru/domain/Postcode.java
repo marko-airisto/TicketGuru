@@ -19,10 +19,10 @@ public class Postcode {
 	private String city;
 	private String country;
 
-	@OneToMany(mappedBy = "id")
+	@OneToMany(mappedBy = "postcode")
 	private List<Venue> venues;
 
-	@OneToMany(mappedBy = "id")
+	@OneToMany(mappedBy = "postcode")
 	private List<EventOrganizer> eventOrganizers;
 
 	public Postcode() {
