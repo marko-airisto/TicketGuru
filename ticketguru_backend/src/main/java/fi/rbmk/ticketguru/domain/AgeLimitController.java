@@ -24,7 +24,15 @@ class AgeLimitController {
 	@GetMapping
 	public List<AgeLimit> ageLimitListRest() {
 		return (List<AgeLimit>) alrepository.findAll();
-	}
+    }
+    
+    // Get single AgeLimit
+    @GetMapping("/{id}")
+    AgeLimit getAgeLimit(@PathVariable Long id) {
+        AgeLimit ageLimit = alrepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        return ageLimit;
+    }
 	
 	@PostMapping
     AgeLimit ageLimit(@RequestBody AgeLimit ageLimit) {

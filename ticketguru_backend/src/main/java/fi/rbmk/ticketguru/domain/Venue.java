@@ -60,7 +60,7 @@ public class Venue {
     @Column(name = "contactPerson")
     private String contactPerson;
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "venue")
     private List<Event> events;
 
     public Venue() {

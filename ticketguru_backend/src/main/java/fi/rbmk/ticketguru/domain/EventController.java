@@ -19,6 +19,7 @@ import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 
 import java.net.URISyntaxException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,11 +86,11 @@ class EventController {
                 if(newEvent.getName() != "") { event.setName(newEvent.getName()); }
                 if(newEvent.getEventType() != null) { event.setEventType(newEvent.getEventType()); }
                 if(newEvent.getDateTime() != null) { event.setDateTime(newEvent.getDateTime()); }
-                if(newEvent.getEventOrganizer() != null){ event.setEventOrganizer(newEvent.getEventOrganizer()); }
+                if(newEvent.getEventOrganizer() != null) { event.setEventOrganizer(newEvent.getEventOrganizer()); }
                 if(newEvent.getVenue() != null) { event.setVenue(newEvent.getVenue()); }
                 if(newEvent.getTicketCapacity() != null) { event.setTicketCapacity(newEvent.getTicketCapacity()); }
                 if(newEvent.getAgeLimit() != null) { event.setAgeLimit(newEvent.getAgeLimit()); }
-                if(newEvent.getInfo() != "") { event.setInfo(newEvent.getInfo()); }
+                if(newEvent.getInfo() != null) { event.setInfo(newEvent.getInfo()); }
                 return eRepository.save(event);
             }).orElseGet(() -> {
                 return eRepository.save(newEvent);
@@ -101,7 +102,8 @@ class EventController {
     }
     // Delete event
     @DeleteMapping("/{id}")
-    void deleteEvent(@PathVariable Long id) {
+    ResponseEntity<?> deleteEvent(@PathVariable Long id) {
         eRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
