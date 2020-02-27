@@ -28,7 +28,7 @@ public class Ticket {
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "eventTicket_ID")
-    private EventTickets eventTickets;
+    private EventTicket eventTicket;
 
     @ManyToOne
     @JsonIgnore
@@ -49,8 +49,8 @@ public class Ticket {
     public Ticket(Ticket ticket) {
     }
 
-    public Ticket(EventTickets eventTickets, TicketStatus ticketStatus, String checkSum) {
-        this.eventTickets = eventTickets;
+    public Ticket(EventTicket eventTicket, TicketStatus ticketStatus, String checkSum) {
+        this.eventTicket = eventTicket;
         this.ticketStatus = ticketStatus;
         this.checkSum = checkSum;
     }
@@ -60,8 +60,8 @@ public class Ticket {
         return this.id;
     }
 
-    public EventTickets getEventTicket() {
-        return this.eventTickets;
+    public EventTicket getEventTicket() {
+        return this.eventTicket;
     }
 
     public TicketStatus getTicketStatus() {
@@ -77,8 +77,8 @@ public class Ticket {
     }
 
     // Setters
-    public void setEventTicket(EventTickets eventTickets) {
-        this.eventTickets = eventTickets;
+    public void setEventTicket(EventTicket eventTicket) {
+        this.eventTicket = eventTicket;
     }
 
     public void setTicketStatus(TicketStatus ticketStatus) {

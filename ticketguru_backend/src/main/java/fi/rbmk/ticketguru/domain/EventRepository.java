@@ -6,8 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 public interface EventRepository extends CrudRepository<Event, Long> {
 
     List<Event> findByName(String name);
-    List<Event> findByEventType(EventTypes eventTypes);
-    List<Event> findByEventOrganizer(EventOrganizers eventOrganizers);
+    List<Event> findByEventType(EventType eventType);
+    List<Event> findByEventOrganizer(EventOrganizer eventOrganizer);
     List<Event> findByVenue(Venue venue);
     List<Event> findAll();
 }

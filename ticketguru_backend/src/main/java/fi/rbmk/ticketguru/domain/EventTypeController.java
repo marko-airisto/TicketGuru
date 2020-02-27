@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-public class EventOrganizersController {
+public class EventTypeController {
 
 	@Autowired
-    private EventOrganizersRepository eorepository;
+    private EventTypeRepository etrepository;
 
-    @GetMapping("api/eventOrganizers")
+    @GetMapping("api/eventTypes")
 
-    public List<EventOrganizers> evenOrganizersListRest() {
-        return (List<EventOrganizers>) eorepository.findAll();
+    public List<EventType> evenTypesListRest() {
+        return (List<EventType>) etrepository.findAll();
     }
 	
 }

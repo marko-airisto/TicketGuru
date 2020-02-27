@@ -6,12 +6,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
-public interface EventTypesRepository extends CrudRepository<EventTypes, Long> {
-
-	List<EventTypes> findByEventTypes(@Param("name") String name );
+public interface EventOrganizerRepository extends CrudRepository<EventOrganizer, Long> {
 	
-	// List<EventOrganizer> findByEventName(String eventName);
-
-	// List<EventOrganizer> findByEventInfo(String eventInfo);
-
+	List<EventOrganizer> findByName(@Param("name") String name);
+	
 }

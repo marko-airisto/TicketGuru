@@ -16,7 +16,7 @@ import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "EventTypes")
-public class EventOrganizers {
+public class EventOrganizer {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -39,10 +39,10 @@ public class EventOrganizers {
 	@OneToMany(cascade= CascadeType.ALL, mappedBy = "eventOrganizers")
 	private List<Event> event_orgs;
 	
-	public EventOrganizers() {
+	public EventOrganizer() {
 	}
 
-	public EventOrganizers(EventOrganizers eventOrganizers) {
+	public EventOrganizer(EventOrganizer eventOrganizer) {
 	}
 	
 	public Long getId() {

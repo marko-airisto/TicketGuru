@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-public class EventTicketsController {
+public class EventTicketController {
 
 	@Autowired
-    private EventTicketsRepository etktrepository;
+    private EventTicketRepository etktrepository;
 
     @GetMapping("api/eventTickets")
 
-    public List<EventTickets> evenTicketsListRest() {
-        return (List<EventTickets>) etktrepository.findAll();
+    public List<EventTicket> evenTicketsListRest() {
+        return (List<EventTicket>) etktrepository.findAll();
     }
 	
 }
