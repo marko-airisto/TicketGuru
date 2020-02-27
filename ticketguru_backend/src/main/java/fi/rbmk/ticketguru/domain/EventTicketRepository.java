@@ -7,7 +7,7 @@ public interface EventTicketRepository extends CrudRepository<EventTicket, Long>
 
 	// EventTicket findByEventTicketId(Long id);
 
-	// List<EventTicket> findByEvent_ID(Long event_ID);
+	List<EventTicket> findByEvent(Event event);
 
 	// List<EventTicket> findByTicketType_ID(Long ticketType_ID);
 

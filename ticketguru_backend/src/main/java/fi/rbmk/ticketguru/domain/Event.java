@@ -2,16 +2,17 @@ package fi.rbmk.ticketguru.domain;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
-
+import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -31,30 +32,37 @@ public class Event {
     @Column(name = "name")
     private String name;
 
-    @NotEmpty(message = "Event type is required")
+    //@NotNull(message = "Event type is required")
+    @JsonIgnore
     @ManyToOne // Relaatio
     @JoinColumn(name = "eventType_ID") // Mitä kenttää tietokannassa viitataan
     private EventType eventType; // Huomatkaa että FK tyyppiset kentät ovat objektityyppi, ei string, long tai int
 
-    @NotEmpty(message = "Event datetime is required")
+    //@NotNull(message = "Event datetime is required")
     @Column(name = "dateTime")
-    private LocalDateTime dateTime; // Aikaleimoihin joissa vaaditaan sekä päivä että kellonaika käytetään LocalDateTime tyyppiä
+    //@JsonFormat(pattern = "YYYY-MM-dd HH:mm")
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private LocalDateTime dateTime; // Aikaleimoihin joissa vaaditaan sekä päivä että kellonaika käytetään
+                                    // LocalDateTime tyyppiä
 
-    @NotEmpty(message = "Event organizer is required")
+    //@NotNull(message = "Event organizer is required")
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "eventOrganizer_ID")
     private EventOrganizer eventOrganizer;
 
-    @NotEmpty(message = "Event venue is required")
+    //@NotNull(message = "Event venue is required")
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "venue_ID")
     private Venue venue;
 
-    @NotEmpty(message = "Event ticket capacity is required")
+    @NotNull(message = "Event ticket capacity is required")
     @Column(name = "ticketCapacity")
     private Long ticketCapacity;
 
-    @NotEmpty(message = "Age limit must be set")
+    //@NotNull(message = "Age limit must be set")
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "ageLimit_ID")
     private AgeLimit ageLimit; 
@@ -63,7 +71,8 @@ public class Event {
     @Column(name = "info")
     private String info;
 
-    @OneToMany(mappedBy = "id")
+    @JsonIgnore
+    @OneToMany(mappedBy = "event")
     private List<EventTicket> eventTickets;
 
     // Tyhjä construktori

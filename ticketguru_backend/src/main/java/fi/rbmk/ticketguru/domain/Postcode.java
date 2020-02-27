@@ -2,7 +2,6 @@ package fi.rbmk.ticketguru.domain;
 
 import java.util.List;
 import javax.persistence.Column;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,10 +27,13 @@ public class Postcode {
 	@Length(max = 250)
 	@Column(name = "country")
 	private String country;
-	
-	@OneToMany(cascade= CascadeType.ALL, mappedBy = "postcode_ID")
-	private List<Venue> venue;
-	
+
+	@OneToMany(mappedBy = "postcode")
+	private List<Venue> venues;
+
+	@OneToMany(mappedBy = "postcode")
+	private List<EventOrganizer> eventOrganizers;
+
 	public Postcode() {
 		super();
 	}
@@ -45,7 +47,7 @@ public class Postcode {
 
 	// Getterit
 	
-	public Long getPostcode_ID() {
+	public Long getID() {
 		return id;
 	}
 
@@ -58,13 +60,17 @@ public class Postcode {
 	}
 
 	public List<Venue> getVenues() {
-		return venue;
+		return venues;
+	}
+
+	public List<EventOrganizer> getEventOrganizers() {
+		return eventOrganizers;
 	}
 
 	// Setterit
 	
-	public void setPostcode_ID(Long postcode_ID) {
-		this.id = postcode_ID;
+	public void setID(Long id) {
+		this.id = id;
 	}
 
 	public void setCity(String city) {
@@ -73,10 +79,6 @@ public class Postcode {
 
 	public void setCountry(String country) {
 		this.country = country;
-	}
-
-	public void setVenues(List<Venue> venue) {
-		this.venue = venue;
 	}
 
 	@Override

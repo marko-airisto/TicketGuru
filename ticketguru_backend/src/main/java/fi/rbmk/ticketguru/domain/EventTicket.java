@@ -1,7 +1,9 @@
 package fi.rbmk.ticketguru.domain;
 
+
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +17,8 @@ import javax.persistence.JoinColumn;
 public class EventTicket {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "eventTicket_ID")
 	private Long id;
 	private Long ticketCount, price;
 	

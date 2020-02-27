@@ -15,9 +15,8 @@ public class EventType {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	private String eventTypeName, eventTypeInfo;
-	
-	
-	@OneToMany(cascade= CascadeType.ALL, mappedBy = "id")
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "eventType")
 	private List<Event> events;
 	
 	public EventType() {
