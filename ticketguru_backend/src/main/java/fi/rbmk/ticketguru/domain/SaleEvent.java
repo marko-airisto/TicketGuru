@@ -32,7 +32,7 @@ public class SaleEvent {
 	@Column(name = "user_ID")
 	private Long user;
 	
-	@OneToMany(cascade= CascadeType.ALL, mappedBy = "saleEvent_ID")
+	@OneToMany(cascade= CascadeType.ALL, mappedBy = "saleEvent")
 	private List<SaleRow> saleRows;
 	
 	public SaleEvent() {

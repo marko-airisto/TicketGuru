@@ -25,16 +25,13 @@ public class SaleRow {
 	@Column(name = "saleRow_ID")
 	private Long id;
 	
-	@NotEmpty(message = "Sale event is required")
-	@Column(name = "saleEvent_ID")
-	private SaleEvent saleEvent;
-	
-	
 	@Column(name = "Discount")
 	private Long discount; // Pitäisikö olla % vai alennus euroina vai...? Varmaan % olisi paras -Mika
 
-	@OneToMany(cascade= CascadeType.ALL, mappedBy = "saleEvent_ID")
-	private List<SaleEvent> saleEvents;
+	@NotEmpty(message = "Sale event is required")	
+	@ManyToOne
+	@JoinColumn(name = "saleEvent_ID")
+	private SaleEvent saleEvent;
 	
 	// Miten tehdään OneToOne liittymä (Yksi SaleRow vastaa yhtä Tickets -taulun riviä)
 	// OneToOne liittymä voidaan tehdä vaikka kuten alla -Mika
@@ -46,25 +43,21 @@ public class SaleRow {
 		super();
 	}
 	
-	public SaleRow(Long id, SaleEvent saleEvent_ID, Ticket ticket, Long discount) {
+	public SaleRow(Long id, SaleEvent saleEvent, Ticket ticket, Long discount) {
 		super();
 		this.id = id;
-		this.saleEvent = saleEvent_ID;
+		this.saleEvent = saleEvent;
 		this.ticket = ticket;
 		this.discount = discount;
 	}
 
 	// Getterit
 
-	public List<SaleEvent> getSaleEvents() {
-		return saleEvents;
+	public SaleEvent getSaleEvent() {
+		return saleEvent;
 	}
 
-	public Long getSaleRow_ID() {
-		return id;
-	}
-
-	public Long getSaleEvent_ID() {
+	public Long getID() {
 		return id;
 	}
 
@@ -76,15 +69,15 @@ public class SaleRow {
 		return discount;
 	}
 
-	public void setSaleEvents(List<SaleEvent> saleEvents) {
-		this.saleEvents = saleEvents;
+	public void setSaleEvent(SaleEvent saleEvent) {
+		this.saleEvent = saleEvent;
 	}
 	
 	// Setterit
 	
 	
-	public void setSaleRow_ID(Long saleRow_ID) {
-		this.id = saleRow_ID;
+	public void setID(Long id) {
+		this.id = id;
 	}
 
 	public void setSaleEvent_ID(SaleEvent saleEvent) {
@@ -102,8 +95,8 @@ public class SaleRow {
 	
 	@Override
 	public String toString() {
-		return "SaleRows [saleRow_ID=" + id + ", saleEvent_ID=" + saleEvent + ", ticket_ID=" + ticket
-				+ ", discount=" + discount + ", saleEvents=" + saleEvents + "]";
+		return "SaleRows [id=" + id + ", saleEvent=" + saleEvent + ", ticket=" + ticket
+				+ ", discount=" + discount + "]";
 	}
 
 }
