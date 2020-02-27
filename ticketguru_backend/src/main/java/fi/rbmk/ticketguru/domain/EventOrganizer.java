@@ -17,7 +17,6 @@ import javax.persistence.JoinColumn;
 @Entity
 @Table(name = "EventOrganizers")
 public class EventOrganizer {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "eventOrganizer_ID")
@@ -32,17 +31,13 @@ public class EventOrganizer {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "eventOrganizer")
 	private List<Event> events;
-
+	
 	public EventOrganizer() {
 		super();
 	}
 
 	public Long getID() {
 		return id;
-	}
-
-	public void setID(Long id) {
-		this.id = id;
 	}
 
 	public Postcode getPostcode() {
@@ -60,23 +55,23 @@ public class EventOrganizer {
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
-
+	
 	public String getCompanyStreetAddress() {
 		return companyStreetAddress;
 	}
 
 	public void setCompanyStreetAddress(String companyStreetAddress) {
 		this.companyStreetAddress = companyStreetAddress;
-	}
-
+	}	
+	
 	public String getCompanyTel() {
 		return companyTel;
 	}
 
 	public void setCompanyTel(String companyTel) {
 		this.companyTel = companyTel;
-	}
-
+	}	
+	
 	public String getCompanyEmail() {
 		return companyEmail;
 	}
@@ -100,17 +95,19 @@ public class EventOrganizer {
 	public void setCompanyContactPerson(String companyContactPerson) {
 		this.companyContactPerson = companyContactPerson;
 	}
-
+	
+	
+	
 	@Override
 	public String toString() {
 		return "EventOrganizers[id=" + id + ", companyName=" + companyName + ", companyStreetAddress="
 				+ companyStreetAddress + ", companyTel=" + companyTel + ", companyEmail=" + companyEmail
-				+ ", companyWWW=" + companyWWW + ", companyContactPerson=" + companyContactPerson + ", postcode_ID="
-				+ postcode + "]";
+				+ ", companyWWW=" + companyWWW+ ", companyContactPerson=" + companyContactPerson + ", postcode_ID=" + postcode + "]";
 	}
 
 	public EventOrganizer(Long id, Postcode postcode, String companyName, String companyStreetAddress,
 			String companyTel, String companyEmail, String companyWWW, String companyContactPerson) {
+
 		super();
 		this.id = id;
 		this.postcode = postcode;
@@ -121,5 +118,5 @@ public class EventOrganizer {
 		this.companyWWW = companyWWW;
 		this.companyContactPerson = companyContactPerson;
 	}
-
+	
 }
