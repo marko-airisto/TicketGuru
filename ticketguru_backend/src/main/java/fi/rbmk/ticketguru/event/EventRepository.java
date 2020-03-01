@@ -1,4 +1,10 @@
-package fi.rbmk.ticketguru.domain;
+package fi.rbmk.ticketguru.event;
+
+import fi.rbmk.ticketguru.domain.AgeLimit;
+import fi.rbmk.ticketguru.domain.EventOrganizer;
+import fi.rbmk.ticketguru.domain.EventTicket;
+import fi.rbmk.ticketguru.domain.EventType;
+import fi.rbmk.ticketguru.domain.Venue;
 
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;

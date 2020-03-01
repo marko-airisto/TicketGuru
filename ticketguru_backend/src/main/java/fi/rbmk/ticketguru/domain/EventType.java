@@ -1,5 +1,7 @@
 package fi.rbmk.ticketguru.domain;
 
+import fi.rbmk.ticketguru.event.Event;
+
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.hibernate.validator.constraints.Length;
 
 @Entity
@@ -31,6 +36,7 @@ public class EventType {
 	@Column(name = "info")
 	private String info;
 	
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "eventType")
 	private List<Event> events;
 	
