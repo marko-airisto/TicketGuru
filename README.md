@@ -87,3 +87,7 @@ Esimerkillinen tapahtuman luonti/editointi näkymä.
 ## Tietohakemisto
 
 - [Tietohakemisto](https://github.com/marko-airisto/TicketGuru/blob/master/TicketGuruDB.md)
+
+## REST API dokumentaatio
+
+- [REST API](https://github.com/marko-airisto/TicketGuru/tree/master/documentation/API)

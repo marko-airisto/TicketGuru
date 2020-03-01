@@ -1,61 +1,64 @@
 package fi.rbmk.ticketguru.domain;
 
+import java.time.LocalDateTime;
 import java.util.List;
+
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
-@Table(name = "SaleRows")
 public class SaleRow {
-
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long saleRow_ID;
-	private Long saleEvent_ID;
-	// private Long ticket_ID;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "saleRow_ID")
+	private Long id;
+	
+	@Column(name = "Discount")
 	private Long discount; // Pitäisikö olla % vai alennus euroina vai...? Varmaan % olisi paras -Mika
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "saleEvent_ID")
-	private List<SaleEvent> saleEvents;
-
-	// Miten tehdään OneToOne liittymä (Yksi SaleRow vastaa yhtä Tickets -taulun
-	// riviä)
+	@NotEmpty(message = "Sale event is required")	
+	@ManyToOne
+	@JoinColumn(name = "saleEvent_ID")
+	private SaleEvent saleEvent;
+	
+	// Miten tehdään OneToOne liittymä (Yksi SaleRow vastaa yhtä Tickets -taulun riviä)
 	// OneToOne liittymä voidaan tehdä vaikka kuten alla -Mika
 	@OneToOne
 	@JoinColumn(name = "ticket_ID", referencedColumnName = "ticket_ID")
 	private Ticket ticket;
-
+	
 	public SaleRow() {
 		super();
 	}
-
-	public SaleRow(Long saleRow_ID, Long saleEvent_ID, Ticket ticket, Long discount) {
+	
+	public SaleRow(Long id, SaleEvent saleEvent, Ticket ticket, Long discount) {
 		super();
-		this.saleRow_ID = saleRow_ID;
-		this.saleEvent_ID = saleEvent_ID;
+		this.id = id;
+		this.saleEvent = saleEvent;
 		this.ticket = ticket;
 		this.discount = discount;
 	}
 
 	// Getterit
 
-	public List<SaleEvent> getSaleEvents() {
-		return saleEvents;
+	public SaleEvent getSaleEvent() {
+		return saleEvent;
 	}
 
-	public Long getSaleRow_ID() {
-		return saleRow_ID;
-	}
-
-	public Long getSaleEvent_ID() {
-		return saleEvent_ID;
+	public Long getID() {
+		return id;
 	}
 
 	public Ticket getTicket() {
@@ -66,18 +69,19 @@ public class SaleRow {
 		return discount;
 	}
 
-	public void setSaleEvents(List<SaleEvent> saleEvents) {
-		this.saleEvents = saleEvents;
+	public void setSaleEvent(SaleEvent saleEvent) {
+		this.saleEvent = saleEvent;
 	}
-
+	
 	// Setterit
-
-	public void setSaleRow_ID(Long saleRow_ID) {
-		this.saleRow_ID = saleRow_ID;
+	
+	
+	public void setID(Long id) {
+		this.id = id;
 	}
 
-	public void setSaleEvent_ID(Long saleEvent_ID) {
-		this.saleEvent_ID = saleEvent_ID;
+	public void setSaleEvent_ID(SaleEvent saleEvent) {
+		this.saleEvent = saleEvent;
 	}
 
 	public void setTicket(Ticket ticket) {
@@ -87,11 +91,13 @@ public class SaleRow {
 	public void setDiscount(Long discount) {
 		this.discount = discount;
 	}
-
+	
+	
 	@Override
 	public String toString() {
-		return "SaleRows [saleRow_ID=" + saleRow_ID + ", saleEvent_ID=" + saleEvent_ID + ", ticket_ID=" + ticket
-				+ ", discount=" + discount + ", saleEvents=" + saleEvents + "]";
+		return "SaleRows [id=" + id + ", saleEvent=" + saleEvent + ", ticket=" + ticket
+				+ ", discount=" + discount + "]";
 	}
 
 }
+

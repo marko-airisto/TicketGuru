@@ -58,5 +58,17 @@ INSERT INTO EVENTS
 VALUES
     (
         1, '2020-03-01 20:0:00', 'Ihan pirun kovat bileet', 'Mika koodaa ja muut juopottelee. Kannattaa tulla kauempaakin', 1000, 1, 1, 1, 1
+    );
+
+INSERT INTO TICKET_TYPES
+VALUES
+    (
+        1, 'Aikuisten lippu'
+    );
+
+INSERT INTO EVENT_TICKETS
+VALUES
+    (
+        1, 55, 100, 1, 1
     )
 

@@ -2,67 +2,82 @@ package fi.rbmk.ticketguru.domain;
 
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
-@Table(name = "EventTypes")
 public class EventType {
-
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	private String eventTypeName, eventTypeInfo;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "eventType_ID")
+	private Long id;	
+	
+	@NotEmpty(message = "Event type name is required")
+	@Length(max= 100)
+	@Column(name = "name")
+	private String name;
+	
+	@NotEmpty(message = "Event info is required")
+	@Length(max= 500)
+	@Column(name = "info")
+	private String info;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "eventType")
 	private List<Event> events;
-
+	
 	public EventType() {
-		super();
 	}
-
-	public Long getEventType_ID() {
+	
+	public EventType(EventType eventType) {
+  	}
+  
+  	public EventType(Long id, String name, String info) {
+		super();
+		this.id = id;
+		this.name = name;
+   		this.info = info;
+	}
+  
+	//Getters
+	public Long getId() {
 		return id;
 	}
 
-	public void setEventType_ID(Long eventType_ID) {
-		this.id = eventType_ID;
+	public String getName() {
+		return name;
 	}
 
-	public String getEventTypeName() {
-		return eventTypeName;
+	public String getInfo() {
+		return info;
 	}
 
-	public void setEventTypeName(String eventTypeName) {
-		this.eventTypeName = eventTypeName;
+	public List<Event> getEvents() {
+		return events;
+	}	
+  
+	//Setters
+  	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public String getEventTypeInfo() {
-		return eventTypeInfo;
+	public void setName(String name) {
+		this.name = name;
 	}
-
-	public void setEventTypeInfo(String eventTypeInfo) {
-		this.eventTypeInfo = eventTypeInfo;
+  
+  	public void setInfo(String info) {
+		this.info = info;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "EventTypes[eventType_ID=" + id + ", eventTypeName=" + eventTypeName + ", eventTypeInfo=" + eventTypeInfo
-				+ "]";
+		return "EventType[id=" + id + ", name=" + name + ", info=" + info + "]";
 	}
-
-	public EventType(Long eventType_ID, String eventTypeName, String eventTypeInfo, List<Event> events) {
-		super();
-		this.id = eventType_ID;
-
-		this.eventTypeName = eventTypeName;
-		this.eventTypeInfo = eventTypeInfo;
-
-		this.events = events;
-	}
-
 }

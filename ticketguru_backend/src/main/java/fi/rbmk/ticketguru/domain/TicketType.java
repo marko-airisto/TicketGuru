@@ -56,8 +56,4 @@ public class TicketType {
 		return eventTickets;
 	}
 
-	public void setEventTickets(List<EventTicket> eventTickets) {
-		this.eventTickets = eventTickets;
-	}
-
 }
