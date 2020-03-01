@@ -1,74 +1,136 @@
-INSERT INTO USER_GROUPS
-VALUES
-    (1, 'user');
-INSERT INTO USER_GROUPS
-VALUES
-    (2, 'admin');
-INSERT INTO USER_GROUPS
-VALUES
-    (3, 'boss');
 
-INSERT INTO USERS
-VALUES
-    (1, 'pepe', '$2a$10$/..0qbQN09s20ZVao53j0..hr2dgkS52zVn68b0ZlGcZBzczkoH.y', 1);
-INSERT INTO USERS
-VALUES
-    (2, 'john', '$2a$10$K.vSuwrxuG7arNO7nGkAyuPs0Op4JCDxd7hdhiwpF/egYpePZWYay', 2);
-INSERT INTO USERS
-VALUES
-    (3, 'kuningas', '$2a$10$tG3a9iRmIpPH3Hkj/EwLYetL8i/A6jBJIF4OQZS.UPV14sOmQB9Nq', 3);
+-- USER GROUPS
 
-INSERT INTO EVENT_TYPES
+INSERT INTO UserGroups
+    (name)
 VALUES
-    (1, 'Teatteri', 'Silkkaa teatteria'
+    ('user');
+INSERT INTO UserGroups
+    (name
+    )
+VALUES
+    ('admin');
+INSERT INTO UserGroups
+    (name
+    )
+VALUES
+    ('boss');
+
+-- USERS
+
+INSERT INTO Users
+    (password, name, userGroup_ID)
+VALUES
+    ('$2a$10$/..0qbQN09s20ZVao53j0..hr2dgkS52zVn68b0ZlGcZBzczkoH.y', 'pepe', 1);
+INSERT INTO Users
+    (password, name, userGroup_ID)
+VALUES
+    ('$2a$10$K.vSuwrxuG7arNO7nGkAyuPs0Op4JCDxd7hdhiwpF/egYpePZWYay', 'john', 2);
+INSERT INTO Users
+    (password, name, userGroup_ID)
+VALUES
+    ('$2a$10$tG3a9iRmIpPH3Hkj/EwLYetL8i/A6jBJIF4OQZS.UPV14sOmQB9Nq', 'kuningas', 3);
+
+
+-- EVENTTYPES
+
+INSERT INTO EventTypes
+    (name, info)
+VALUES
+    ('Teatteri', 'Silkkaa teatteria'
 );
 
-INSERT INTO AGE_LIMITS
-VALUES
-    (1, 'K7', 'Tapahtuma kielletty alle 7-vuotiailta');
+-- AGELIMITS
 
-INSERT INTO POSTCODES
+INSERT INTO AgeLimits
+    (name, specifier)
 VALUES
-    (1, 00002, 'Helsinki');
-INSERT INTO POSTCODES
-VALUES
-    (2, 00002, 'Helsinki');
-INSERT INTO POSTCODES
-VALUES
-    (3, 00100, 'Helsinki');
-INSERT INTO POSTCODES
-VALUES
-    (4, 00102, 'Helsinki');
-INSERT INTO POSTCODES
-VALUES
-    (5, 00120, 'Helsinki');
-INSERT INTO POSTCODES
-VALUES
-    (6, 00130, 'Helsinki');
+    ('K7', 'Tapahtuma kielletty alle 7-vuotiailta');
 
-INSERT INTO VENUES
+INSERT INTO AgeLimits
+    (name, specifier)
 VALUES
-    (1, 'Helsingin Teatteri', 'Kekkosenkatu 3', '09 1234566', 'teatteri@teatteri.fi', 'www.helsinginteatteri.com', 'John Wayne', 3);
+    ('K13', 'Tapahtuma kielletty alle 13-vuotiailta');
 
-INSERT INTO EVENT_ORGANIZERS
-VALUES
-    (1, 'GREAT EVENTS OY', 'Tapahtumakatu 16 a 78', '09 7865566', 'great@events.fi', 'www.greatevents.com', 'Texas Ted', 5);
+-- POSTCODES
 
-INSERT INTO EVENTS
+INSERT INTO Postcodes
+    (postcode_ID, city, country)
 VALUES
-    (
-        1, '2020-03-01 20:0:00', 'Ihan pirun kovat bileet', 'Mika koodaa ja muut juopottelee. Kannattaa tulla kauempaakin', 1000, 1, 1, 1, 1
-    );
-
-INSERT INTO TICKET_TYPES
-VALUES
-    (
-        1, 'Aikuisten lippu'
-    );
-
-INSERT INTO EVENT_TICKETS
-VALUES
-    (
-        1, 55, 100, 1, 1
+    (00002, 'Helsinki', 'Finland');
+INSERT INTO Postcodes
+    (postcode_ID, city, country
     )
+VALUES
+    (00100, 'Helsinki', 'Finland');
+INSERT INTO Postcodes
+    (postcode_ID, city, country
+    )
+VALUES
+    (00130, 'Helsinki', 'Finland'
+);
+INSERT INTO Postcodes
+    (postcode_ID, city, country
+    )
+VALUES
+    (00140, 'Helsinki', 'Finland'
+);
+INSERT INTO Postcodes
+    (postcode_ID, city, country
+    )
+VALUES
+    (00150, 'Helsinki', 'Finland'
+);
+INSERT INTO Postcodes
+    (postcode_ID, city, country
+    )
+VALUES
+    (00160, 'Helsinki', 'Finland'
+);
 
+-- VENUES
+
+INSERT INTO Venues
+    (name, streetAddress, postcode_ID, tel, email, www, contactPerson)
+VALUES
+    ('Helsingin Teatteri', 'Kekkosenkatu 3', '00140', '09 1234566', 'teatteri@teatteri.fi', 'www.helsinginteatteri.com', 'John Wayne');
+
+-- EVENTORGANIZERS
+
+INSERT INTO EventOrganizers
+    (name, streetAddress, postcode_ID, tel, email, www, contactPerson)
+VALUES
+    ('GREAT EVENTS OY', 'Tapahtumakatu 16 a 78', '00150', '09 7865566', 'great@events.fi', 'www.greatevents.com', 'Texas Ted');
+
+-- EVENTS
+
+INSERT INTO Events
+    (name, eventType_ID, dateTime, eventOrganizer_ID, venue_ID, ticketCapacity, ageLimit_ID, info)
+VALUES
+    (
+        'Koodari Kemut 2020', 1, '2020-03-01 20:0:00', 1, 1, 1500, 2, 'Mika koodaa ja muut kattelee. Kannattaa tulla kauempaakin'
+    );
+
+-- TICKETTYPES
+
+INSERT INTO TicketTypes
+    (name)
+VALUES
+    (
+        'Aikuisten lippu'
+    );
+INSERT INTO TicketTypes
+    (name)
+VALUES
+    (
+        'Lasten lippu'
+    );
+
+-- EVENTTICKETS
+
+INSERT INTO EventTickets
+    (event_ID, ticketType_ID, ticketCount, price)
+VALUES
+    (
+        1, 2, 1000, 20
+    );
