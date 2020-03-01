@@ -8,7 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource
 public interface EventTypeRepository extends CrudRepository<EventType, Long> {
 
-	List<EventType> findByEventTypes(@Param("name") String name );
+	//List<EventType> findByEventTypes(@Param("name") String name );
 	
 	// List<EventOrganizer> findByEventName(String eventName);
 
