@@ -14,7 +14,7 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
-@Table(name = "TicketStatus")
+@Table(name = "TicketStatuses")
 public class TicketStatus {
 
 	@Id

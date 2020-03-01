@@ -18,6 +18,7 @@ import javax.persistence.OneToOne;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
+@Table(name = "SaleRows")
 public class SaleRow {
 	
 	@Id
