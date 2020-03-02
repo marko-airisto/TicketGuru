@@ -210,6 +210,6 @@ NOT NULL,
   contactPerson VARCHAR
                                                     (150) NULL,
   PRIMARY KEY
-                                                    (Venue_ID)
+                                                    (venue_ID)
 );
 

@@ -1,4 +1,4 @@
-package fi.rbmk.ticketguru.domain;
+package fi.rbmk.ticketguru.userGroup;
 
 import java.util.List;
 
@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
+
+import fi.rbmk.ticketguru.user.User;
 
 @Entity
 @Table(name = "UserGroups")
