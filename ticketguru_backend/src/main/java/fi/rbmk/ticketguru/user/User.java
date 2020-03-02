@@ -10,8 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.hibernate.validator.constraints.Length;
 
 import fi.rbmk.ticketguru.userGroup.UserGroup;
@@ -37,7 +35,6 @@ public class User {
 
 	@NotEmpty(message = "User group is required")
 	@ManyToOne
-	@JsonIgnore
 	@JoinColumn(name = "userGroup_ID")
 	private UserGroup userGroup;
 
