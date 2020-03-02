@@ -1,5 +1,6 @@
-package fi.rbmk.ticketguru.domain;
+package fi.rbmk.ticketguru.eventOrganizer;
 
+import fi.rbmk.ticketguru.domain.Postcode;
 import fi.rbmk.ticketguru.event.Event;
 
 import java.util.List;
