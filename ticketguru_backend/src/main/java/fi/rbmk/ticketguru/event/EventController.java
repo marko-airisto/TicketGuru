@@ -1,4 +1,11 @@
-package fi.rbmk.ticketguru.domain;
+package fi.rbmk.ticketguru.event;
+
+import fi.rbmk.ticketguru.domain.AgeLimit;
+import fi.rbmk.ticketguru.domain.EventOrganizer;
+import fi.rbmk.ticketguru.domain.EventTicket;
+import fi.rbmk.ticketguru.domain.EventType;
+import fi.rbmk.ticketguru.domain.Venue;
+import fi.rbmk.ticketguru.domain.EventTicketResourceAssembler;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -23,9 +30,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(value = "/api/events", produces = "application/hal+json")
+@RequestMapping(value = "/api/events", consumes = "application/json", produces = "application/json")
 class EventController {
 
     @Autowired private EventRepository eRepository;
@@ -50,7 +59,7 @@ class EventController {
         return eAssembler.toModel(event);
     }
     // Get Event age limit
-    // @GetMapping("/{id}")
+    // @GetMapping("/{id}/ageLimit")
     // EntityModel<AgeLimit> getAgeLimit(@PathVariable Long id) {
     //     Event event = eRepository.findById(id)
     //         .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
@@ -69,7 +78,7 @@ class EventController {
     }
     // Create event
     @PostMapping
-    ResponseEntity<?> setEvent(@RequestBody Event event) throws
+    ResponseEntity<?> setEvent(@Valid @RequestBody Event event) throws
         URISyntaxException {
             EntityModel<Event> entityModel = 
             eAssembler.toModel(eRepository.save(event));
@@ -79,7 +88,7 @@ class EventController {
     }
     // Edit event
     @PatchMapping("/{id}")
-    ResponseEntity<?> editEvent(@RequestBody Event newEvent, @PathVariable Long id) throws
+    ResponseEntity<?> editEvent(@Valid @RequestBody Event newEvent, @PathVariable Long id) throws
         URISyntaxException {
         Event updatedEvent = eRepository.findById(id)
             .map(event -> {
@@ -103,6 +112,7 @@ class EventController {
     // Delete event
     @DeleteMapping("/{id}")
     ResponseEntity<?> deleteEvent(@PathVariable Long id) {
+        eRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         eRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
