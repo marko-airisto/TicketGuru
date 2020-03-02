@@ -13,6 +13,8 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
+import fi.rbmk.ticketguru.eventTicket.EventTicket;
+
 @Entity
 @Table(name = "TicketTypes")
 public class TicketType {

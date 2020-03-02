@@ -1,4 +1,4 @@
-package fi.rbmk.ticketguru.domain;
+package fi.rbmk.ticketguru.eventTicket;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;

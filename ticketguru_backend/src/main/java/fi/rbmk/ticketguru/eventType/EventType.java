@@ -1,4 +1,4 @@
-package fi.rbmk.ticketguru.domain;
+package fi.rbmk.ticketguru.eventType;
 
 import fi.rbmk.ticketguru.event.Event;
 
