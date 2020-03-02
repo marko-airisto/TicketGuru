@@ -1,5 +1,7 @@
 package fi.rbmk.ticketguru.domain;
 
+import fi.rbmk.ticketguru.event.Event;
+
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,6 +32,7 @@ public class EventOrganizer {
     @JoinColumn(name = "postcode_ID")
     private Postcode postcode;
 
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "eventOrganizer")
 	private List<Event> events;
 	

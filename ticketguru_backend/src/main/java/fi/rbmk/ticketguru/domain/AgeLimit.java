@@ -1,5 +1,7 @@
 package fi.rbmk.ticketguru.domain;
 
+import fi.rbmk.ticketguru.event.Event;
+
 import java.util.List;
 
 import javax.persistence.Column;
@@ -10,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -31,6 +35,7 @@ public class AgeLimit {
 	@Column(name = "specifier")
 	private String specifier;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "ageLimit")
 	private List<Event> events;
 

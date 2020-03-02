@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-class EventTicketResourceAssembler implements RepresentationModelAssembler<EventTicket, EntityModel<EventTicket>> {
+public class EventTicketResourceAssembler implements RepresentationModelAssembler<EventTicket, EntityModel<EventTicket>> {
     @Override
     public EntityModel<EventTicket> toModel(EventTicket eventTicket) {
         return new EntityModel<>(eventTicket,
