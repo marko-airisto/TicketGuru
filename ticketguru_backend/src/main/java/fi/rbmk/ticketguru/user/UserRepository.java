@@ -1,16 +1,18 @@
-package fi.rbmk.ticketguru.domain;
+package fi.rbmk.ticketguru.user;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+
+import fi.rbmk.ticketguru.userGroup.UserGroup;
 
 @RepositoryRestResource
 public interface UserRepository extends CrudRepository<User, Long> {
 
 	List<User> findByName(String name);
 
-	Optional<User> findById(@Param("id") Long id);
+	List<User> findByUserGroup(UserGroup userGroup);
+
+	List<User> findAll();
 }

@@ -1,4 +1,4 @@
-package fi.rbmk.ticketguru.domain;
+package fi.rbmk.ticketguru.user;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +13,8 @@ import javax.validation.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.validator.constraints.Length;
+
+import fi.rbmk.ticketguru.userGroup.UserGroup;
 
 @Entity
 @Table(name = "Users")
@@ -66,7 +68,7 @@ public class User {
 		return passwordHash;
 	}
 
-	public UserGroup getUserGroup() {
+	public UserGroup getUserGroups() {
 		return userGroup;
 	}
 
@@ -84,7 +86,7 @@ public class User {
 		this.passwordHash = passwordHash;
 	}
 
-	public void setUserGroup(UserGroup userGroup) {
+	public void setUserGroups(UserGroup userGroup) {
 		this.userGroup = userGroup;
 	}
 

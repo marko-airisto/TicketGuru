@@ -34,81 +34,93 @@ import javax.validation.Valid;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(value = "/api/events", consumes = "application/json", produces = "application/json")
+@RequestMapping(value = "/api/events", produces = "application/json")
 class EventController {
 
-    @Autowired private EventRepository eRepository;
-    @Autowired private EventResourceAssembler eAssembler;
-    @Autowired private EventTicketResourceAssembler eTicketAssembler;
-    //@Autowired private AgeLimitResourceAssembler aLimitAssembler;
+    @Autowired
+    private EventRepository eRepository;
+    @Autowired
+    private EventResourceAssembler eAssembler;
+    @Autowired
+    private EventTicketResourceAssembler eTicketAssembler;
+    // @Autowired private AgeLimitResourceAssembler aLimitAssembler;
 
     // Get all Events
     @GetMapping
     CollectionModel<EntityModel<Event>> getAll() {
-        List<EntityModel<Event>> events = eRepository.findAll().stream()
-            .map(eAssembler::toModel)
-            .collect(Collectors.toList());
-        return new CollectionModel<>(events,
-            linkTo(methodOn(EventController.class).getAll()).withSelfRel());
+        List<EntityModel<Event>> events = eRepository.findAll().stream().map(eAssembler::toModel)
+                .collect(Collectors.toList());
+        return new CollectionModel<>(events, linkTo(methodOn(EventController.class).getAll()).withSelfRel());
     }
+
     // Get single Event
     @GetMapping("/{id}")
     EntityModel<Event> getEvent(@PathVariable Long id) {
-        Event event = eRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        Event event = eRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         return eAssembler.toModel(event);
     }
+
     // Get Event age limit
     // @GetMapping("/{id}/ageLimit")
     // EntityModel<AgeLimit> getAgeLimit(@PathVariable Long id) {
-    //     Event event = eRepository.findById(id)
-    //         .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-    //     return aLimitAssembler.toModel(event.getAgeLimit());
+    // Event event = eRepository.findById(id)
+    // .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+    // return aLimitAssembler.toModel(event.getAgeLimit());
     // }
+
     // Get Event tickets
     @GetMapping("/{id}/eventTickets")
     CollectionModel<EntityModel<EventTicket>> getEventTickets(@PathVariable Long id) {
-        Event event = eRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        List<EntityModel<EventTicket>> eventTickets = event.getEventTickets().stream()
-            .map(eTicketAssembler::toModel)
-            .collect(Collectors.toList());
+        Event event = eRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        List<EntityModel<EventTicket>> eventTickets = event.getEventTickets().stream().map(eTicketAssembler::toModel)
+                .collect(Collectors.toList());
         return new CollectionModel<>(eventTickets,
-            linkTo(methodOn(EventController.class).getEventTickets(id)).withSelfRel());
+                linkTo(methodOn(EventController.class).getEventTickets(id)).withSelfRel());
     }
+
     // Create event
     @PostMapping
-    ResponseEntity<?> setEvent(@Valid @RequestBody Event event) throws
-        URISyntaxException {
-            EntityModel<Event> entityModel = 
-            eAssembler.toModel(eRepository.save(event));
-        return ResponseEntity
-            .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
-            .body(entityModel);
+    ResponseEntity<?> setEvent(@Valid @RequestBody Event event) throws URISyntaxException {
+        EntityModel<Event> entityModel = eAssembler.toModel(eRepository.save(event));
+        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
+
     // Edit event
     @PatchMapping("/{id}")
-    ResponseEntity<?> editEvent(@Valid @RequestBody Event newEvent, @PathVariable Long id) throws
-        URISyntaxException {
-        Event updatedEvent = eRepository.findById(id)
-            .map(event -> {
-                if(newEvent.getName() != "") { event.setName(newEvent.getName()); }
-                if(newEvent.getEventType() != null) { event.setEventType(newEvent.getEventType()); }
-                if(newEvent.getDateTime() != null) { event.setDateTime(newEvent.getDateTime()); }
-                if(newEvent.getEventOrganizer() != null) { event.setEventOrganizer(newEvent.getEventOrganizer()); }
-                if(newEvent.getVenue() != null) { event.setVenue(newEvent.getVenue()); }
-                if(newEvent.getTicketCapacity() != null) { event.setTicketCapacity(newEvent.getTicketCapacity()); }
-                if(newEvent.getAgeLimit() != null) { event.setAgeLimit(newEvent.getAgeLimit()); }
-                if(newEvent.getInfo() != null) { event.setInfo(newEvent.getInfo()); }
-                return eRepository.save(event);
-            }).orElseGet(() -> {
-                return eRepository.save(newEvent);
-            });
-            EntityModel<Event> entityModel = eAssembler.toModel(updatedEvent);
-            return ResponseEntity
-                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
-                .body(entityModel);
+    ResponseEntity<?> editEvent(@Valid @RequestBody Event newEvent, @PathVariable Long id) throws URISyntaxException {
+        Event updatedEvent = eRepository.findById(id).map(event -> {
+            if (newEvent.getName() != "") {
+                event.setName(newEvent.getName());
+            }
+            if (newEvent.getEventType() != null) {
+                event.setEventType(newEvent.getEventType());
+            }
+            if (newEvent.getDateTime() != null) {
+                event.setDateTime(newEvent.getDateTime());
+            }
+            if (newEvent.getEventOrganizer() != null) {
+                event.setEventOrganizer(newEvent.getEventOrganizer());
+            }
+            if (newEvent.getVenue() != null) {
+                event.setVenue(newEvent.getVenue());
+            }
+            if (newEvent.getTicketCapacity() != null) {
+                event.setTicketCapacity(newEvent.getTicketCapacity());
+            }
+            if (newEvent.getAgeLimit() != null) {
+                event.setAgeLimit(newEvent.getAgeLimit());
+            }
+            if (newEvent.getInfo() != null) {
+                event.setInfo(newEvent.getInfo());
+            }
+            return eRepository.save(event);
+        }).orElseGet(() -> {
+            return eRepository.save(newEvent);
+        });
+        EntityModel<Event> entityModel = eAssembler.toModel(updatedEvent);
+        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
+
     // Delete event
     @DeleteMapping("/{id}")
     ResponseEntity<?> deleteEvent(@PathVariable Long id) {
