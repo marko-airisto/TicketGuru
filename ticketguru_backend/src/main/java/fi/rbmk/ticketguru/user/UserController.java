@@ -30,11 +30,10 @@ public class UserController {
     @Autowired
     private UserRepository uRepository;
 
-    // @Autowired
+    @Autowired
     private UserResourceAssembler uAssembler;
 
     // Get Users
-
     @GetMapping
     CollectionModel<EntityModel<User>> getAll() {
         List<EntityModel<User>> users = uRepository.findAll().stream().map(uAssembler::toModel)
