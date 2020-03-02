@@ -1,5 +1,7 @@
 package fi.rbmk.ticketguru.domain;
 
+import fi.rbmk.ticketguru.event.Event;
+
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

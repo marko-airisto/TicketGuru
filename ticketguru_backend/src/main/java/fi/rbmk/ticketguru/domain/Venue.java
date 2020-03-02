@@ -1,5 +1,7 @@
 package fi.rbmk.ticketguru.domain;
 
+import fi.rbmk.ticketguru.event.Event;
+
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -59,6 +61,7 @@ public class Venue {
     @Column(name = "contactPerson")
     private String contactPerson;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "venue")
     private List<Event> events;
 
