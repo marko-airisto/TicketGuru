@@ -22,9 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fi.rbmk.ticketguru.userGroup.UserGroup;
-import fi.rbmk.ticketguru.userGroup.UserGroupResourceAssembler;
-
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/api/users", produces = "application/hal+json")
@@ -33,11 +30,10 @@ public class UserController {
     @Autowired
     private UserRepository uRepository;
 
-    @Autowired
+    // @Autowired
     private UserResourceAssembler uAssembler;
 
-    @Autowired
-    private UserGroupResourceAssembler uGroupAssembler;
+    // Get Users
 
     @GetMapping
     CollectionModel<EntityModel<User>> getAll() {
@@ -60,18 +56,6 @@ public class UserController {
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
 
-    // Get user groups
-
-    /*
-     * @GetMapping("/{id}/usergroup") CollectionModel<EntityModel<UserGroup>>
-     * getUserGroups(@PathVariable Long id) { User user =
-     * uRepository.findById(id).orElseThrow(() -> new
-     * ResourceNotFoundException("Invalid ID: " + id)); List<EntityModel<UserGroup>>
-     * userGroups = user.getUserGroup().stream().map(uGroupAssembler::toModel)
-     * .collect(Collectors.toList()); return new CollectionModel<>(userGroups,
-     * linkTo(methodOn(UserController.class).getUserGroups(id)).withSelfRel()); }
-     */
-
     // Edit User
     @PatchMapping("/{id}")
     ResponseEntity<?> editUser(@RequestBody User newUser, @PathVariable Long id) throws URISyntaxException {
@@ -79,8 +63,8 @@ public class UserController {
             if (newUser.getName() != "") {
                 User.setName(newUser.getName());
             }
-            if (newUser.getUserGroup() != null) {
-                User.setUserGroup(newUser.getUserGroup());
+            if (newUser.getUserGroups() != null) {
+                User.setUserGroups(newUser.getUserGroups());
             }
 
             return uRepository.save(User);

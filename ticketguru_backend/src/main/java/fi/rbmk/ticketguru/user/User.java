@@ -68,7 +68,7 @@ public class User {
 		return passwordHash;
 	}
 
-	public UserGroup getUserGroup() {
+	public UserGroup getUserGroups() {
 		return userGroup;
 	}
 
@@ -86,7 +86,7 @@ public class User {
 		this.passwordHash = passwordHash;
 	}
 
-	public void setUserGroup(UserGroup userGroup) {
+	public void setUserGroups(UserGroup userGroup) {
 		this.userGroup = userGroup;
 	}
 

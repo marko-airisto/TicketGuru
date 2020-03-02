@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(value = "/api/userGroups", produces = "application/hal+json")
-class UserGroupController {
+@RequestMapping(value = "/api/usergroups", produces = "application/hal+json")
+public class UserGroupController {
 
     @Autowired
     private UserGroupRepository uGroupRepository;
