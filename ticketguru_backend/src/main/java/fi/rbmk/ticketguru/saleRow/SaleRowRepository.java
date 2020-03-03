@@ -1,4 +1,4 @@
-package fi.rbmk.ticketguru.domain;
+package fi.rbmk.ticketguru.saleRow;
 
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;

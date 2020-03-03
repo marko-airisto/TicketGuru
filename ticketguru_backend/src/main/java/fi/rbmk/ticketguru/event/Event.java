@@ -1,6 +1,6 @@
 package fi.rbmk.ticketguru.event;
 
-import fi.rbmk.ticketguru.domain.AgeLimit;
+import fi.rbmk.ticketguru.ageLimit.AgeLimit;
 import fi.rbmk.ticketguru.domain.Venue;
 import fi.rbmk.ticketguru.eventOrganizer.EventOrganizer;
 import fi.rbmk.ticketguru.eventTicket.EventTicket;

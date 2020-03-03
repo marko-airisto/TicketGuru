@@ -1,4 +1,4 @@
-package fi.rbmk.ticketguru.domain;
+package fi.rbmk.ticketguru.saleRow;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,6 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import org.hibernate.validator.constraints.Length;
+
+import fi.rbmk.ticketguru.domain.Ticket;
+import fi.rbmk.ticketguru.saleEvent.SaleEvent;
 
 @Entity
 @Table(name = "SaleRows")

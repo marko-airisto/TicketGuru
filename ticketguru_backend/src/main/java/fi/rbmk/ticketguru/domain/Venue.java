@@ -1,6 +1,7 @@
 package fi.rbmk.ticketguru.domain;
 
 import fi.rbmk.ticketguru.event.Event;
+import fi.rbmk.ticketguru.postcode.Postcode;
 
 import java.util.List;
 import javax.persistence.Column;
