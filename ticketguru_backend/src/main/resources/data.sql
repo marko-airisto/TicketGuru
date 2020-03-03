@@ -30,6 +30,10 @@ INSERT INTO Users
     (password, name, userGroup_ID, active)
 VALUES
     ('$2a$10$tG3a9iRmIpPH3Hkj/EwLYetL8i/A6jBJIF4OQZS.UPV14sOmQB9Nq', 'kuningas', 3, 1);
+INSERT INTO Users
+    (password, name, userGroup_ID, active)
+VALUES
+    ('keke', 'keke', 1, 0);
 
 
 -- EVENTTYPES

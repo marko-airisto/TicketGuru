@@ -2,7 +2,6 @@ package fi.rbmk.ticketguru.userGroup;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,8 +32,9 @@ public class UserGroup {
 	@Column(name = "name")
 	private String name;
 
+	@NotNull(message = "User group is required")
 	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "userGroup")
+	@OneToMany(mappedBy = "userGroup")
 	private List<User> users;
 
 	public UserGroup() {

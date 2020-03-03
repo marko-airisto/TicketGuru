@@ -8,9 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -33,19 +32,16 @@ public class User {
 	@NotEmpty(message = "Password is required")
 	@Column(name = "password", nullable = false, unique = true)
 	@Length(max = 100)
-	private String passwordHash;
+	private String password;
 
-	@NotEmpty(message = "User group is required")
+	@NotNull(message = "User group is required")
 	@ManyToOne
 	@JoinColumn(name = "userGroup_ID")
 	private UserGroup userGroup;
 
-	@NotEmpty(message = "Active Status is required | unactive = 0 | active = 1")
+	@NotNull(message = "Active Status is required ")
 	@Column(name = "active")
-	@Length(max = 1)
-	@Min(0)
-	@Max(1)
-	private Long active;
+	private Boolean active;
 
 	public User() {
 
@@ -54,9 +50,9 @@ public class User {
 	public User(User user) {
 	}
 
-	public User(String name, String passwordHash, UserGroup userGroup, Long active) {
+	public User(String name, String password, UserGroup userGroup, Boolean active) {
 		this.name = name;
-		this.passwordHash = passwordHash;
+		this.password = password;
 		this.userGroup = userGroup;
 		this.active = active;
 	}
@@ -71,15 +67,15 @@ public class User {
 		return name;
 	}
 
-	public String getPasswordHash() {
-		return passwordHash;
+	public String getPassword() {
+		return password;
 	}
 
 	public UserGroup getUserGroups() {
 		return userGroup;
 	}
 
-	public Long getActive() {
+	public Boolean getActive() {
 		return active;
 	}
 
@@ -93,15 +89,15 @@ public class User {
 		this.name = name;
 	}
 
-	public void setPasswordHash(String passwordHash) {
-		this.passwordHash = passwordHash;
+	public void setPasswor(String password) {
+		this.password = password;
 	}
 
 	public void setUserGroups(UserGroup userGroup) {
 		this.userGroup = userGroup;
 	}
 
-	public void setActive(Long active) {
+	public void setActive(Boolean active) {
 		this.active = active;
 	}
 
