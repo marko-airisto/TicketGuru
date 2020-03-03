@@ -36,7 +36,7 @@ public class SaleEventController {
 		// Get single saleEvent
 	    @GetMapping("/{id}")
 	    EntityModel<SaleEvent> getSaleEvent(@PathVariable Long id) {
-	    	SaleEvent saleEvent = saleEventAssembler.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+	    	SaleEvent saleEvent = saleEventRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
 	        return saleEventAssembler.toModel(saleEvent);
 	    }
 	    
