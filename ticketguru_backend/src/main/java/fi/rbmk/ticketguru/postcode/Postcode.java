@@ -53,8 +53,8 @@ public class Postcode {
 
 	// Getterit
 	
-	public Long getID() {
-		return id;
+	public Long getId() {
+		return this.id;
 	}
 
 	public String getCity() {
