@@ -34,28 +34,28 @@ import javax.validation.Valid;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(value = "/api/events", produces = "application/json")
+@RequestMapping(value = "/api/events", produces = "application/hal+json")
 class EventController {
 
     @Autowired
     private EventRepository eRepository;
     @Autowired
-    private EventResourceAssembler eAssembler;
+    private EventModelAssembler eAssembler;
     @Autowired
     private EventTicketResourceAssembler eTicketAssembler;
     // @Autowired private AgeLimitResourceAssembler aLimitAssembler;
 
-    // Get all Events
+    //Get all Events
     @GetMapping
-    CollectionModel<EntityModel<Event>> getAll() {
-        List<EntityModel<Event>> events = eRepository.findAll().stream().map(eAssembler::toModel)
+    CollectionModel<EventModel> getAll() {
+        List<EventModel> events = eRepository.findAll().stream().map(eAssembler::toModel)
                 .collect(Collectors.toList());
         return new CollectionModel<>(events, linkTo(methodOn(EventController.class).getAll()).withSelfRel());
     }
 
     // Get single Event
     @GetMapping("/{id}")
-    EntityModel<Event> getEvent(@PathVariable Long id) {
+    EventModel getEvent(@PathVariable Long id) {
         Event event = eRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         return eAssembler.toModel(event);
     }
@@ -79,10 +79,11 @@ class EventController {
     }
 
     // Create event
-    @PostMapping
-    ResponseEntity<?> setEvent(@Valid @RequestBody Event event) throws URISyntaxException {
-        EntityModel<Event> entityModel = eAssembler.toModel(eRepository.save(event));
-        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+    @PostMapping(consumes = "application/hal+json")
+    ResponseEntity<?> setEvent(@Valid @RequestBody EventModel eventModel) throws URISyntaxException {
+        //eRepository.save(eventModel);
+        //EventModel eventModel = eAssembler.toModel(eRepository.save(event));
+        return ResponseEntity.ok().body(eventModel);
     }
 
     // Edit event
@@ -117,8 +118,8 @@ class EventController {
         }).orElseGet(() -> {
             return eRepository.save(newEvent);
         });
-        EntityModel<Event> entityModel = eAssembler.toModel(updatedEvent);
-        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+        EventModel eventModel = eAssembler.toModel(updatedEvent);
+        return ResponseEntity.created(eventModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(eventModel);
     }
 
     // Delete event
