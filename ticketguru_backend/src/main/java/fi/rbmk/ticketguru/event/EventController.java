@@ -1,11 +1,11 @@
 package fi.rbmk.ticketguru.event;
 
 import fi.rbmk.ticketguru.domain.AgeLimit;
-import fi.rbmk.ticketguru.domain.EventOrganizer;
-import fi.rbmk.ticketguru.domain.EventTicket;
-import fi.rbmk.ticketguru.domain.EventType;
 import fi.rbmk.ticketguru.domain.Venue;
-import fi.rbmk.ticketguru.domain.EventTicketResourceAssembler;
+import fi.rbmk.ticketguru.eventOrganizer.EventOrganizer;
+import fi.rbmk.ticketguru.eventTicket.EventTicket;
+import fi.rbmk.ticketguru.eventTicket.EventTicketResourceAssembler;
+import fi.rbmk.ticketguru.eventType.EventType;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 

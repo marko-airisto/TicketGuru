@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
+import fi.rbmk.ticketguru.eventOrganizer.EventOrganizer;
+
 @Entity
 @Table(name = "Postcodes")
 public class Postcode {
