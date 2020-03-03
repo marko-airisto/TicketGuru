@@ -1,4 +1,4 @@
-package fi.rbmk.ticketguru.domain;
+package fi.rbmk.ticketguru.ticketType;
 
 import java.util.List;
 
@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -29,6 +31,7 @@ public class TicketType {
 	@Column(name = "name")
 	private String name;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "ticketType")
 	private List<EventTicket> eventTickets;
 
@@ -41,6 +44,8 @@ public class TicketType {
 	public TicketType(String name) {
 		this.name = name;
 	}
+	
+	//Getters
 
 	public Long getId() {
 		return this.id;
@@ -49,6 +54,8 @@ public class TicketType {
 	public String getName() {
 		return this.name;
 	}
+	
+	//Setters
 
 	public void setName(String name) {
 		this.name = name;
