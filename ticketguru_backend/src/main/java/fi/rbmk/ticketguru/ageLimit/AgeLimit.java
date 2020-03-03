@@ -1,6 +1,4 @@
-package fi.rbmk.ticketguru.domain;
-
-import fi.rbmk.ticketguru.event.Event;
+package fi.rbmk.ticketguru.ageLimit;
 
 import java.util.List;
 
@@ -16,6 +14,8 @@ import javax.validation.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.validator.constraints.Length;
+
+import fi.rbmk.ticketguru.event.Event;
 
 @Entity
 @Table(name = "AgeLimits")
@@ -44,7 +44,7 @@ public class AgeLimit {
 
 	public AgeLimit(AgeLimit ageLimit) {
 	}
-
+	
 	public AgeLimit(String name) {
 		this.name = name;
 	}
@@ -53,29 +53,33 @@ public class AgeLimit {
 		this.name = name;
 		this.specifier = specifier;
 	}
+	
+	//Getters
 
 	public Long getId() {
 		return this.id;
 	}
-
+	
 	public String getName() {
 		return this.name;
 	}
-
+	
 	public String getSpecifier() {
 		return this.specifier;
 	}
-
+	
+	public List<Event> getEvents() {
+		return events;
+	}
+	
+	//Setters
+	
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	public void setSpecifier(String specifier) {
 		this.specifier = specifier;
-	}
-
-	public List<Event> getEvents() {
-		return events;
 	}
 
 	public void setEvents(List<Event> events) {

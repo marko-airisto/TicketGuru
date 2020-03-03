@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Length;
 
 import fi.rbmk.ticketguru.eventTicket.EventTicket;
 import fi.rbmk.ticketguru.saleRow.SaleRow;
+import fi.rbmk.ticketguru.ticketStatus.TicketStatus;
 
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -43,7 +44,7 @@ public class Ticket {
     private SaleRow saleRow;
 
     public Ticket() {}
-    
+
     public Ticket(Ticket ticket) {}
 
     public Ticket(EventTicket eventTicket, TicketStatus ticketStatus, String checkSum) {
