@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import org.hibernate.validator.constraints.Length;
 
+import fi.rbmk.ticketguru.saleEvent.SaleEvent;
+
 @Entity
 @Table(name = "SaleRows")
 public class SaleRow {
