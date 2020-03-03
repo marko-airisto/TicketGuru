@@ -1,6 +1,5 @@
 package fi.rbmk.ticketguru.ageLimit;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,19 +34,6 @@ public class AgeLimitController {
     public ResponseEntity<EntityModel<AgeLimit>> one(@PathVariable Long id) {
         return alrepository.findById(id).map(alAssembler::toModel).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-    }
-	
-	@GetMapping
-	public List<AgeLimit> ageLimitListRest() {
-		return (List<AgeLimit>) alrepository.findAll();
-    }
-    
-    // Get single AgeLimit
-    @GetMapping("/{id}")
-    AgeLimit getAgeLimit(@PathVariable Long id) {
-        AgeLimit ageLimit = alrepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        return ageLimit;
     }
 	
 	@PostMapping

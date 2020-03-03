@@ -1,6 +1,5 @@
 package fi.rbmk.ticketguru.ticketStatus;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,19 +34,6 @@ public class TicketStatusController {
     public ResponseEntity<EntityModel<TicketStatus>> one(@PathVariable Long id) {
         return tsrepository.findById(id).map(tsAssembler::toModel).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-    }
-	
-	@GetMapping
-	public List<TicketStatus> ticketStatusListRest() {
-		return (List<TicketStatus>) tsrepository.findAll();
-    }
-    
-    // Get single TicketStatus
-    @GetMapping("/{id}")
-    TicketStatus getTicketStatus(@PathVariable Long id) {
-        TicketStatus ticketStatus = tsrepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        return ticketStatus;
     }
 	
 	@PostMapping
