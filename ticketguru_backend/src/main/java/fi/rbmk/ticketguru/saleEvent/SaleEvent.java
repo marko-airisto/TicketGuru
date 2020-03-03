@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
-import fi.rbmk.ticketguru.domain.SaleRow;
+import fi.rbmk.ticketguru.saleRow.SaleRow;
 
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
