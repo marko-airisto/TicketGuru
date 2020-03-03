@@ -57,39 +57,17 @@ public class Postcode {
 
 	// Getterit
 	
-	public Long getId() {
-		return this.id;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public List<Venue> getVenues() {
-		return venues;
-	}
-
-	public List<EventOrganizer> getEventOrganizers() {
-		return eventOrganizers;
-	}
+	public Long getId() {return this.id;}
+	public String getCity() {return this.city;}
+	public String getCountry() {return this.country;}
+	public List<Venue> getVenues() {return this.venues;}
+	public List<EventOrganizer> getEventOrganizers() {return this.eventOrganizers;}
 
 	// Setterit
 	
-	public void setID(Long id) {
-		this.id = id;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
+	public void setID(Long id) {this.id = id;}
+	public void setCity(String city) {this.city = city;}
+	public void setCountry(String country) {this.country = country;}
 
 	@Override
 	public String toString() {
