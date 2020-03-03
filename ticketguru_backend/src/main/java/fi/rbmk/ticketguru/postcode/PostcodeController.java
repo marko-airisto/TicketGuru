@@ -30,7 +30,7 @@ public class PostcodeController {
 	
 	// Injektoidaan repot
 	@Autowired
-    private PostCodeRepository postcodeRepository;
+    private PostcodeRepository postcodeRepository;
 	@Autowired
     private PostcodeResourceAssembler postcodeAssembler;
 	
