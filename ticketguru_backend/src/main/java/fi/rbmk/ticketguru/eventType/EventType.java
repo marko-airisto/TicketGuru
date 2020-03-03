@@ -18,42 +18,42 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
-@Table(name = "EventType")
+@Table(name = "EventTypes")
 public class EventType {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "eventType_ID")
-	private Long id;	
-	
+	private Long id;
+
 	@NotEmpty(message = "Event type name is required")
-	@Length(max= 100)
+	@Length(max = 100)
 	@Column(name = "name")
 	private String name;
-	
+
 	@NotEmpty(message = "Event info is required")
-	@Length(max= 500)
+	@Length(max = 500)
 	@Column(name = "info")
 	private String info;
-	
+
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "eventType")
 	private List<Event> events;
-	
+
 	public EventType() {
 	}
-	
+
 	public EventType(EventType eventType) {
-  	}
-  
-  	public EventType(Long id, String name, String info) {
+	}
+
+	public EventType(Long id, String name, String info) {
 		super();
 		this.id = id;
 		this.name = name;
-   		this.info = info;
+		this.info = info;
 	}
-  
-	//Getters
+
+	// Getters
 	public Long getId() {
 		return id;
 	}
@@ -68,21 +68,21 @@ public class EventType {
 
 	public List<Event> getEvents() {
 		return events;
-	}	
-  
-	//Setters
-  	public void setId(Long id) {
+	}
+
+	// Setters
+	public void setId(Long id) {
 		this.id = id;
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
-  
-  	public void setInfo(String info) {
+
+	public void setInfo(String info) {
 		this.info = info;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "EventType[id=" + id + ", name=" + name + ", info=" + info + "]";

@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
@@ -38,6 +40,13 @@ public class User {
 	@JoinColumn(name = "userGroup_ID")
 	private UserGroup userGroup;
 
+	@NotEmpty(message = "Active Status is required | unactive = 0 | active = 1")
+	@Column(name = "active")
+	@Length(max = 1)
+	@Min(0)
+	@Max(1)
+	private Long active;
+
 	public User() {
 
 	}
@@ -45,10 +54,11 @@ public class User {
 	public User(User user) {
 	}
 
-	public User(String name, String passwordHash, UserGroup userGroup) {
+	public User(String name, String passwordHash, UserGroup userGroup, Long active) {
 		this.name = name;
 		this.passwordHash = passwordHash;
 		this.userGroup = userGroup;
+		this.active = active;
 	}
 
 	// Getters
@@ -69,6 +79,10 @@ public class User {
 		return userGroup;
 	}
 
+	public Long getActive() {
+		return active;
+	}
+
 	// Setters
 
 	public void setId(Long id) {
@@ -85,6 +99,10 @@ public class User {
 
 	public void setUserGroups(UserGroup userGroup) {
 		this.userGroup = userGroup;
+	}
+
+	public void setActive(Long active) {
+		this.active = active;
 	}
 
 }
