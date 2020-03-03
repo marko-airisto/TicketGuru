@@ -1,7 +1,10 @@
 package fi.rbmk.ticketguru.eventTicket;
 
+import fi.rbmk.ticketguru.domain.Ticket;
 import fi.rbmk.ticketguru.domain.TicketType;
 import fi.rbmk.ticketguru.event.Event;
+
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +13,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.JoinColumn;
 
 @Entity
@@ -32,7 +39,14 @@ public class EventTicket {
     @ManyToOne
     @JoinColumn(name = "ticketType_ID")
     private TicketType ticketType; 
+    
 
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "eventTicket")
+    private List<Ticket> tickets;
+    
+    
     public EventTicket() {
     super();
     }
@@ -40,6 +54,21 @@ public class EventTicket {
     public EventTicket(EventTicket eventTicket) {
     }
 
+    public EventTicket(Event event, TicketType ticketType, Long ticketCount, Long price) {
+        this.event = event;
+        this.ticketType = ticketType;
+        this.ticketCount = ticketCount;
+        this.price = price;
+
+        
+    }
+    
+    public EventTicket(Event event, TicketType ticketType) {
+        this.event = event;
+        this.ticketType = ticketType;
+               
+    }
+    
     // Getters
     public Long getId() {
         return id;
@@ -53,7 +82,7 @@ public class EventTicket {
         return price;
     }
 
-    public Event getEvent() {
+    public Event getEvent_ID() {
         return event;
     }
 
@@ -61,6 +90,8 @@ public class EventTicket {
         return ticketType;
     }
 
+
+    
     //Setters
     public void setId(Long id) {
         this.id = id;
@@ -77,13 +108,9 @@ public class EventTicket {
         this.event = event;
     }
     
-    public void setTicketTypeD(TicketType ticketType) {
+    public void setTicketType(TicketType ticketType) {
         this.ticketType = ticketType;
     }
 
-    @Override
-    public String toString() {
-    return "EventTicket [eventTickets_ID=" + id + ", event=" + event + ", ticketType="
-        + ticketType + ", ticketCount=" + ticketCount + ", price=" + price + "]";
-    }
+//    
 }
