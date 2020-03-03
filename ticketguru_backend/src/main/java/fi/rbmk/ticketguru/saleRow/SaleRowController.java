@@ -1,4 +1,4 @@
-package fi.rbmk.ticketguru.postcode;
+package fi.rbmk.ticketguru.saleRow;
 import java.net.URISyntaxException;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +7,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import fi.rbmk.ticketguru.postcode.Postcode;
+import fi.rbmk.ticketguru.postcode.PostcodeRepository;
+import fi.rbmk.ticketguru.postcode.PostcodeResourceAssembler;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -18,41 +23,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(value = "/api/postcodes", produces = "application/hal+json")
-public class PostcodeController {
+@RequestMapping(value = "/api/saleRows", produces = "application/hal+json")
+public class SaleRowController {
 	
-	// Injektoidaan repo & assembler
 	@Autowired
-    private PostcodeRepository postcodeRepository;
+    private SaleRowRepository salerowRepository;
 	@Autowired
-    private PostcodeResourceAssembler postcodeAssembler;
+    private SaleRowResourceAssembler salerowAssembler;
 	
 	
 	// Get all postcodes
 	@GetMapping()
-    public ResponseEntity<CollectionModel<EntityModel<Postcode>>> findAll() {
-        return ResponseEntity.ok(postcodeAssembler.toCollectionModel(postcodeRepository.findAll()));
+    public ResponseEntity<CollectionModel<EntityModel<SaleRow>>> findAll() {
+        return ResponseEntity.ok(salerowAssembler.toCollectionModel(salerowRepository.findAll()));
     }
 	
 	// Get single postcode
     @GetMapping("/{id}")
-    EntityModel<Postcode> getPostcode(@PathVariable Long id) {
-    	Postcode postcode = postcodeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        return postcodeAssembler.toModel(postcode);
+    EntityModel<SaleRow> getSaleRow(@PathVariable Long id) {
+    	SaleRow saleRow = salerowRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        return salerowAssembler.toModel(saleRow);
     }
     
     // Create postcode
     @PostMapping
-    ResponseEntity<?> setPostcode(@Valid @RequestBody Postcode postcode) throws URISyntaxException {
-        EntityModel<Postcode> entityModel = postcodeAssembler.toModel(postcodeRepository.save(postcode));
+    ResponseEntity<?> setSaleRow(@Valid @RequestBody SaleRow saleRow) throws URISyntaxException {
+        EntityModel<SaleRow> entityModel = salerowAssembler.toModel(salerowRepository.save(saleRow));
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
     
  // Delete postcode
     @DeleteMapping("/{id}")
-    ResponseEntity<?> deletePostcode(@PathVariable Long id) {
-    	postcodeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-    	postcodeRepository.deleteById(id);
+    ResponseEntity<?> deleteSaleRow(@PathVariable Long id) {
+    	salerowRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+    	salerowRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 

@@ -27,27 +27,27 @@ public class SaleEventController {
 		@Autowired
 	    private SaleEventResourceAssembler saleEventAssembler;
 		
-		// Get all postcodes
+		// Get all saleEvents
 		@GetMapping()
 	    public ResponseEntity<CollectionModel<EntityModel<SaleEvent>>> findAll() {
 	        return ResponseEntity.ok(saleEventAssembler.toCollectionModel(saleEventRepository.findAll()));
 	    }
 		
-		// Get single postcode
+		// Get single saleEvent
 	    @GetMapping("/{id}")
 	    EntityModel<SaleEvent> getSaleEvent(@PathVariable Long id) {
 	    	SaleEvent saleEvent = saleEventAssembler.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
 	        return saleEventAssembler.toModel(saleEvent);
 	    }
 	    
-	    // Create postcode
+	    // Create saleEvent
 	    @PostMapping
 	    ResponseEntity<?> setSaleEvent(@Valid @RequestBody SaleEvent saleEvent) throws URISyntaxException {
 	        EntityModel<SaleEvent> entityModel = saleEventAssembler.toModel(saleEventRepository.save(saleEvent));
 	        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
 	    }
 	    
-	 // Delete postcode
+	 // Delete saleEvent
 	    @DeleteMapping("/{id}")
 	    ResponseEntity<?> deleteSaleEvent(@PathVariable Long id) {
 	    	saleEventRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));

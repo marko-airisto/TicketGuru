@@ -5,11 +5,13 @@ import java.util.Optional;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Component;
+
+import fi.rbmk.ticketguru.postcode.Postcode;
 import fi.rbmk.ticketguru.saleEvent.SaleEvent;
 import fi.rbmk.ticketguru.saleEvent.SaleEventController;
 
 @Component
-public class SaleEventResourceAssembler {
+public class SaleEventResourceAssembler implements RepresentationModelAssembler<SaleEvent, EntityModel<SaleEvent>> {
     @Override
 	public EntityModel<SaleEvent> toModel(SaleEvent saleEvent) {
         return new EntityModel<>(saleEvent,
