@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import fi.rbmk.ticketguru.*;
 import fi.rbmk.ticketguru.domain.Venue;
 import fi.rbmk.ticketguru.eventOrganizer.EventOrganizer;
@@ -34,9 +36,11 @@ public class Postcode {
 	@Column(name = "country")
 	private String country;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "postcode")
 	private List<Venue> venues;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "postcode")
 	private List<EventOrganizer> eventOrganizers;
 
