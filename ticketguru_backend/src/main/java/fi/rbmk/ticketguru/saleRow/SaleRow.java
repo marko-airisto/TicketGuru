@@ -56,46 +56,17 @@ public class SaleRow {
 	}
 
 	// Getterit
-
-	public SaleEvent getSaleEvent() {
-		return saleEvent;
-	}
-
-	public Long getID() {
-		return id;
-	}
-
-	public Ticket getTicket() {
-		return ticket;
-	}
-
-	public Long getDiscount() {
-		return discount;
-	}
-
-	public void setSaleEvent(SaleEvent saleEvent) {
-		this.saleEvent = saleEvent;
-	}
+	public SaleEvent getSaleEvent() {return this.saleEvent;}
+	public Long getId() {return this.id;}
+	public Ticket getTicket() {return this.ticket;}
+	public Long getDiscount() {return this.discount;}
+	public void setSaleEvent(SaleEvent saleEvent) {this.saleEvent = saleEvent;}
 	
 	// Setterit
-	
-	
-	public void setID(Long id) {
-		this.id = id;
-	}
-
-	public void setSaleEvent_ID(SaleEvent saleEvent) {
-		this.saleEvent = saleEvent;
-	}
-
-	public void setTicket(Ticket ticket) {
-		this.ticket = ticket;
-	}
-
-	public void setDiscount(Long discount) {
-		this.discount = discount;
-	}
-	
+	public void setID(Long id) {this.id = id;}
+	public void setSaleEvent_ID(SaleEvent saleEvent) {this.saleEvent = saleEvent;}
+	public void setTicket(Ticket ticket) {this.ticket = ticket;}
+	public void setDiscount(Long discount) {this.discount = discount;}
 	
 	@Override
 	public String toString() {
