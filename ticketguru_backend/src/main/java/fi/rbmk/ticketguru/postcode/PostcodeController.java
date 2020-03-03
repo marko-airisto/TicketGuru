@@ -1,19 +1,12 @@
 package fi.rbmk.ticketguru.postcode;
 import java.net.URISyntaxException;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import fi.rbmk.ticketguru.event.Event;
-import fi.rbmk.ticketguru.eventTicket.EventTicket;
-import fi.rbmk.ticketguru.eventTicket.EventTicketRepository;
-import fi.rbmk.ticketguru.eventTicket.EventTicketResourceAssembler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
