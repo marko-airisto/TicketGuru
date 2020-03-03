@@ -1,6 +1,5 @@
 package fi.rbmk.ticketguru.ticketType;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,19 +34,6 @@ public class TicketTypeController {
     public ResponseEntity<EntityModel<TicketType>> one(@PathVariable Long id) {
         return ttrepository.findById(id).map(ttAssembler::toModel).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-    }
-	
-	@GetMapping
-	public List<TicketType> ticketTypeListRest() {
-		return (List<TicketType>) ttrepository.findAll();
-    }
-    
-    // Get single TicketType
-    @GetMapping("/{id}")
-    TicketType getTicketType(@PathVariable Long id) {
-    	TicketType ticketType = ttrepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        return ticketType;
     }
 	
 	@PostMapping
