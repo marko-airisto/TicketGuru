@@ -1,4 +1,4 @@
-package fi.rbmk.ticketguru.domain;
+package fi.rbmk.ticketguru.postcode;
 
 import java.util.List;
 import javax.persistence.Column;
@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
+import fi.rbmk.ticketguru.*;
+import fi.rbmk.ticketguru.domain.Venue;
 import fi.rbmk.ticketguru.eventOrganizer.EventOrganizer;
 
 @Entity
