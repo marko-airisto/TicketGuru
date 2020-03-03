@@ -12,7 +12,7 @@ Create an Event.
 
 **Data constraints**
 
-Provide name of Account to be created.
+Provide name of Event to be created.
 
 ```json
 {
@@ -31,7 +31,7 @@ Provide name of Account to be created.
 
 ```json
 {
-    "name": "Mika koodaa ja muut juopottelee. Kannattaa tulla kauempaakin"
+    "name": "Mika koodaa ja muut kattelee. Kannattaa tulla kauempaakin"
     "eventType": "1"
     "dateTime": "2020-03-01T20:00:00"
     "eventOrganizer": "1"
@@ -53,7 +53,7 @@ Provide name of Account to be created.
 ```json
  {
         "id": 1,
-        "name": "Mika koodaa ja muut juopottelee. Kannattaa tulla kauempaakin",
+        "name": "Mika koodaa ja muut kattelee. Kannattaa tulla kauempaakin",
         "eventType": {
             "eventTypeName": "Silkkaa teatteria",
             "eventTypeInfo": "Teatteri",
