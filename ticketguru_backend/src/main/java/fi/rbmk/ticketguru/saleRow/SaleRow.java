@@ -1,4 +1,4 @@
-package fi.rbmk.ticketguru.domain;
+package fi.rbmk.ticketguru.saleRow;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,6 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import org.hibernate.validator.constraints.Length;
+
+import fi.rbmk.ticketguru.domain.Ticket;
+import fi.rbmk.ticketguru.saleEvent.SaleEvent;
 
 @Entity
 @Table(name = "SaleRows")
@@ -53,46 +56,17 @@ public class SaleRow {
 	}
 
 	// Getterit
-
-	public SaleEvent getSaleEvent() {
-		return saleEvent;
-	}
-
-	public Long getID() {
-		return id;
-	}
-
-	public Ticket getTicket() {
-		return ticket;
-	}
-
-	public Long getDiscount() {
-		return discount;
-	}
-
-	public void setSaleEvent(SaleEvent saleEvent) {
-		this.saleEvent = saleEvent;
-	}
+	public SaleEvent getSaleEvent() {return this.saleEvent;}
+	public Long getId() {return this.id;}
+	public Ticket getTicket() {return this.ticket;}
+	public Long getDiscount() {return this.discount;}
+	public void setSaleEvent(SaleEvent saleEvent) {this.saleEvent = saleEvent;}
 	
 	// Setterit
-	
-	
-	public void setID(Long id) {
-		this.id = id;
-	}
-
-	public void setSaleEvent_ID(SaleEvent saleEvent) {
-		this.saleEvent = saleEvent;
-	}
-
-	public void setTicket(Ticket ticket) {
-		this.ticket = ticket;
-	}
-
-	public void setDiscount(Long discount) {
-		this.discount = discount;
-	}
-	
+	public void setID(Long id) {this.id = id;}
+	public void setSaleEvent_ID(SaleEvent saleEvent) {this.saleEvent = saleEvent;}
+	public void setTicket(Ticket ticket) {this.ticket = ticket;}
+	public void setDiscount(Long discount) {this.discount = discount;}
 	
 	@Override
 	public String toString() {

@@ -1,7 +1,7 @@
 package fi.rbmk.ticketguru.eventTicket;
 
-import fi.rbmk.ticketguru.domain.TicketType;
 import fi.rbmk.ticketguru.event.Event;
+import fi.rbmk.ticketguru.ticketType.TicketType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -1,4 +1,4 @@
-package fi.rbmk.ticketguru.domain;
+package fi.rbmk.ticketguru.saleEvent;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -11,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
+
+import fi.rbmk.ticketguru.saleRow.SaleRow;
+
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -48,40 +51,16 @@ public class SaleEvent {
 	}
 
 	// Getterit
-
-	public Long getSaleEvent_ID() {
-		return id;
-	}
-
-	public Date getSaleEventDateTime() {
-		return dateTime;
-	}
-
-	public Long getUser_ID() {
-		return user;
-	}
-
-	public List<SaleRow> getSaleRows() {
-		return saleRows;
-	}
+	public Long getId() {return this.id;}
+	public Date getSaleEventDateTime() {return this.dateTime;}
+	public Long getUser_ID() {return this.user;}
+	public List<SaleRow> getSaleRows() {return this.saleRows;}
 	
 	// Setterit
-	
-	public void setSaleEvent_ID(Long saleEvent_ID) {
-		this.id = saleEvent_ID;
-	}
-
-	public void setSaleEventDateTime(Date dateTime) {
-		this.dateTime = dateTime;
-	}
-
-	public void setUser_ID(Long user_ID) {
-		this.user = user_ID;
-	}
-
-	public void setSaleRows(List<SaleRow> saleRows) {
-		this.saleRows = saleRows;
-	}
+	public void setSaleEvent_ID(Long saleEvent_ID) {this.id = saleEvent_ID;}
+	public void setSaleEventDateTime(Date dateTime) {this.dateTime = dateTime;}
+	public void setUser_ID(Long user_ID) {this.user = user_ID;}
+	public void setSaleRows(List<SaleRow> saleRows) {this.saleRows = saleRows;}
 
 	@Override
 	public String toString() {

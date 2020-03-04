@@ -1,6 +1,5 @@
-package fi.rbmk.ticketguru.domain;
+package fi.rbmk.ticketguru.ageLimit;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,27 +10,30 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.http.ResponseEntity;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(value = "/api/ageLimits", produces = "application/hal+json")
-class AgeLimitController {
+@RequestMapping(value = "/api/agelimits", produces = "application/hal+json")
+public class AgeLimitController {
 	
 	@Autowired
 	private AgeLimitRepository alrepository;
 	
-	@GetMapping
-	public List<AgeLimit> ageLimitListRest() {
-		return (List<AgeLimit>) alrepository.findAll();
+	@Autowired
+	private AgeLimitResourceAssembler alAssembler;
+	
+	@GetMapping()
+    public ResponseEntity<CollectionModel<EntityModel<AgeLimit>>> findAll() {
+        return ResponseEntity.ok(alAssembler.toCollectionModel(alrepository.findAll()));
     }
     
-    // Get single AgeLimit
-    @GetMapping("/{id}")
-    AgeLimit getAgeLimit(@PathVariable Long id) {
-        AgeLimit ageLimit = alrepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        return ageLimit;
+	@GetMapping("/{id}")
+    public ResponseEntity<EntityModel<AgeLimit>> one(@PathVariable Long id) {
+        return alrepository.findById(id).map(alAssembler::toModel).map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 	
 	@PostMapping

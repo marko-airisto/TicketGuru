@@ -1,4 +1,4 @@
-package fi.rbmk.ticketguru.domain;
+package fi.rbmk.ticketguru.ticketStatus;
 
 import java.util.List;
 
@@ -11,7 +11,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.hibernate.validator.constraints.Length;
+
+import fi.rbmk.ticketguru.domain.Ticket;
 
 @Entity
 @Table(name = "TicketStatuses")
@@ -27,6 +31,7 @@ public class TicketStatus {
 	@Column(name = "name")
 	private String name;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "ticketStatus")
 	private List<Ticket> tickets;
 
@@ -39,6 +44,8 @@ public class TicketStatus {
 	public TicketStatus(String name) {
 		this.name = name;
 	}
+	
+	//Getters
 
 	public Long getId() {
 		return this.id;
@@ -47,13 +54,15 @@ public class TicketStatus {
 	public String getName() {
 		return this.name;
 	}
+	
+	public List<Ticket> getTickets() {
+		return tickets;
+	}
+	
+	//Setters
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public List<Ticket> getTickets() {
-		return tickets;
 	}
 
 	public void setTickets(List<Ticket> tickets) {

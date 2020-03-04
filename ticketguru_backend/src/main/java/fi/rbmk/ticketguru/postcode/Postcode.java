@@ -1,4 +1,4 @@
-package fi.rbmk.ticketguru.domain;
+package fi.rbmk.ticketguru.postcode;
 
 import java.util.List;
 import javax.persistence.Column;
@@ -11,6 +11,10 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import fi.rbmk.ticketguru.*;
+import fi.rbmk.ticketguru.domain.Venue;
 import fi.rbmk.ticketguru.eventOrganizer.EventOrganizer;
 
 @Entity
@@ -32,9 +36,11 @@ public class Postcode {
 	@Column(name = "country")
 	private String country;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "postcode")
 	private List<Venue> venues;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "postcode")
 	private List<EventOrganizer> eventOrganizers;
 
@@ -51,39 +57,17 @@ public class Postcode {
 
 	// Getterit
 	
-	public Long getID() {
-		return id;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public List<Venue> getVenues() {
-		return venues;
-	}
-
-	public List<EventOrganizer> getEventOrganizers() {
-		return eventOrganizers;
-	}
+	public Long getId() {return this.id;}
+	public String getCity() {return this.city;}
+	public String getCountry() {return this.country;}
+	public List<Venue> getVenues() {return this.venues;}
+	public List<EventOrganizer> getEventOrganizers() {return this.eventOrganizers;}
 
 	// Setterit
 	
-	public void setID(Long id) {
-		this.id = id;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
+	public void setID(Long id) {this.id = id;}
+	public void setCity(String city) {this.city = city;}
+	public void setCountry(String country) {this.country = country;}
 
 	@Override
 	public String toString() {
