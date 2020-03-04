@@ -130,6 +130,10 @@ VALUES
         'Lasten lippu'
     );
 
+-- TICKETSTATUSES
+
+INSERT INTO TicketStatuses (name) VALUES ('voimassa');
+
 -- EVENTTICKETS
 
 INSERT INTO EventTickets
@@ -138,3 +142,15 @@ VALUES
     (
         1, 2, 1000, 20
     );
+
+-- TICKETS
+
+-- INSERT INTO Tickets (eventTicket_ID, ticketStatus_ID, checkSum) VALUES (1, 1, 'hbfhbvhfbvrhbgeyfgf')
+
+-- SALEROWS
+
+-- INSERT INTO SaleRows (ticket_ID, saleEvent_ID, discount) VALUES (1, 1, 0 );
+
+-- SALEEVENTS
+
+INSERT INTO SaleEvents (dateTime, user_ID) VALUES ('2020-03-03 10:0:00', 3);

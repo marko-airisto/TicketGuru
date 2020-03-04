@@ -6,6 +6,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.CollectionModel;
@@ -50,14 +52,14 @@ public class UserController {
 
     // Create User
     @PostMapping
-    ResponseEntity<?> setUser(@RequestBody User user) throws URISyntaxException {
+    ResponseEntity<?> setUser(@Valid @RequestBody User user) throws URISyntaxException {
         EntityModel<User> entityModel = uAssembler.toModel(uRepository.save(user));
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
 
     // Edit User
     @PatchMapping("/{id}")
-    ResponseEntity<?> editUser(@RequestBody User newUser, @PathVariable Long id) throws URISyntaxException {
+    ResponseEntity<?> editUser(@Valid @RequestBody User newUser, @PathVariable Long id) throws URISyntaxException {
         User updatedUser = uRepository.findById(id).map(User -> {
             if (newUser.getName() != "") {
                 User.setName(newUser.getName());

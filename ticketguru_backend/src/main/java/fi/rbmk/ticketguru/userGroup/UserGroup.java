@@ -2,6 +2,7 @@ package fi.rbmk.ticketguru.userGroup;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,7 +35,7 @@ public class UserGroup {
 
 	@NotNull(message = "User group is required")
 	@JsonIgnore
-	@OneToMany(mappedBy = "userGroup")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "userGroup")
 	private List<User> users;
 
 	public UserGroup() {

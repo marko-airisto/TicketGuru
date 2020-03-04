@@ -1,4 +1,7 @@
 package fi.rbmk.ticketguru.saleRow;
+
+//import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 import java.net.URISyntaxException;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +10,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import fi.rbmk.ticketguru.postcode.Postcode;
-import fi.rbmk.ticketguru.postcode.PostcodeRepository;
-import fi.rbmk.ticketguru.postcode.PostcodeResourceAssembler;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.hateoas.CollectionModel;
@@ -23,40 +22,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(value = "/api/saleRows", produces = "application/hal+json")
+@RequestMapping(value = "/api/salerows", produces = "application/hal+json")
 public class SaleRowController {
-	
-	@Autowired
+
+    @Autowired
     private SaleRowRepository salerowRepository;
-	@Autowired
+    @Autowired
     private SaleRowResourceAssembler salerowAssembler;
-	
-	
-	// Get all postcodes
-	@GetMapping()
+
+    // Get all salerows
+    @GetMapping()
     public ResponseEntity<CollectionModel<EntityModel<SaleRow>>> findAll() {
         return ResponseEntity.ok(salerowAssembler.toCollectionModel(salerowRepository.findAll()));
     }
-	
-	// Get single postcode
+
+    // Get single salerow
     @GetMapping("/{id}")
     EntityModel<SaleRow> getSaleRow(@PathVariable Long id) {
-    	SaleRow saleRow = salerowRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        SaleRow saleRow = salerowRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         return salerowAssembler.toModel(saleRow);
     }
-    
-    // Create postcode
+
+    // Create salerow
     @PostMapping
     ResponseEntity<?> setSaleRow(@Valid @RequestBody SaleRow saleRow) throws URISyntaxException {
         EntityModel<SaleRow> entityModel = salerowAssembler.toModel(salerowRepository.save(saleRow));
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
-    
- // Delete postcode
+
+    // Delete salerow
     @DeleteMapping("/{id}")
     ResponseEntity<?> deleteSaleRow(@PathVariable Long id) {
-    	salerowRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-    	salerowRepository.deleteById(id);
+        salerowRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        salerowRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
