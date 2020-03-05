@@ -15,6 +15,7 @@ class UserResourceAssembler implements RepresentationModelAssembler<User, Entity
 
         return new EntityModel<>(user, linkTo(methodOn(UserController.class).getUser(user.getId())).withSelfRel(),
                 linkTo(methodOn(UserController.class).getAll()).withRel("users"),
+                // ALLA VÄÄRIN, TULEE USERID
                 linkTo(methodOn(UserGroupController.class).getUserGroup(user.getId())).withRel("userGroup"));
     }
 }
