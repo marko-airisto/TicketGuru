@@ -13,8 +13,7 @@ import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import fi.rbmk.ticketguru.*;
-import fi.rbmk.ticketguru.domain.Venue;
+import fi.rbmk.ticketguru.venue.Venue;
 import fi.rbmk.ticketguru.eventOrganizer.EventOrganizer;
 
 @Entity

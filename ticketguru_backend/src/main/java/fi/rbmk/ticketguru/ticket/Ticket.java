@@ -1,4 +1,4 @@
-package fi.rbmk.ticketguru.domain;
+package fi.rbmk.ticketguru.ticket;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -17,7 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import org.hibernate.validator.constraints.Length;
 
-import fi.rbmk.ticketguru.domain.Ticket;
+import fi.rbmk.ticketguru.ticket.Ticket;
 import fi.rbmk.ticketguru.saleEvent.SaleEvent;
 
 @Entity
