@@ -46,7 +46,7 @@ Provide name of Event to be created.
 
 **Condition** : If everything is OK.
 
-**Code** : `200 OK`
+**Code** : `204 OK`
 
 **Content example**
 
