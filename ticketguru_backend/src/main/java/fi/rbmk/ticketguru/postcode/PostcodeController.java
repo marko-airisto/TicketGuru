@@ -36,8 +36,8 @@ public class PostcodeController {
 	
 	// Get single postcode
     @GetMapping("/{id}")
-    EntityModel<Postcode> getPostcode(@PathVariable Long id) {
-    	Postcode postcode = postcodeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+    EntityModel<Postcode> one(@PathVariable Long id) {
+    	Postcode postcode = postcodeRepository.findById(id) .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         return postcodeAssembler.toModel(postcode);
     }
     

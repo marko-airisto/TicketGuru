@@ -25,6 +25,11 @@ public class Postcode {
 	@Column(name = "postcode_ID")
 	private Long id;
 	
+	@NotEmpty(message = "Postcode is required")
+	@Length(max = 250)
+	@Column(name = "postcode")
+	private String postcode;
+	
 	@NotEmpty(message = "City name is required")
 	@Length(max = 250)
 	@Column(name = "city")
@@ -47,9 +52,10 @@ public class Postcode {
 		super();
 	}
 	
-	public Postcode(Long id, String city, String country) {
+	public Postcode(Long id, String city, String postcode, String country) {
 		super();
 		this.id = id;
+		this.postcode = postcode;
 		this.city = city;
 		this.country = country;
 	}
@@ -57,6 +63,7 @@ public class Postcode {
 	// Getterit
 	
 	public Long getId() {return this.id;}
+	public String getPostcode() {return this.postcode;}
 	public String getCity() {return this.city;}
 	public String getCountry() {return this.country;}
 	public List<Venue> getVenues() {return this.venues;}
@@ -65,6 +72,7 @@ public class Postcode {
 	// Setterit
 	
 	public void setID(Long id) {this.id = id;}
+	public void setPostcode(String postcode) {this.postcode = postcode;}
 	public void setCity(String city) {this.city = city;}
 	public void setCountry(String country) {this.country = country;}
 

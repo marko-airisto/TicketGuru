@@ -10,7 +10,7 @@ public class PostcodeResourceAssembler implements RepresentationModelAssembler<P
 	@Override
     public EntityModel<Postcode> toModel(Postcode postcode) {
         return new EntityModel<>(postcode,
-        		linkTo(methodOn(PostcodeController.class).getPostcode(postcode.getId())).withSelfRel(),
+        		linkTo(methodOn(PostcodeController.class).one(postcode.getId())).withSelfRel(),
                 linkTo(methodOn(PostcodeController.class).findAll()).withRel("postcodes"));
     }
 }
