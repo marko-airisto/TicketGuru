@@ -1,7 +1,7 @@
 package fi.rbmk.ticketguru.event;
 
 import fi.rbmk.ticketguru.ageLimit.AgeLimit;
-import fi.rbmk.ticketguru.domain.Venue;
+import fi.rbmk.ticketguru.venue.Venue;
 import fi.rbmk.ticketguru.eventOrganizer.EventOrganizer;
 import fi.rbmk.ticketguru.eventTicket.EventTicket;
 import fi.rbmk.ticketguru.eventTicket.EventTicketResourceAssembler;
@@ -47,15 +47,15 @@ class EventController {
 
     //Get all Events
     @GetMapping
-    CollectionModel<EventModel> getAll() {
-        List<EventModel> events = eRepository.findAll().stream().map(eAssembler::toModel)
+    CollectionModel<EntityModel<Event>> getAll() {
+        List<EntityModel<Event>> events = eRepository.findAll().stream().map(eAssembler::toModel)
                 .collect(Collectors.toList());
         return new CollectionModel<>(events, linkTo(methodOn(EventController.class).getAll()).withSelfRel());
     }
 
     // Get single Event
     @GetMapping("/{id}")
-    EventModel getEvent(@PathVariable Long id) {
+    EntityModel<Event> getEvent(@PathVariable Long id) {
         Event event = eRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         return eAssembler.toModel(event);
     }
@@ -79,11 +79,15 @@ class EventController {
     }
 
     // Create event
-    @PostMapping(consumes = "application/hal+json")
-    ResponseEntity<?> setEvent(@Valid @RequestBody EventModel eventModel) throws URISyntaxException {
-        //eRepository.save(eventModel);
-        //EventModel eventModel = eAssembler.toModel(eRepository.save(event));
-        return ResponseEntity.ok().body(eventModel);
+    // @PostMapping(consumes = "application/json")
+    // ResponseEntity<?> setEvent(@RequestBody Event event) throws URISyntaxException {
+    //     //eRepository.save(eventModel);
+    //     EntityModel<Event> eventModel = eAssembler.toModel(eRepository.save(event));
+    //     return ResponseEntity.ok().body(eventModel);
+    // }
+    @PostMapping
+    void setEvent(@RequestBody Event event) {
+        eRepository.save(event);
     }
 
     // Edit event
@@ -118,7 +122,7 @@ class EventController {
         }).orElseGet(() -> {
             return eRepository.save(newEvent);
         });
-        EventModel eventModel = eAssembler.toModel(updatedEvent);
+        EntityModel<Event> eventModel = eAssembler.toModel(updatedEvent);
         return ResponseEntity.created(eventModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(eventModel);
     }
 
