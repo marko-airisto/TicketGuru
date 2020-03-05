@@ -1,4 +1,4 @@
-package fi.rbmk.ticketguru.domain;
+package fi.rbmk.ticketguru.venue;
 
 import fi.rbmk.ticketguru.event.Event;
 import fi.rbmk.ticketguru.postcode.Postcode;

@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 
 import javax.persistence.OneToOne;
 
-import fi.rbmk.ticketguru.domain.Ticket;
+import fi.rbmk.ticketguru.ticket.Ticket;
 import fi.rbmk.ticketguru.saleEvent.SaleEvent;
 
 @Entity

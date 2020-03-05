@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.validator.constraints.Length;
 
-import fi.rbmk.ticketguru.domain.Ticket;
+import fi.rbmk.ticketguru.ticket.Ticket;
 
 @Entity
 @Table(name = "TicketStatuses")
