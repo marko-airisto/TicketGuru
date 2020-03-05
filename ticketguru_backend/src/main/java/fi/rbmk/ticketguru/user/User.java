@@ -7,13 +7,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.hibernate.validator.constraints.Length;
+import org.springframework.hateoas.config.EnableHypermediaSupport;
 
 import fi.rbmk.ticketguru.userGroup.UserGroup;
+
+@EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
 
 @Entity
 @Table(name = "Users")
@@ -36,6 +42,7 @@ public class User {
 
 	@NotNull(message = "User group is required")
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "userGroup_ID")
 	private UserGroup userGroup;
 
@@ -71,7 +78,7 @@ public class User {
 		return password;
 	}
 
-	public UserGroup getUserGroups() {
+	public UserGroup getUserGroup() {
 		return userGroup;
 	}
 
@@ -93,7 +100,7 @@ public class User {
 		this.password = password;
 	}
 
-	public void setUserGroups(UserGroup userGroup) {
+	public void setUserGroup(UserGroup userGroup) {
 		this.userGroup = userGroup;
 	}
 

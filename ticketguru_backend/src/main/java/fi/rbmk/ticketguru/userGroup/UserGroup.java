@@ -9,19 +9,31 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.hateoas.config.EnableHypermediaSupport;
 
 import fi.rbmk.ticketguru.user.User;
+
+@EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
 
 @Entity
 @Table(name = "UserGroups")
 public class UserGroup {
+
+	@PrePersist
+	@PreUpdate
+	public void populateUsers() {
+		for (User user : this.users) {
+			user.setUserGroup(this);
+		}
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,8 +45,7 @@ public class UserGroup {
 	@Column(name = "name")
 	private String name;
 
-	@NotNull(message = "User group is required")
-	@JsonIgnore
+	// @JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "userGroup")
 	private List<User> users;
 
@@ -54,13 +65,18 @@ public class UserGroup {
 		return this.name;
 	}
 
+	public List<User> getUser() {
+		return users;
+	}
+
 	// Setters
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public List<User> getUsers() {
-		return users;
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
+
 }

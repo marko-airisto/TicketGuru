@@ -28,23 +28,22 @@ public class EventOrganizer {
 	private String name, streetAddress, tel, email, www, contactPerson;
 
 	@NotEmpty(message = "Postcode is required")
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "postcode_ID")
-    private Postcode postcode;
+	@ManyToOne
+	@JoinColumn(name = "postcode_ID")
+	private Postcode postcode;
 
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "eventOrganizer")
 	private List<Event> events;
-	
+
 	public EventOrganizer() {
 	}
 
 	public EventOrganizer(EventOrganizer eventOrganizer) {
 	}
 
-	public EventOrganizer(Long id, Postcode postcode, String name, String streetAddress,
-	String tel, String email, String www, String contactPerson) {
+	public EventOrganizer(Long id, Postcode postcode, String name, String streetAddress, String tel, String email,
+			String www, String contactPerson) {
 		super();
 		this.id = id;
 		this.postcode = postcode;
@@ -55,7 +54,7 @@ public class EventOrganizer {
 		this.www = www;
 		this.contactPerson = contactPerson;
 	}
-  
+
 	// Getters
 	public Long getId() {
 		return id;
@@ -100,7 +99,7 @@ public class EventOrganizer {
 
 	public void setName(String name) {
 		this.name = name;
-	}	
+	}
 
 	public void setStreetAddress(String streetAddress) {
 		this.streetAddress = streetAddress;
@@ -125,11 +124,11 @@ public class EventOrganizer {
 	public void setPostcode(Postcode postcode) {
 		this.postcode = postcode;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "EventOrganizer[id=" + id + ", name=" + name + ", streetAddress="
-				+ streetAddress + ", tel=" + tel + ", email=" + email
-				+ ", www=" + www+ ", contactPerson=" + contactPerson + ", postcode=" + postcode + "]";
+		return "EventOrganizer[id=" + id + ", name=" + name + ", streetAddress=" + streetAddress + ", tel=" + tel
+				+ ", email=" + email + ", www=" + www + ", contactPerson=" + contactPerson + ", postcode=" + postcode
+				+ "]";
 	}
 }

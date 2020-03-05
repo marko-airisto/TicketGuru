@@ -94,7 +94,7 @@ export default function Users() {
     },
     {
       Header: 'User Group',
-      accessor: 'userGroups.id'
+      accessor: '_links.userGroups.href'
     }
   ];
 
