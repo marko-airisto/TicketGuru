@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -28,12 +28,12 @@ import javax.persistence.OneToMany;
 
 @Entity
 @Table(name="Events")
-public class Event {
+public class Event extends ResourceSupport {
 
     @Id // Määritellään kenttä ID:ksi
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Automaattinen juoksenva numerointi. HUOM! Käytetään GenerationType.IDENTITY spring bootin bugin vuoksi
     @Column(name = "event_ID") // Tietokannassa olevan kentän nimi
-    private Long id; // Muuttujan nimi, ei välttämättä sama kuin tietokannassa. Tässä tapauksessa id jotta automaattisesti generoidut funktiot toimivat
+    private Long event_ID; // Muuttujan nimi, ei välttämättä sama kuin tietokannassa. Tässä tapauksessa id jotta automaattisesti generoidut funktiot toimivat
 
     @NotEmpty(message = "Event name is required") // Lisätään pakollisiin kenttiin virheilmoituksen kera
     @Length(max = 250) // Määritellään kaikille kentille jotka sen vaativat maksimipituus
@@ -47,7 +47,6 @@ public class Event {
 
     @NotNull(message = "Event datetime is required")
     @Column(name = "dateTime")
-    //@JsonFormat(pattern = "YYYY-MM-dd HH:mm")
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dateTime; // Aikaleimoihin joissa vaaditaan sekä päivä että kellonaika käytetään
                                     // LocalDateTime tyyppiä
@@ -75,7 +74,6 @@ public class Event {
     @Column(name = "info")
     private String info;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "event")
     private List<EventTicket> eventTickets;
 
@@ -106,7 +104,7 @@ public class Event {
     }
 
     //Getterit
-    public Long getId() { return this.id; }
+    public Long getEvent_ID() { return this.event_ID; }
     public String getName() { return this.name; }
     public EventType getEventType() { return this.eventType; }
     public LocalDateTime getDateTime() { return this.dateTime; }

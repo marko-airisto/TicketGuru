@@ -14,17 +14,18 @@ import javax.validation.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.hateoas.ResourceSupport;
 
 import fi.rbmk.ticketguru.event.Event;
 
 @Entity
 @Table(name = "AgeLimits")
-public class AgeLimit {
+public class AgeLimit extends ResourceSupport {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ageLimit_ID")
-	private Long id;
+	private Long ageLimit_ID;
 
 	@NotEmpty(message = "Age limit must be set")
 	@Length(max = 50)
@@ -56,8 +57,8 @@ public class AgeLimit {
 	
 	//Getters
 
-	public Long getId() {
-		return this.id;
+	public Long getAgeLimit_ID() {
+		return this.ageLimit_ID;
 	}
 	
 	public String getName() {

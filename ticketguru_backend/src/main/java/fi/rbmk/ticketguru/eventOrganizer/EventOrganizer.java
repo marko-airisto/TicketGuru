@@ -16,24 +16,25 @@ import javax.persistence.Table;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import org.springframework.hateoas.ResourceSupport;
+
 import javax.persistence.JoinColumn;
 
 @Entity
 @Table(name = "EventOrganizers")
-public class EventOrganizer {
+public class EventOrganizer extends ResourceSupport {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "eventOrganizer_ID")
-	private Long id;
+	private Long eventOrganizer_ID;
 	private String name, streetAddress, tel, email, www, contactPerson;
 
 	@NotEmpty(message = "Postcode is required")
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "postcode_ID")
     private Postcode postcode;
 
-	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "eventOrganizer")
 	private List<Event> events;
 	
@@ -46,7 +47,7 @@ public class EventOrganizer {
 	public EventOrganizer(Long id, Postcode postcode, String name, String streetAddress,
 	String tel, String email, String www, String contactPerson) {
 		super();
-		this.id = id;
+		this.eventOrganizer_ID = id;
 		this.postcode = postcode;
 		this.name = name;
 		this.streetAddress = streetAddress;
@@ -57,8 +58,8 @@ public class EventOrganizer {
 	}
   
 	// Getters
-	public Long getId() {
-		return id;
+	public Long getEventOrganizer_ID() {
+		return eventOrganizer_ID;
 	}
 
 	public String getName() {
@@ -94,10 +95,6 @@ public class EventOrganizer {
 	}
 
 	// Setters
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public void setName(String name) {
 		this.name = name;
 	}	
@@ -128,7 +125,7 @@ public class EventOrganizer {
 	
 	@Override
 	public String toString() {
-		return "EventOrganizer[id=" + id + ", name=" + name + ", streetAddress="
+		return "EventOrganizer[id=" + eventOrganizer_ID + ", name=" + name + ", streetAddress="
 				+ streetAddress + ", tel=" + tel + ", email=" + email
 				+ ", www=" + www+ ", contactPerson=" + contactPerson + ", postcode=" + postcode + "]";
 	}
