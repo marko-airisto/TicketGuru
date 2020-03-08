@@ -4,61 +4,48 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.hibernate.validator.constraints.Length;
-import org.springframework.hateoas.RepresentationModel;
-import org.springframework.hateoas.config.EnableHypermediaSupport;
+import org.springframework.hateoas.ResourceSupport;
 
 import fi.rbmk.ticketguru.userGroup.UserGroup;
 
-@EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
-
 @Entity
 @Table(name = "Users")
-public class User extends RepresentationModel {
+public class User extends ResourceSupport {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_ID", nullable = false, updatable = false)
-	private Long id;
-
-	@Column(name = "name", unique = true)
-	@NotEmpty(message = "User name is required")
-	@Length(max = 50)
-	private String name;
+	private Long user_ID;
 
 	@NotEmpty(message = "Password is required")
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@Column(name = "password", nullable = false, unique = true)
 	@Length(max = 100)
 	private String password;
 
-	@JsonIgnore
+	@NotEmpty(message = "Username is required")
+	@Length(max = 50)
+	private String name;
+
+	private boolean active = false;
+
 	@ManyToOne
 	@JoinColumn(name = "userGroup_ID")
 	private UserGroup userGroup;
 
-	@NotNull(message = "Active Status is required ")
-	@Column(name = "active")
-	private Boolean active;
-
 	public User() {
-
 	}
 
 	public User(User user) {
 	}
 
-	public User(String name, String password, UserGroup userGroup, Boolean active) {
+	public User(String name, String password, UserGroup userGroup, boolean active) {
+		super();
 		this.name = name;
 		this.password = password;
 		this.userGroup = userGroup;
@@ -66,9 +53,8 @@ public class User extends RepresentationModel {
 	}
 
 	// Getters
-
-	public Long getId() {
-		return id;
+	public Long getUser_ID() {
+		return user_ID;
 	}
 
 	public String getName() {
@@ -83,16 +69,11 @@ public class User extends RepresentationModel {
 		return userGroup;
 	}
 
-	public Boolean getActive() {
+	public boolean getActive() {
 		return active;
 	}
 
 	// Setters
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -105,8 +86,7 @@ public class User extends RepresentationModel {
 		this.userGroup = userGroup;
 	}
 
-	public void setActive(Boolean active) {
+	public void setActive(boolean active) {
 		this.active = active;
 	}
-
 }
