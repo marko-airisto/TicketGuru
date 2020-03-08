@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -21,12 +22,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Venues")
-public class Venue {
+public class Venue extends ResourceSupport {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "venue_ID")
-    private Long id;
+    private Long venue_ID;
 
     @NotEmpty(message = "Venue name is required")
     @Length(max = 100)
@@ -61,7 +62,6 @@ public class Venue {
     @Column(name = "contactPerson")
     private String contactPerson;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "venue")
     private List<Event> events;
 
@@ -91,8 +91,8 @@ public class Venue {
     }
 
     // Getters
-    public Long getId() {
-        return this.id;
+    public Long getVenue_ID() {
+        return this.venue_ID;
     }
 
     public String getName() {
@@ -121,6 +121,10 @@ public class Venue {
 
     public String getContactPerson() {
         return this.contactPerson;
+    }
+
+    public List<Event> getEvents() {
+        return this.events;
     }
 
     // Setters

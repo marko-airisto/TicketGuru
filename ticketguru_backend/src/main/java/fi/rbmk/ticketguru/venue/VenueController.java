@@ -24,9 +24,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fi.rbmk.ticketguru.postcode.Postcode;
-import fi.rbmk.ticketguru.postcode.PostcodeRepository;
-import fi.rbmk.ticketguru.postcode.PostcodeController;
+import fi.rbmk.ticketguru.postcode.*;
+import fi.rbmk.ticketguru.event.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -41,11 +40,13 @@ public class VenueController {
     @PostMapping(produces = "application/hal+json")
     ResponseEntity<?> add(@Valid @RequestBody Venue venue) {
         try {
-            Long id = venueRepository.save(venue).getId();
+            Long id = venueRepository.save(venue).getVenue_ID();
             Link selfLink = linkTo(VenueController.class).slash(id).withSelfRel();
-            Link venueGroupLink = linkTo(methodOn(VenueController.class).getPostcode(id)).withRel("postcode");
+            Link postcodeLink = linkTo(methodOn(VenueController.class).getPostcode(id)).withRel("postcode");
+            Link eventsLink = linkTo(methodOn(VenueController.class).getEvents(id)).withRel("events");
             venue.add(selfLink);
-            venue.add(venueGroupLink);
+            venue.add(postcodeLink);
+            venue.add(eventsLink);
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.badRequest().body("Duplicate entry");
         }
@@ -84,11 +85,13 @@ public class VenueController {
         Link link = linkTo(VenueController.class).withSelfRel();
         if (venues.size() != 0) {
             for (Venue venue : venues) {
-                Long id = venue.getId();
+                Long id = venue.getVenue_ID();
                 Link selfLink = linkTo(VenueController.class).slash(id).withSelfRel();
-                Link venueGroupLink = linkTo(methodOn(VenueController.class).getPostcode(id)).withRel("postcode");
+                Link postcodeLink = linkTo(methodOn(VenueController.class).getPostcode(id)).withRel("postcode");
+                Link eventsLink = linkTo(methodOn(VenueController.class).getEvents(id)).withRel("events");
                 venue.add(selfLink);
-                venue.add(venueGroupLink);
+                venue.add(postcodeLink);
+                venue.add(eventsLink);
             }
             Resources<Venue> resources = new Resources<Venue>(venues, link);
             return ResponseEntity.ok(resources);
@@ -102,23 +105,45 @@ public class VenueController {
         Venue venue = venueRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         Link selfLink = linkTo(VenueController.class).slash(id).withSelfRel();
-        Link venueGroupLink = linkTo(methodOn(VenueController.class).getPostcode(id)).withRel("postcode");
+        Link postcodeLink = linkTo(methodOn(VenueController.class).getPostcode(id)).withRel("postcode");
+        Link eventsLink = linkTo(methodOn(VenueController.class).getEvents(id)).withRel("events");
         venue.add(selfLink);
-        venue.add(venueGroupLink);
+        venue.add(postcodeLink);
+        venue.add(eventsLink);
         Resource<Venue> resource = new Resource<Venue>(venue);
         return ResponseEntity.ok(resource);
     }
 
-    @GetMapping(value = "/{id}/venueGroup", produces = "application/hal+json")
-    ResponseEntity<Resource<Postcode>> getvenueGroup(@PathVariable Long id) {
+    @GetMapping(value = "/{id}/postcode", produces = "application/hal+json")
+    ResponseEntity<Resource<Postcode>> getPostcode(@PathVariable Long id) {
         Venue venue = venueRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         Postcode postCode = venue.getPostcode();
-        Link selfLink = linkTo(methodOn(PostcodeController.class).one(postCode.getId())).withSelfRel();
+        Link selfLink = linkTo(methodOn(PostcodeController.class).one(id)).withSelfRel();
         Link venuesLink = linkTo(methodOn(PostcodeController.class).getVenues(id)).withRel("venues");
+        Link eventOrganizersLink = linkTo(methodOn(PostcodeController.class).getEventOrganizers(id)).withRel("eventOrganizers");
         postCode.add(selfLink);
         postCode.add(venuesLink);
+        postCode.add(eventOrganizersLink);
         Resource<Postcode> resource = new Resource<Postcode>(postCode);
         return ResponseEntity.ok(resource);
+    }
+
+    @GetMapping(value = "/{id}/events", produces = "application/hal+json")
+    public ResponseEntity<Resources<Event>> getEvents(@PathVariable Long id) {
+        Venue venue = venueRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        Link link = linkTo(VenueController.class).withSelfRel();
+        List<Event> events = venue.getEvents();
+        if (events.size() != 0) {
+            for (Event event : events) {
+                Long event_ID = event.getEvent_ID();
+                Link selfLink = linkTo(EventController.class).slash(event_ID).withSelfRel();
+                event.add(selfLink);
+            }
+            Resources<Event> resources = new Resources<Event>(events, link);
+            return ResponseEntity.ok(resources);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 }
