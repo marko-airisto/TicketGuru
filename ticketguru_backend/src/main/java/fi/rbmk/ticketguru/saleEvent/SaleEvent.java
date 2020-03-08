@@ -1,7 +1,7 @@
 package fi.rbmk.ticketguru.saleEvent;
 
 import java.sql.Date;
-
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,7 +30,7 @@ public class SaleEvent {
 
 	@NotEmpty(message = "Please enter the date time")
 	@Column(name = "dateTime")
-	private Date dateTime;
+	private LocalDateTime dateTime;
 
 	@NotEmpty(message = "Please enter the user ID")
 	@Column(name = "user_ID")
@@ -44,7 +44,7 @@ public class SaleEvent {
 		super();
 	}
 
-	public SaleEvent(Long id, Date dateTime, Long user) {
+	public SaleEvent(Long id, LocalDateTime dateTime, Long user) {
 		super();
 		this.id = id;
 		this.dateTime = dateTime;
@@ -56,7 +56,7 @@ public class SaleEvent {
 		return this.id;
 	}
 
-	public Date getSaleEventDateTime() {
+	public LocalDateTime getSaleEventDateTime() {
 		return this.dateTime;
 	}
 
@@ -73,7 +73,7 @@ public class SaleEvent {
 		this.id = saleEvent_ID;
 	}
 
-	public void setSaleEventDateTime(Date dateTime) {
+	public void setSaleEventDateTime(LocalDateTime dateTime) {
 		this.dateTime = dateTime;
 	}
 

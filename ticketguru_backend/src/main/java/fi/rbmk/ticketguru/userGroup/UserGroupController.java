@@ -9,11 +9,15 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.Link;
+
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,38 +34,31 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserGroupController {
 
     @Autowired
-    private UserGroupRepository uGroupRepository;
-    @Autowired
-    private UserGroupResourceAssembler uGroupAssembler;
+    UserGroupRepository repository;
 
-    // Get User groups
-    @GetMapping
-    public CollectionModel<EntityModel<UserGroup>> getAll() {
-        List<EntityModel<UserGroup>> userGroups = uGroupRepository.findAll().stream().map(uGroupAssembler::toModel)
-                .collect(Collectors.toList());
-        return new CollectionModel<>(userGroups, linkTo(methodOn(UserGroupController.class).getAll()).withSelfRel());
+    @GetMapping(produces = "application/hal+json")
+    public CollectionModel<UserGroup> getAllUserGroups() {
+        List<UserGroup> allUserGroups = repository.findAll();
+
+        for (UserGroup userGroup : allUserGroups) {
+            Long userGroupId = userGroup.getId();
+            Link selfLink = linkTo(UserGroupController.class).slash(userGroupId).withSelfRel();
+            userGroup.add(selfLink);
+        }
+        Link link = linkTo(UserGroupController.class).withSelfRel();
+        CollectionModel<UserGroup> result = new CollectionModel<UserGroup>(allUserGroups, link);
+        return result;
     }
 
-    // Get single User group
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = "application/hal+json")
     public EntityModel<UserGroup> getUserGroup(@PathVariable Long id) {
-        UserGroup userGroup = uGroupRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        return uGroupAssembler.toModel(userGroup);
-    }
-
-    // Create User group
-    @PostMapping
-    ResponseEntity<?> setUserGroup(@Valid @RequestBody UserGroup userGroup) throws URISyntaxException {
-        EntityModel<UserGroup> entityModel = uGroupAssembler.toModel(uGroupRepository.save(userGroup));
-        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
-    }
-
-    // Delete User group
-    @DeleteMapping("/{id}")
-    ResponseEntity<?> deleteUserGroup(@PathVariable Long id) {
-        uGroupRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+        UserGroup userGroup = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Invalid ID:" + id));
+        Link selfLink = linkTo(UserGroupController.class).slash(id).withSelfRel();
+        userGroup.add(selfLink);
+        Link link = linkTo(UserGroupController.class).withSelfRel();
+        EntityModel<UserGroup> result = new EntityModel<UserGroup>(userGroup, link);
+        return result;
     }
 
 }

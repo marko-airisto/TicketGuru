@@ -14,9 +14,8 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.hibernate.validator.constraints.Length;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
 
 import fi.rbmk.ticketguru.user.User;
@@ -45,7 +44,6 @@ public class UserGroup {
 	@Column(name = "name")
 	private String name;
 
-	// @JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "userGroup")
 	private List<User> users;
 
@@ -77,6 +75,9 @@ public class UserGroup {
 
 	public void setUsers(List<User> users) {
 		this.users = users;
+	}
+
+	public void add(Link selfLink) {
 	}
 
 }

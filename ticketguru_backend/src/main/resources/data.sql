@@ -112,7 +112,7 @@ INSERT INTO Events
     (name, eventType_ID, dateTime, eventOrganizer_ID, venue_ID, ticketCapacity, ageLimit_ID, info)
 VALUES
     (
-        'Koodari Kemut 2020', 1, '2020-03-01 20:0:00', 1, 1, 1500, 2, 'Mika koodaa ja muut kattelee. Kannattaa tulla kauempaakin'
+        'Koodari Kemut 2020', 1, '2020-03-01 20:00:00', 1, 1, 1500, 2, 'Mika koodaa ja muut kattelee. Kannattaa tulla kauempaakin'
     );
 
 -- TICKETTYPES
@@ -153,4 +153,4 @@ VALUES
 
 -- SALEEVENTS
 
-INSERT INTO SaleEvents (dateTime, user_ID) VALUES ('2020-03-03 10:0:00', 3);
+INSERT INTO SaleEvents (dateTime, user_ID) VALUES ('2020-03-03 10:00:00', 3);

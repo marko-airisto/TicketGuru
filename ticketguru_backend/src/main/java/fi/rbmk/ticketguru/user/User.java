@@ -7,14 +7,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
 
 import fi.rbmk.ticketguru.userGroup.UserGroup;
@@ -23,7 +24,7 @@ import fi.rbmk.ticketguru.userGroup.UserGroup;
 
 @Entity
 @Table(name = "Users")
-public class User {
+public class User extends RepresentationModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,13 +37,13 @@ public class User {
 	private String name;
 
 	@NotEmpty(message = "Password is required")
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@Column(name = "password", nullable = false, unique = true)
 	@Length(max = 100)
 	private String password;
 
-	@NotNull(message = "User group is required")
-	@ManyToOne
 	@JsonIgnore
+	@ManyToOne
 	@JoinColumn(name = "userGroup_ID")
 	private UserGroup userGroup;
 
@@ -96,7 +97,7 @@ public class User {
 		this.name = name;
 	}
 
-	public void setPasswor(String password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
