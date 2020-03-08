@@ -20,7 +20,7 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="Venues")
+@Table(name = "Venues")
 public class Venue {
 
     @Id
@@ -39,7 +39,6 @@ public class Venue {
     private String address;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "postcode_ID")
     private Postcode postcode;
 
@@ -80,7 +79,8 @@ public class Venue {
         this.email = email;
     }
 
-    public Venue(String name, String address, Postcode postcode, String tel, String email, String www, String contactPerson) {
+    public Venue(String name, String address, Postcode postcode, String tel, String email, String www,
+            String contactPerson) {
         this.name = name;
         this.address = address;
         this.postcode = postcode;
@@ -90,52 +90,64 @@ public class Venue {
         this.contactPerson = contactPerson;
     }
 
-    //Getters
+    // Getters
     public Long getId() {
         return this.id;
     }
+
     public String getName() {
         return this.name;
     }
+
     public String getAddress() {
         return this.address;
     }
+
     public Postcode getPostcode() {
         return this.postcode;
     }
+
     public String getTel() {
         return this.tel;
     }
+
     public String getEmail() {
         return this.email;
     }
+
     public String getWWW() {
         return this.www;
     }
+
     public String getContactPerson() {
         return this.contactPerson;
     }
-
 
     // Setters
     public void setName(String name) {
         this.name = name;
     }
+
     public void setAddress(String address) {
         this.address = address;
     }
+
     public void setPostcode(Postcode postcode) {
         this.postcode = postcode;
     }
+
     public void setTel(String tel) {
         this.tel = tel;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
+
     public void setWWW(String www) {
         this.www = www;
     }
+
     public void setContactPerson(String contactPerson) {
         this.contactPerson = contactPerson;
     }

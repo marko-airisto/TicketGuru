@@ -37,15 +37,15 @@ public class EventOrganizer extends ResourceSupport {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "eventOrganizer")
 	private List<Event> events;
-	
+
 	public EventOrganizer() {
 	}
 
 	public EventOrganizer(EventOrganizer eventOrganizer) {
 	}
 
-	public EventOrganizer(Long id, Postcode postcode, String name, String streetAddress,
-	String tel, String email, String www, String contactPerson) {
+	public EventOrganizer(Long id, Postcode postcode, String name, String streetAddress, String tel, String email,
+			String www, String contactPerson) {
 		super();
 		this.eventOrganizer_ID = id;
 		this.postcode = postcode;
@@ -56,7 +56,7 @@ public class EventOrganizer extends ResourceSupport {
 		this.www = www;
 		this.contactPerson = contactPerson;
 	}
-  
+
 	// Getters
 	public Long getEventOrganizer_ID() {
 		return eventOrganizer_ID;
@@ -97,7 +97,7 @@ public class EventOrganizer extends ResourceSupport {
 	// Setters
 	public void setName(String name) {
 		this.name = name;
-	}	
+	}
 
 	public void setStreetAddress(String streetAddress) {
 		this.streetAddress = streetAddress;
@@ -122,7 +122,7 @@ public class EventOrganizer extends ResourceSupport {
 	public void setPostcode(Postcode postcode) {
 		this.postcode = postcode;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "EventOrganizer[id=" + eventOrganizer_ID + ", name=" + name + ", streetAddress="

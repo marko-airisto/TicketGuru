@@ -19,17 +19,21 @@ VALUES
 -- USERS
 
 INSERT INTO Users
-    (password, name, userGroup_ID)
+    (password, name, userGroup_ID, active)
 VALUES
-    ('$2a$10$/..0qbQN09s20ZVao53j0..hr2dgkS52zVn68b0ZlGcZBzczkoH.y', 'pepe', 1);
+    ('$2a$10$/..0qbQN09s20ZVao53j0..hr2dgkS52zVn68b0ZlGcZBzczkoH.y', 'pepe', 1, 1);
 INSERT INTO Users
-    (password, name, userGroup_ID)
+    (password, name, userGroup_ID, active)
 VALUES
-    ('$2a$10$K.vSuwrxuG7arNO7nGkAyuPs0Op4JCDxd7hdhiwpF/egYpePZWYay', 'john', 2);
+    ('$2a$10$K.vSuwrxuG7arNO7nGkAyuPs0Op4JCDxd7hdhiwpF/egYpePZWYay', 'john', 2, 1);
 INSERT INTO Users
-    (password, name, userGroup_ID)
+    (password, name, userGroup_ID, active)
 VALUES
-    ('$2a$10$tG3a9iRmIpPH3Hkj/EwLYetL8i/A6jBJIF4OQZS.UPV14sOmQB9Nq', 'kuningas', 3);
+    ('$2a$10$tG3a9iRmIpPH3Hkj/EwLYetL8i/A6jBJIF4OQZS.UPV14sOmQB9Nq', 'kuningas', 3, 1);
+INSERT INTO Users
+    (password, name, userGroup_ID, active)
+VALUES
+    ('keke', 'keke', 1, 0);
 
 
 -- EVENTTYPES
@@ -108,7 +112,7 @@ INSERT INTO Events
     (name, eventType_ID, dateTime, eventOrganizer_ID, venue_ID, ticketCapacity, ageLimit_ID, info)
 VALUES
     (
-        'Koodari Kemut 2020', 1, '2020-03-01 20:0:00', 1, 1, 1500, 2, 'Mika koodaa ja muut kattelee. Kannattaa tulla kauempaakin'
+        'Koodari Kemut 2020', 1, '2020-03-01 20:00:00', 1, 1, 1500, 2, 'Mika koodaa ja muut kattelee. Kannattaa tulla kauempaakin'
     );
 
 -- TICKETTYPES
@@ -126,6 +130,10 @@ VALUES
         'Lasten lippu'
     );
 
+-- TICKETSTATUSES
+
+INSERT INTO TicketStatuses (name) VALUES ('voimassa');
+
 -- EVENTTICKETS
 
 INSERT INTO EventTickets
@@ -134,3 +142,15 @@ VALUES
     (
         1, 2, 1000, 20
     );
+
+-- TICKETS
+
+-- INSERT INTO Tickets (eventTicket_ID, ticketStatus_ID, checkSum) VALUES (1, 1, 'hbfhbvhfbvrhbgeyfgf')
+
+-- SALEROWS
+
+-- INSERT INTO SaleRows (ticket_ID, saleEvent_ID, discount) VALUES (1, 1, 0 );
+
+-- SALEEVENTS
+
+INSERT INTO SaleEvents (dateTime, user_ID) VALUES ('2020-03-03 10:00:00', 3);

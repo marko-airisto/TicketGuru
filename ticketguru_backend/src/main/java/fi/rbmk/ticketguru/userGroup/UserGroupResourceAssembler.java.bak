@@ -10,7 +10,7 @@ public class UserGroupResourceAssembler implements RepresentationModelAssembler<
     @Override
     public EntityModel<UserGroup> toModel(UserGroup userGroup) {
         return new EntityModel<>(userGroup,
-                linkTo(methodOn(UserGroupController.class).one(userGroup.getId())).withSelfRel(),
-                linkTo(methodOn(UserGroupController.class).findAll()).withRel("userGroups"));
+                linkTo(methodOn(UserGroupController.class).getUserGroup(userGroup.getId())).withSelfRel(),
+                linkTo(methodOn(UserGroupController.class).getAll()).withRel("userGroups"));
     }
 }

@@ -23,33 +23,33 @@ import org.springframework.hateoas.ResourceSupport;
 public class EventType extends ResourceSupport {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "eventType_ID")
 	private Long eventType_ID;	
 	
 	@NotEmpty(message = "Event type name is required")
-	@Length(max= 100)
+	@Length(max = 100)
 	@Column(name = "name")
 	private String name;
-	
+
 	@NotEmpty(message = "Event info is required")
-	@Length(max= 500)
+	@Length(max = 500)
 	@Column(name = "info")
 	private String info;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "eventType")
 	private List<Event> events;
-	
+
 	public EventType() {
 	}
-	
+
 	public EventType(EventType eventType) {
   	}
   
   	public EventType(String name, String info) {
 		super();
 		this.name = name;
-   		this.info = info;
+		this.info = info;
 	}
   
 	//Getters
@@ -73,11 +73,11 @@ public class EventType extends ResourceSupport {
 	public void setName(String name) {
 		this.name = name;
 	}
-  
-  	public void setInfo(String info) {
+
+	public void setInfo(String info) {
 		this.info = info;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "EventType[id=" + eventType_ID + ", name=" + name + ", info=" + info + "]";

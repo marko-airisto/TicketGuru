@@ -15,6 +15,7 @@ import org.springframework.hateoas.ResourceSupport;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import fi.rbmk.ticketguru.venue.Venue;
+
 import fi.rbmk.ticketguru.eventOrganizer.EventOrganizer;
 
 @Entity
@@ -35,7 +36,7 @@ public class Postcode extends ResourceSupport {
 	@Length(max = 250)
 	@Column(name = "city")
 	private String city;
-	
+
 	@NotEmpty(message = "Country name is required")
 	@Length(max = 250)
 	@Column(name = "country")
@@ -79,5 +80,5 @@ public class Postcode extends ResourceSupport {
 	public String toString() {
 		return "PostCodes [postcode_ID=" + postcode + ", postcode=" + postcode + ", city=" + city + ", country=" + country + "]";
 	}
-	
+
 }
