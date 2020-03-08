@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
-import org.springframework.hateoas.Link;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
 
 import fi.rbmk.ticketguru.user.User;
@@ -24,15 +24,7 @@ import fi.rbmk.ticketguru.user.User;
 
 @Entity
 @Table(name = "UserGroups")
-public class UserGroup {
-
-	@PrePersist
-	@PreUpdate
-	public void populateUsers() {
-		for (User user : this.users) {
-			user.setUserGroup(this);
-		}
-	}
+public class UserGroup extends RepresentationModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -75,9 +67,6 @@ public class UserGroup {
 
 	public void setUsers(List<User> users) {
 		this.users = users;
-	}
-
-	public void add(Link selfLink) {
 	}
 
 }

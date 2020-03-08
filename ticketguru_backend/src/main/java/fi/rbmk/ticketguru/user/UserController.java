@@ -2,14 +2,9 @@ package fi.rbmk.ticketguru.user;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
-
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 import fi.rbmk.ticketguru.userGroup.UserGroup;
 import fi.rbmk.ticketguru.userGroup.UserGroupController;
@@ -20,11 +15,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.ExposesResourceFor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +27,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -56,6 +48,8 @@ public class UserController {
         }
         return ResponseEntity.ok(user);
     }
+
+    // PATCH NOT TESTED YET
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<User> saveUser(@Valid @RequestBody User newUser, @PathVariable Long id) {
