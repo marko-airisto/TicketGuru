@@ -20,7 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
-@Table(name="Tickets")
+@Table(name = "Tickets")
 public class Ticket extends ResourceSupport {
 
     @Id
@@ -44,9 +44,11 @@ public class Ticket extends ResourceSupport {
     @OneToOne(mappedBy = "ticket")
     private SaleRow saleRow;
 
-    public Ticket() {}
+    public Ticket() {
+    }
 
-    public Ticket(Ticket ticket) {}
+    public Ticket(Ticket ticket) {
+    }
 
     public Ticket(EventTicket eventTicket, TicketStatus ticketStatus, String checkSum) {
         this.eventTicket = eventTicket;
@@ -54,14 +56,37 @@ public class Ticket extends ResourceSupport {
         this.checkSum = checkSum;
     }
 
-    //Getters
-    public Long getId() { return this.id; }
-    public EventTicket getEventTicket() { return this.eventTicket; }
-    public TicketStatus getTicketStatus() { return this.ticketStatus; }
-    public String getCheckSum() { return this.checkSum; }
-    public SaleRow getSaleRow() { return saleRow; }
-    //Setters
-    public void setEventTicket(EventTicket eventTicket) { this.eventTicket = eventTicket; }
-    public void setTicketStatus(TicketStatus ticketStatus) { this.ticketStatus = ticketStatus; }
-    public void setTicketCheckSum(String checkSum) { this.checkSum = checkSum; }
+    // Getters
+    public Long Ticket_Id() {
+        return this.id;
+    }
+
+    public EventTicket getEventTicket() {
+        return this.eventTicket;
+    }
+
+    public TicketStatus getTicketStatus() {
+        return this.ticketStatus;
+    }
+
+    public String getCheckSum() {
+        return this.checkSum;
+    }
+
+    public SaleRow getSaleRow() {
+        return saleRow;
+    }
+
+    // Setters
+    public void setEventTicket(EventTicket eventTicket) {
+        this.eventTicket = eventTicket;
+    }
+
+    public void setTicketStatus(TicketStatus ticketStatus) {
+        this.ticketStatus = ticketStatus;
+    }
+
+    public void setTicketCheckSum(String checkSum) {
+        this.checkSum = checkSum;
+    }
 }

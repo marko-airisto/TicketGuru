@@ -13,20 +13,18 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.hibernate.validator.constraints.Length;
 import org.springframework.hateoas.ResourceSupport;
 
 @Entity
 @Table(name = "EventTypes")
 public class EventType extends ResourceSupport {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "eventType_ID")
-	private Long eventType_ID;	
-	
+	private Long eventType_ID;
+
 	@NotEmpty(message = "Event type name is required")
 	@Length(max = 100)
 	@Column(name = "name")
@@ -36,7 +34,7 @@ public class EventType extends ResourceSupport {
 	@Length(max = 500)
 	@Column(name = "info")
 	private String info;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "eventType")
 	private List<Event> events;
 
@@ -44,15 +42,15 @@ public class EventType extends ResourceSupport {
 	}
 
 	public EventType(EventType eventType) {
-  	}
-  
-  	public EventType(String name, String info) {
+	}
+
+	public EventType(String name, String info) {
 		super();
 		this.name = name;
 		this.info = info;
 	}
-  
-	//Getters
+
+	// Getters
 	public Long getEventType_ID() {
 		return eventType_ID;
 	}
@@ -67,9 +65,9 @@ public class EventType extends ResourceSupport {
 
 	public List<Event> getEvents() {
 		return events;
-	}	
-  
-	//Setters
+	}
+
+	// Setters
 	public void setName(String name) {
 		this.name = name;
 	}

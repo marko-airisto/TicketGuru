@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fi.rbmk.ticketguru.eventType.*;
 import fi.rbmk.ticketguru.eventOrganizer.*;
+import fi.rbmk.ticketguru.eventTicket.*;
 import fi.rbmk.ticketguru.venue.*;
 import fi.rbmk.ticketguru.ageLimit.*;
 
@@ -34,11 +35,18 @@ import fi.rbmk.ticketguru.ageLimit.*;
 @RequestMapping(value = "/api/events", produces = "application/hal+json")
 public class EventController {
 
-    @Autowired EventRepository eRepository;
-    @Autowired EventTypeRepository etRepository;
-    @Autowired EventOrganizerRepository eoGroupRepository;
-    @Autowired VenueRepository vRepository;
-    @Autowired AgeLimitRepository alRepository;
+    @Autowired
+    EventRepository eRepository;
+    @Autowired
+    EventTypeRepository etRepository;
+    @Autowired
+    EventOrganizerRepository eoGroupRepository;
+    @Autowired
+    VenueRepository vRepository;
+    @Autowired
+    AgeLimitRepository alRepository;
+    @Autowired
+    EventTicketRepository eventTicketRepository;
 
     @PostMapping(produces = "application/hal+json")
     ResponseEntity<?> add(@Valid @RequestBody Event event) {
@@ -46,7 +54,8 @@ public class EventController {
             Long id = eRepository.save(event).getEvent_ID();
             Link selfLink = linkTo(EventController.class).slash(id).withSelfRel();
             Link eventTypeLink = linkTo(methodOn(EventController.class).getEventType(id)).withRel("eventType");
-            Link eventOrganizerLink = linkTo(methodOn(EventController.class).getEventOrganizer(id)).withRel("eventOrganizer");
+            Link eventOrganizerLink = linkTo(methodOn(EventController.class).getEventOrganizer(id))
+                    .withRel("eventOrganizer");
             Link venueLink = linkTo(methodOn(EventController.class).getVenue(id)).withRel("venue");
             Link ageLimitLink = linkTo(methodOn(EventController.class).getAgeLimit(id)).withRel("ageLimit");
             event.add(selfLink);
@@ -64,13 +73,27 @@ public class EventController {
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<Event> edit(@Valid @RequestBody Event newEvent, @PathVariable Long id) {
         Event event = eRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        if(newEvent.getName() != "") { event.setName(newEvent.getName()); }
-        if(newEvent.getEventType() != null) { event.setEventType(newEvent.getEventType()); }
-        if(newEvent.getDateTime() != null) { event.setDateTime(newEvent.getDateTime()); }
-        if(newEvent.getEventOrganizer() != null) { event.setEventOrganizer(newEvent.getEventOrganizer()); }
-        if(newEvent.getVenue() != null) { event.setVenue(newEvent.getVenue()); }
-        if(newEvent.getTicketCapacity() != null) { event.setTicketCapacity(newEvent.getTicketCapacity()); }
-        if(newEvent.getAgeLimit() != null) { event.setAgeLimit(newEvent.getAgeLimit()); }
+        if (newEvent.getName() != "") {
+            event.setName(newEvent.getName());
+        }
+        if (newEvent.getEventType() != null) {
+            event.setEventType(newEvent.getEventType());
+        }
+        if (newEvent.getDateTime() != null) {
+            event.setDateTime(newEvent.getDateTime());
+        }
+        if (newEvent.getEventOrganizer() != null) {
+            event.setEventOrganizer(newEvent.getEventOrganizer());
+        }
+        if (newEvent.getVenue() != null) {
+            event.setVenue(newEvent.getVenue());
+        }
+        if (newEvent.getTicketCapacity() != null) {
+            event.setTicketCapacity(newEvent.getTicketCapacity());
+        }
+        if (newEvent.getAgeLimit() != null) {
+            event.setAgeLimit(newEvent.getAgeLimit());
+        }
         eRepository.save(event);
         return ResponseEntity.created(URI.create("/api/events/" + event.getEvent_ID())).build();
     }
@@ -92,7 +115,8 @@ public class EventController {
                 Long id = event.getEvent_ID();
                 Link selfLink = linkTo(EventController.class).slash(id).withSelfRel();
                 Link eventTypeLink = linkTo(methodOn(EventController.class).getEventType(id)).withRel("eventType");
-                Link eventOrganizerLink = linkTo(methodOn(EventController.class).getEventOrganizer(id)).withRel("eventOrganizer");
+                Link eventOrganizerLink = linkTo(methodOn(EventController.class).getEventOrganizer(id))
+                        .withRel("eventOrganizer");
                 Link venueLink = linkTo(methodOn(EventController.class).getVenue(id)).withRel("venue");
                 Link ageLimitLink = linkTo(methodOn(EventController.class).getAgeLimit(id)).withRel("ageLimit");
                 event.add(selfLink);
@@ -113,7 +137,8 @@ public class EventController {
         Event event = eRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         Link selfLink = linkTo(EventController.class).slash(id).withSelfRel();
         Link eventTypeLink = linkTo(methodOn(EventController.class).getEventType(id)).withRel("eventType");
-        Link eventOrganizerLink = linkTo(methodOn(EventController.class).getEventOrganizer(id)).withRel("eventOrganizer");
+        Link eventOrganizerLink = linkTo(methodOn(EventController.class).getEventOrganizer(id))
+                .withRel("eventOrganizer");
         Link venueLink = linkTo(methodOn(EventController.class).getVenue(id)).withRel("venue");
         Link ageLimitLink = linkTo(methodOn(EventController.class).getAgeLimit(id)).withRel("ageLimit");
         event.add(selfLink);
@@ -141,7 +166,8 @@ public class EventController {
     ResponseEntity<Resource<EventOrganizer>> getEventOrganizer(@PathVariable Long id) {
         Event event = eRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         EventOrganizer eventOrganizer = event.getEventOrganizer();
-        Link selfLink = linkTo(methodOn(EventOrganizerController.class).one(eventOrganizer.getEventOrganizer_ID())).withSelfRel();
+        Link selfLink = linkTo(methodOn(EventOrganizerController.class).one(eventOrganizer.getEventOrganizer_ID()))
+                .withSelfRel();
         Link eventsLink = linkTo(methodOn(EventOrganizerController.class).getEvents(id)).withRel("events");
         eventOrganizer.add(selfLink);
         eventOrganizer.add(eventsLink);
@@ -154,7 +180,7 @@ public class EventController {
         Event event = eRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         Venue venue = event.getVenue();
         Link selfLink = linkTo(methodOn(VenueController.class).one(venue.getVenue_ID())).withSelfRel();
-        Link eventsLink = linkTo(methodOn(VenueController.class).getEvents(id)).withRel("users");
+        Link eventsLink = linkTo(methodOn(VenueController.class).getVenueEvents(id)).withRel("users");
         venue.add(selfLink);
         venue.add(eventsLink);
         Resource<Venue> resource = new Resource<Venue>(venue);
@@ -171,5 +197,23 @@ public class EventController {
         ageLimit.add(eventsLink);
         Resource<AgeLimit> resource = new Resource<AgeLimit>(ageLimit);
         return ResponseEntity.ok(resource);
+    }
+
+    @GetMapping(value = "/{id}/eventTickets", produces = "application/hal+json")
+    public ResponseEntity<Resources<EventTicket>> getEvents(@PathVariable Long id) {
+        Event event = eRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        Link link = linkTo(EventController.class).withSelfRel();
+        List<EventTicket> eventTickets = event.getEventTickets();
+        if (eventTickets.size() != 0) {
+            for (EventTicket eventTicket : eventTickets) {
+                Long eventTicket_ID = eventTicket.getEventTicket_ID();
+                Link selfLink = linkTo(EventTicketController.class).slash(eventTicket_ID).withSelfRel();
+                eventTicket.add(selfLink);
+            }
+            Resources<EventTicket> resources = new Resources<EventTicket>(eventTickets, link);
+            return ResponseEntity.ok(resources);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 }

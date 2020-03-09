@@ -6,6 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+
+import org.springframework.hateoas.ResourceSupport;
+
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,7 +20,7 @@ import fi.rbmk.ticketguru.saleEvent.SaleEvent;
 
 @Entity
 @Table(name = "SaleRows")
-public class SaleRow {
+public class SaleRow extends ResourceSupport {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,7 +59,7 @@ public class SaleRow {
 		return this.saleEvent;
 	}
 
-	public Long getId() {
+	public Long getSaleRow_ID() {
 		return this.id;
 	}
 

@@ -12,6 +12,8 @@ import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.springframework.hateoas.ResourceSupport;
+
 import fi.rbmk.ticketguru.saleRow.SaleRow;
 
 import javax.persistence.Id;
@@ -20,7 +22,7 @@ import javax.persistence.OneToMany;
 
 @Entity
 @Table(name = "SaleEvents")
-public class SaleEvent {
+public class SaleEvent extends ResourceSupport {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,7 +53,7 @@ public class SaleEvent {
 	}
 
 	// Getterit
-	public Long getId() {
+	public Long getSaleRow_ID() {
 		return this.id;
 	}
 

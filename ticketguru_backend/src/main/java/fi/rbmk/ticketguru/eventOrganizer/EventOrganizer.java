@@ -15,7 +15,6 @@ import javax.persistence.Table;
 
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.springframework.hateoas.ResourceSupport;
 
@@ -31,9 +30,9 @@ public class EventOrganizer extends ResourceSupport {
 	private String name, streetAddress, tel, email, www, contactPerson;
 
 	@NotEmpty(message = "Postcode is required")
-    @ManyToOne
-    @JoinColumn(name = "postcode_ID")
-    private Postcode postcode;
+	@ManyToOne
+	@JoinColumn(name = "postcode_ID")
+	private Postcode postcode;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "eventOrganizer")
 	private List<Event> events;
@@ -125,8 +124,8 @@ public class EventOrganizer extends ResourceSupport {
 
 	@Override
 	public String toString() {
-		return "EventOrganizer[id=" + eventOrganizer_ID + ", name=" + name + ", streetAddress="
-				+ streetAddress + ", tel=" + tel + ", email=" + email
-				+ ", www=" + www+ ", contactPerson=" + contactPerson + ", postcode=" + postcode + "]";
+		return "EventOrganizer[id=" + eventOrganizer_ID + ", name=" + name + ", streetAddress=" + streetAddress
+				+ ", tel=" + tel + ", email=" + email + ", www=" + www + ", contactPerson=" + contactPerson
+				+ ", postcode=" + postcode + "]";
 	}
 }
