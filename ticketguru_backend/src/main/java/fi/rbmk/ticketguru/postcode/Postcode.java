@@ -12,8 +12,6 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.hateoas.ResourceSupport;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import fi.rbmk.ticketguru.venue.Venue;
 
 import fi.rbmk.ticketguru.eventOrganizer.EventOrganizer;
@@ -21,12 +19,12 @@ import fi.rbmk.ticketguru.eventOrganizer.EventOrganizer;
 @Entity
 @Table(name = "Postcodes")
 public class Postcode extends ResourceSupport {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "postcode_ID")
 	private Long postcode_ID;
-	
+
 	@NotEmpty(message = "Postcode")
 	@Length(max = 10)
 	@Column(name = "postcode")
@@ -52,8 +50,9 @@ public class Postcode extends ResourceSupport {
 		super();
 	}
 
-	public Postcode(Postcode postcode) {}
-	
+	public Postcode(Postcode postcode) {
+	}
+
 	public Postcode(String postcode, String city, String country) {
 		super();
 		this.postcode = postcode;
@@ -62,23 +61,49 @@ public class Postcode extends ResourceSupport {
 	}
 
 	// Getterit
-	
-	public Long getPostcode_ID() { return postcode_ID; }
-	public String getPostcode() { return postcode; }
-	public String getCity() { return city; }
-	public String getCountry() { return country; }
-	public List<Venue> getVenues() { return venues; }
-	public List<EventOrganizer> getEventOrganizers() { return eventOrganizers; }
+
+	public Long getPostcode_ID() {
+		return postcode_ID;
+	}
+
+	public String getPostcode() {
+		return postcode;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public List<Venue> getVenues() {
+		return venues;
+	}
+
+	public List<EventOrganizer> getEventOrganizers() {
+		return eventOrganizers;
+	}
 
 	// Setterit
-	
-	public void setPostcode(String postcode) { this.postcode = postcode; }
-	public void setCity(String city) { this.city = city; }
-	public void setCountry(String country) { this.country = country; }
+
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
 
 	@Override
 	public String toString() {
-		return "PostCodes [postcode_ID=" + postcode + ", postcode=" + postcode + ", city=" + city + ", country=" + country + "]";
+		return "PostCodes [postcode_ID=" + postcode + ", postcode=" + postcode + ", city=" + city + ", country="
+				+ country + "]";
 	}
 
 }

@@ -18,7 +18,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Venues")
@@ -125,7 +124,7 @@ public class Venue extends ResourceSupport {
 
     public List<Event> getEvents() {
         return this.events;
-    }
+       }
 
     // Setters
     public void setName(String name) {

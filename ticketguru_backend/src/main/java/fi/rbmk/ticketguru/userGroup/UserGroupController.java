@@ -24,9 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fi.rbmk.ticketguru.user.User;
-import fi.rbmk.ticketguru.user.UserRepository;
-import fi.rbmk.ticketguru.user.UserController;
+import fi.rbmk.ticketguru.user.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController

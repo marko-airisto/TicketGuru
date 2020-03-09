@@ -20,7 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
-@Table(name="Tickets")
+@Table(name = "Tickets")
 public class Ticket extends ResourceSupport {
 
     @Id
@@ -37,31 +37,58 @@ public class Ticket extends ResourceSupport {
     private TicketStatus ticketStatus;
 
     @NotEmpty(message = "Ticket checksum is required")
-    @Length(max = 20)
-    @Column(name = "ticketCheckSum")
+    @Length(max = 200)
+    @Column(name = "checkSum")
     private String checkSum;
 
-    @OneToOne(mappedBy = "ticket")
+    @OneToOne
+    @JoinColumn(name = "saleRow_ID")
     private SaleRow saleRow;
 
-    public Ticket() {}
+    public Ticket() {
+    }
 
-    public Ticket(Ticket ticket) {}
+    public Ticket(Ticket ticket) {
+    }
 
-    public Ticket(EventTicket eventTicket, TicketStatus ticketStatus, String checkSum) {
+    public Ticket(EventTicket eventTicket, TicketStatus ticketStatus, String checkSum, SaleRow saleRow) {
         this.eventTicket = eventTicket;
         this.ticketStatus = ticketStatus;
         this.checkSum = checkSum;
+        this.saleRow = saleRow;
     }
 
-    //Getters
-    public Long getId() { return this.id; }
-    public EventTicket getEventTicket() { return this.eventTicket; }
-    public TicketStatus getTicketStatus() { return this.ticketStatus; }
-    public String getCheckSum() { return this.checkSum; }
-    public SaleRow getSaleRow() { return saleRow; }
-    //Setters
-    public void setEventTicket(EventTicket eventTicket) { this.eventTicket = eventTicket; }
-    public void setTicketStatus(TicketStatus ticketStatus) { this.ticketStatus = ticketStatus; }
-    public void setTicketCheckSum(String checkSum) { this.checkSum = checkSum; }
+    // Getters
+    public Long getTicket_ID() {
+        return this.id;
+    }
+
+    public EventTicket getEventTicket() {
+        return this.eventTicket;
+    }
+
+    public TicketStatus getTicketStatus() {
+        return this.ticketStatus;
+    }
+
+    public String getCheckSum() {
+        return this.checkSum;
+    }
+
+    public SaleRow getSaleRow() {
+        return this.saleRow;
+    }
+
+    // Setters
+    public void setEventTicket(EventTicket eventTicket) {
+        this.eventTicket = eventTicket;
+    }
+
+    public void setTicketStatus(TicketStatus ticketStatus) {
+        this.ticketStatus = ticketStatus;
+    }
+
+    public void setCheckSum(String checkSum) {
+        this.checkSum = checkSum;
+    }
 }
