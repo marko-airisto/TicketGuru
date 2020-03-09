@@ -16,16 +16,17 @@ import javax.validation.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.hateoas.ResourceSupport;
 
 @Entity
 @Table(name = "EventTypes")
-public class EventType {
-
+public class EventType extends ResourceSupport {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "eventType_ID")
-	private Long id;
-
+	private Long eventType_ID;	
+	
 	@NotEmpty(message = "Event type name is required")
 	@Length(max = 100)
 	@Column(name = "name")
@@ -35,8 +36,7 @@ public class EventType {
 	@Length(max = 500)
 	@Column(name = "info")
 	private String info;
-
-	@JsonIgnore
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "eventType")
 	private List<Event> events;
 
@@ -44,18 +44,17 @@ public class EventType {
 	}
 
 	public EventType(EventType eventType) {
-	}
-
-	public EventType(Long id, String name, String info) {
+  	}
+  
+  	public EventType(String name, String info) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.info = info;
 	}
-
-	// Getters
-	public Long getId() {
-		return id;
+  
+	//Getters
+	public Long getEventType_ID() {
+		return eventType_ID;
 	}
 
 	public String getName() {
@@ -68,13 +67,9 @@ public class EventType {
 
 	public List<Event> getEvents() {
 		return events;
-	}
-
-	// Setters
-	public void setId(Long id) {
-		this.id = id;
-	}
-
+	}	
+  
+	//Setters
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -85,6 +80,6 @@ public class EventType {
 
 	@Override
 	public String toString() {
-		return "EventType[id=" + id + ", name=" + name + ", info=" + info + "]";
+		return "EventType[id=" + eventType_ID + ", name=" + name + ", info=" + info + "]";
 	}
 }

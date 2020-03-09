@@ -8,6 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource
 public interface EventOrganizerRepository extends CrudRepository<EventOrganizer, Long> {
 	
-	List<EventOrganizer> findByName(@Param("name") String name);
+	//List<EventOrganizer> findByName(@Param("name") String name);
+	List<EventOrganizer> findAll();
 	
 }

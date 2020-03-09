@@ -8,6 +8,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.hateoas.ResourceSupport;
 
 import fi.rbmk.ticketguru.eventTicket.EventTicket;
 import fi.rbmk.ticketguru.saleRow.SaleRow;
@@ -20,7 +21,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 @Table(name="Tickets")
-public class Ticket {
+public class Ticket extends ResourceSupport {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
