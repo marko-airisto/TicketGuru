@@ -24,9 +24,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fi.rbmk.ticketguru.userGroup.UserGroup;
-import fi.rbmk.ticketguru.userGroup.UserGroupRepository;
-import fi.rbmk.ticketguru.userGroup.UserGroupController;
+import fi.rbmk.ticketguru.saleEvent.*;
+import fi.rbmk.ticketguru.userGroup.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -34,14 +33,14 @@ import fi.rbmk.ticketguru.userGroup.UserGroupController;
 public class UserController {
 
     @Autowired
-    UserRepository userRepository;
+    UserRepository uRepository;
     @Autowired
-    UserGroupRepository userGroupRepository;
+    UserGroupRepository uGRepository;
 
     @PostMapping(produces = "application/hal+json")
     ResponseEntity<?> add(@Valid @RequestBody User user) {
         try {
-            Long id = userRepository.save(user).getUser_ID();
+            Long id = uRepository.save(user).getUser_ID();
             Link selfLink = linkTo(UserController.class).slash(id).withSelfRel();
             Link userGroupLink = linkTo(methodOn(UserController.class).getUserGroup(id)).withRel("userGroup");
             user.add(selfLink);
@@ -55,7 +54,7 @@ public class UserController {
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<User> edit(@Valid @RequestBody User newUser, @PathVariable Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        User user = uRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (newUser.getPassword() != "") {
             user.setPassword(newUser.getPassword());
         }
@@ -68,21 +67,21 @@ public class UserController {
         if (newUser.getActive() != user.getActive()) {
             user.setActive(newUser.getActive());
         }
-        userRepository.save(user);
+        uRepository.save(user);
         return ResponseEntity.created(URI.create("/api/users/" + user.getUser_ID())).build();
     }
 
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> delete(@PathVariable Long id) {
-        return userRepository.findById(id).map(m -> {
-            userRepository.deleteById(id);
+        return uRepository.findById(id).map(m -> {
+            uRepository.deleteById(id);
             return ResponseEntity.noContent().build();
         }).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
     }
 
     @GetMapping(produces = "application/hal+json")
     ResponseEntity<Resources<User>> all() {
-        List<User> users = userRepository.findAll();
+        List<User> users = uRepository.findAll();
         Link link = linkTo(UserController.class).withSelfRel();
         if (users.size() != 0) {
             for (User user : users) {
@@ -101,7 +100,7 @@ public class UserController {
 
     @GetMapping(value = "/{id}", produces = "application/hal+json")
     public ResponseEntity<Resource<User>> one(@PathVariable Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        User user = uRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         Link selfLink = linkTo(UserController.class).slash(id).withSelfRel();
         Link userGroupLink = linkTo(methodOn(UserController.class).getUserGroup(id)).withRel("userGroup");
         user.add(selfLink);
@@ -112,7 +111,7 @@ public class UserController {
 
     @GetMapping(value = "/{id}/userGroup", produces = "application/hal+json")
     ResponseEntity<Resource<UserGroup>> getUserGroup(@PathVariable Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        User user = uRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         UserGroup userGroup = user.getUserGroup();
         Link selfLink = linkTo(methodOn(UserGroupController.class).one(userGroup.getUserGroup_ID())).withSelfRel();
         Link usersLink = linkTo(methodOn(UserGroupController.class).getUsers(id)).withRel("users");
@@ -120,5 +119,23 @@ public class UserController {
         userGroup.add(usersLink);
         Resource<UserGroup> resource = new Resource<UserGroup>(userGroup);
         return ResponseEntity.ok(resource);
+    }
+
+    @GetMapping(value = "/{id}/saleEvents", produces = "application/hal+json")
+    public ResponseEntity<Resources<SaleEvent>> getUsers(@PathVariable Long id) {
+        User user = uRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        Link link = linkTo(UserController.class).withSelfRel();
+        List<SaleEvent> saleEvents = user.getSaleEvents();
+        if (saleEvents.size() != 0) {
+            for (SaleEvent saleEvent : saleEvents) {
+                Long saleEvent_ID = saleEvent.getSaleEvent_ID();
+                Link selfLink = linkTo(SaleEventController.class).slash(saleEvent_ID).withSelfRel();
+                user.add(selfLink);
+            }
+            Resources<SaleEvent> resources = new Resources<SaleEvent>(saleEvents, link);
+            return ResponseEntity.ok(resources);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

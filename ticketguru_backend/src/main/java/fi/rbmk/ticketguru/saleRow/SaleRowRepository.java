@@ -5,7 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface SaleRowRepository extends CrudRepository<SaleRow, Long> {
 
-	// List<SaleRow> findbyName(String name);
-
 	List<SaleRow> findAll();
 }

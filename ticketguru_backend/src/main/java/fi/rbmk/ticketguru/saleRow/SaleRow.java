@@ -1,5 +1,7 @@
 package fi.rbmk.ticketguru.saleRow;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,9 +37,6 @@ public class SaleRow extends ResourceSupport {
 	@JoinColumn(name = "saleEvent_ID")
 	private SaleEvent saleEvent;
 
-	// Miten tehdään OneToOne liittymä (Yksi SaleRow vastaa yhtä Tickets -taulun
-	// riviä)
-	// OneToOne liittymä voidaan tehdä vaikka kuten alla -Mika
 	@OneToOne
 	@JoinColumn(name = "ticket_ID", referencedColumnName = "ticket_ID")
 	private Ticket ticket;
@@ -90,12 +89,6 @@ public class SaleRow extends ResourceSupport {
 
 	public void setDiscount(Long discount) {
 		this.discount = discount;
-	}
-
-	@Override
-	public String toString() {
-		return "SaleRows [id=" + id + ", saleEvent=" + saleEvent + ", ticket=" + ticket + ", discount=" + discount
-				+ "]";
 	}
 
 }

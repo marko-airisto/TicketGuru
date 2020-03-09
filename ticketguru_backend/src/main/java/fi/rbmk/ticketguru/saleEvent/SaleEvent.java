@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.hateoas.ResourceSupport;
 
 import fi.rbmk.ticketguru.saleRow.SaleRow;
+import fi.rbmk.ticketguru.user.User;
 
 import javax.persistence.Id;
 
@@ -35,7 +36,7 @@ public class SaleEvent extends ResourceSupport {
 
 	@NotEmpty(message = "Please enter the user ID")
 	@Column(name = "user_ID")
-	private Long user;
+	private User user;
 
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "saleEvent")
@@ -45,7 +46,7 @@ public class SaleEvent extends ResourceSupport {
 		super();
 	}
 
-	public SaleEvent(Long id, LocalDateTime dateTime, Long user) {
+	public SaleEvent(Long id, LocalDateTime dateTime, User user) {
 		super();
 		this.id = id;
 		this.dateTime = dateTime;
@@ -53,15 +54,19 @@ public class SaleEvent extends ResourceSupport {
 	}
 
 	// Getterit
+	public Long getSaleEvent_ID() {
+		return this.id;
+	}
+
 	public Long getSaleRow_ID() {
 		return this.id;
 	}
 
-	public LocalDateTime getSaleEventDateTime() {
+	public LocalDateTime getDateTime() {
 		return this.dateTime;
 	}
 
-	public Long getUser_ID() {
+	public User getUser() {
 		return this.user;
 	}
 
@@ -74,21 +79,15 @@ public class SaleEvent extends ResourceSupport {
 		this.id = saleEvent_ID;
 	}
 
-	public void setSaleEventDateTime(LocalDateTime dateTime) {
+	public void setDateTime(LocalDateTime dateTime) {
 		this.dateTime = dateTime;
 	}
 
-	public void setUser_ID(Long user_ID) {
-		this.user = user_ID;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public void setSaleRows(List<SaleRow> saleRows) {
 		this.saleRows = saleRows;
 	}
-
-	@Override
-	public String toString() {
-		return "SaleEvents [saleEvent_ID=" + id + ", saleEventDateTime=" + dateTime + ", user_ID=" + user + "]";
-	}
-
 }

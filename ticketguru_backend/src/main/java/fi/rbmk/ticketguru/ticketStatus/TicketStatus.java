@@ -48,7 +48,7 @@ public class TicketStatus extends ResourceSupport {
 
 	// Getters
 
-	public Long getTicket_ID() {
+	public Long getTicketStatus_ID() {
 		return this.id;
 	}
 
