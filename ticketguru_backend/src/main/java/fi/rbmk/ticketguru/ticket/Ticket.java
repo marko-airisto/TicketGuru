@@ -37,8 +37,8 @@ public class Ticket extends ResourceSupport {
     private TicketStatus ticketStatus;
 
     @NotEmpty(message = "Ticket checksum is required")
-    @Length(max = 20)
-    @Column(name = "ticketCheckSum")
+    @Length(max = 200)
+    @Column(name = "checkSum")
     private String checkSum;
 
     @OneToOne

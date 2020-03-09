@@ -29,7 +29,7 @@ public class SaleRow extends ResourceSupport {
 	@Column(name = "saleRow_ID")
 	private Long id;
 
-	@Column(name = "Discount")
+	@Column(name = "discount")
 	private Long discount; // Pitäisikö olla % vai alennus euroina vai...? Varmaan % olisi paras -Mika
 
 	@NotEmpty(message = "Sale event is required")
