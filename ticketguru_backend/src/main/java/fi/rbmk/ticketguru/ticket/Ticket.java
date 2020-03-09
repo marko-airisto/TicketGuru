@@ -41,7 +41,8 @@ public class Ticket extends ResourceSupport {
     @Column(name = "ticketCheckSum")
     private String checkSum;
 
-    @OneToOne(mappedBy = "ticket")
+    @OneToOne
+    @JoinColumn(name = "saleRow_ID")
     private SaleRow saleRow;
 
     public Ticket() {
@@ -50,10 +51,11 @@ public class Ticket extends ResourceSupport {
     public Ticket(Ticket ticket) {
     }
 
-    public Ticket(EventTicket eventTicket, TicketStatus ticketStatus, String checkSum) {
+    public Ticket(EventTicket eventTicket, TicketStatus ticketStatus, String checkSum, SaleRow saleRow) {
         this.eventTicket = eventTicket;
         this.ticketStatus = ticketStatus;
         this.checkSum = checkSum;
+        this.saleRow = saleRow;
     }
 
     // Getters
@@ -74,7 +76,7 @@ public class Ticket extends ResourceSupport {
     }
 
     public SaleRow getSaleRow() {
-        return saleRow;
+        return this.saleRow;
     }
 
     // Setters
@@ -86,7 +88,7 @@ public class Ticket extends ResourceSupport {
         this.ticketStatus = ticketStatus;
     }
 
-    public void setTicketCheckSum(String checkSum) {
+    public void setCheckSum(String checkSum) {
         this.checkSum = checkSum;
     }
 }

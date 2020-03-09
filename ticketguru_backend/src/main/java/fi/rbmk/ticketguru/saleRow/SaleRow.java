@@ -14,7 +14,7 @@ import org.springframework.hateoas.ResourceSupport;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import fi.rbmk.ticketguru.ticket.Ticket;
@@ -38,7 +38,7 @@ public class SaleRow extends ResourceSupport {
 	private SaleEvent saleEvent;
 
 	@OneToOne
-	@JoinColumn(name = "ticket_ID", referencedColumnName = "ticket_ID")
+	@JoinColumn(name = "ticket_ID")
 	private Ticket ticket;
 
 	public SaleRow() {

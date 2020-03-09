@@ -46,7 +46,7 @@ public class User extends ResourceSupport {
 	private UserGroup userGroup;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "saleEvent")
+	@OneToMany(mappedBy = "user")
 	private List<SaleEvent> saleEvents;
 
 	public User() {

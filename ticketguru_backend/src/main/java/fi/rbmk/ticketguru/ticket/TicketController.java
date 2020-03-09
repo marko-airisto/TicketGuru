@@ -63,7 +63,7 @@ public class TicketController {
         }
         if (newTicket.getCheckSum() != "") {
             ticket.setCheckSum(newTicket.getCheckSum());
-
+        }
         tRepository.save(ticket);
         return ResponseEntity.created(URI.create("/api/tickets/" + ticket.getTicket_ID())).build();
     }

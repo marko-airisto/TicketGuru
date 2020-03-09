@@ -18,7 +18,8 @@ import fi.rbmk.ticketguru.saleRow.SaleRow;
 import fi.rbmk.ticketguru.user.User;
 
 import javax.persistence.Id;
-
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -35,7 +36,8 @@ public class SaleEvent extends ResourceSupport {
 	private LocalDateTime dateTime;
 
 	@NotEmpty(message = "Please enter the user ID")
-	@Column(name = "user_ID")
+	@ManyToOne
+	@JoinColumn(name = "user_ID")
 	private User user;
 
 	@JsonIgnore
