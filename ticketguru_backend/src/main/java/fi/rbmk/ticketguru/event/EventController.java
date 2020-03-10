@@ -49,25 +49,16 @@ public class EventController {
     EventTicketRepository eventTicketRepository;
 
     @PostMapping(produces = "application/hal+json")
-    ResponseEntity<?> add(@Valid @RequestBody Event event) {
+    ResponseEntity<?> add(@Valid @RequestBody Event newEvent) {
         try {
-            Long id = eRepository.save(event).getEvent_ID();
-            Link selfLink = linkTo(EventController.class).slash(id).withSelfRel();
-            Link eventTypeLink = linkTo(methodOn(EventController.class).getEventType(id)).withRel("eventType");
-            Link eventOrganizerLink = linkTo(methodOn(EventController.class).getEventOrganizer(id))
-                    .withRel("eventOrganizer");
-            Link venueLink = linkTo(methodOn(EventController.class).getVenue(id)).withRel("venue");
-            Link ageLimitLink = linkTo(methodOn(EventController.class).getAgeLimit(id)).withRel("ageLimit");
-            event.add(selfLink);
-            event.add(eventTypeLink);
-            event.add(eventOrganizerLink);
-            event.add(venueLink);
-            event.add(ageLimitLink);
+            Event event = eRepository.save(newEvent);
+            EventLinks eventLinks = new EventLinks(event);
+            event.add(eventLinks.getAll());
+            Resource<Event> resource = new Resource<Event>(event);
+            return ResponseEntity.ok(resource);
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.badRequest().body("Duplicate entry");
         }
-        Resource<Event> resource = new Resource<Event>(event);
-        return ResponseEntity.ok(resource);
     }
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
@@ -112,18 +103,8 @@ public class EventController {
         Link link = linkTo(EventController.class).withSelfRel();
         if (events.size() != 0) {
             for (Event event : events) {
-                Long id = event.getEvent_ID();
-                Link selfLink = linkTo(EventController.class).slash(id).withSelfRel();
-                Link eventTypeLink = linkTo(methodOn(EventController.class).getEventType(id)).withRel("eventType");
-                Link eventOrganizerLink = linkTo(methodOn(EventController.class).getEventOrganizer(id))
-                        .withRel("eventOrganizer");
-                Link venueLink = linkTo(methodOn(EventController.class).getVenue(id)).withRel("venue");
-                Link ageLimitLink = linkTo(methodOn(EventController.class).getAgeLimit(id)).withRel("ageLimit");
-                event.add(selfLink);
-                event.add(eventTypeLink);
-                event.add(eventOrganizerLink);
-                event.add(venueLink);
-                event.add(ageLimitLink);
+                EventLinks eventLinks = new EventLinks(event);
+                event.add(eventLinks.getAll());
             }
             Resources<Event> resources = new Resources<Event>(events, link);
             return ResponseEntity.ok(resources);
@@ -135,17 +116,8 @@ public class EventController {
     @GetMapping(value = "/{id}", produces = "application/hal+json")
     public ResponseEntity<Resource<Event>> one(@PathVariable Long id) {
         Event event = eRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        Link selfLink = linkTo(EventController.class).slash(id).withSelfRel();
-        Link eventTypeLink = linkTo(methodOn(EventController.class).getEventType(id)).withRel("eventType");
-        Link eventOrganizerLink = linkTo(methodOn(EventController.class).getEventOrganizer(id))
-                .withRel("eventOrganizer");
-        Link venueLink = linkTo(methodOn(EventController.class).getVenue(id)).withRel("venue");
-        Link ageLimitLink = linkTo(methodOn(EventController.class).getAgeLimit(id)).withRel("ageLimit");
-        event.add(selfLink);
-        event.add(eventTypeLink);
-        event.add(eventOrganizerLink);
-        event.add(venueLink);
-        event.add(ageLimitLink);
+        EventLinks eventLinks = new EventLinks(event);
+        event.add(eventLinks.getAll());
         Resource<Event> resource = new Resource<Event>(event);
         return ResponseEntity.ok(resource);
     }
@@ -200,7 +172,7 @@ public class EventController {
     }
 
     @GetMapping(value = "/{id}/eventTickets", produces = "application/hal+json")
-    public ResponseEntity<Resources<EventTicket>> getEvents(@PathVariable Long id) {
+    public ResponseEntity<Resources<EventTicket>> getEventTickets(@PathVariable Long id) {
         Event event = eRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         Link link = linkTo(EventController.class).withSelfRel();
         List<EventTicket> eventTickets = event.getEventTickets();

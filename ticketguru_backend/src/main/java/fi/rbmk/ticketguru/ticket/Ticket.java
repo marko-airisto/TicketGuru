@@ -26,7 +26,7 @@ public class Ticket extends ResourceSupport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ticket_ID")
-    private Long id;
+    private Long ticket_ID;
 
     @ManyToOne
     @JoinColumn(name = "eventTicket_ID")
@@ -41,9 +41,10 @@ public class Ticket extends ResourceSupport {
     @Column(name = "checkSum")
     private String checkSum;
 
-    @OneToOne
-    @JoinColumn(name = "saleRow_ID")
+    @OneToOne(mappedBy = "ticket")
     private SaleRow saleRow;
+
+    //private LocalDateTime timestamp;
 
     public Ticket() {
     }
@@ -51,16 +52,16 @@ public class Ticket extends ResourceSupport {
     public Ticket(Ticket ticket) {
     }
 
-    public Ticket(EventTicket eventTicket, TicketStatus ticketStatus, String checkSum, SaleRow saleRow) {
+    public Ticket(EventTicket eventTicket, TicketStatus ticketStatus, String checkSum) {
         this.eventTicket = eventTicket;
         this.ticketStatus = ticketStatus;
         this.checkSum = checkSum;
-        this.saleRow = saleRow;
+
     }
 
     // Getters
     public Long getTicket_ID() {
-        return this.id;
+        return this.ticket_ID;
     }
 
     public EventTicket getEventTicket() {

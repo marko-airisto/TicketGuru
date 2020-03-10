@@ -29,7 +29,7 @@ public class SaleEvent extends ResourceSupport {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "saleEvent_ID")
-	private Long id;
+	private Long saleEvent_ID;
 
 	@NotEmpty(message = "Please enter the date time")
 	@Column(name = "dateTime")
@@ -40,7 +40,6 @@ public class SaleEvent extends ResourceSupport {
 	@JoinColumn(name = "user_ID")
 	private User user;
 
-	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "saleEvent")
 	private List<SaleRow> saleRows;
 
@@ -50,18 +49,18 @@ public class SaleEvent extends ResourceSupport {
 
 	public SaleEvent(Long id, LocalDateTime dateTime, User user) {
 		super();
-		this.id = id;
+		this.saleEvent_ID = id;
 		this.dateTime = dateTime;
 		this.user = user;
 	}
 
 	// Getterit
 	public Long getSaleEvent_ID() {
-		return this.id;
+		return this.saleEvent_ID;
 	}
 
 	public Long getSaleRow_ID() {
-		return this.id;
+		return this.saleEvent_ID;
 	}
 
 	public LocalDateTime getDateTime() {
@@ -77,19 +76,11 @@ public class SaleEvent extends ResourceSupport {
 	}
 
 	// Setterit
-	public void setSaleEvent_ID(Long saleEvent_ID) {
-		this.id = saleEvent_ID;
-	}
-
 	public void setDateTime(LocalDateTime dateTime) {
 		this.dateTime = dateTime;
 	}
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	public void setSaleRows(List<SaleRow> saleRows) {
-		this.saleRows = saleRows;
 	}
 }

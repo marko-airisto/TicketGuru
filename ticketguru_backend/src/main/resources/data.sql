@@ -59,34 +59,34 @@ VALUES
 -- POSTCODES
 
 INSERT INTO Postcodes
-    (postcode_ID, city, country)
+    (postcode, city, country)
 VALUES
     (00002, 'Helsinki', 'Finland');
 INSERT INTO Postcodes
-    (postcode_ID, city, country
+    (postcode, city, country
     )
 VALUES
     (00100, 'Helsinki', 'Finland');
 INSERT INTO Postcodes
-    (postcode_ID, city, country
+    (postcode, city, country
     )
 VALUES
     (00130, 'Helsinki', 'Finland'
 );
 INSERT INTO Postcodes
-    (postcode_ID, city, country
+    (postcode, city, country
     )
 VALUES
     (00140, 'Helsinki', 'Finland'
 );
 INSERT INTO Postcodes
-    (postcode_ID, city, country
+    (postcode, city, country
     )
 VALUES
     (00150, 'Helsinki', 'Finland'
 );
 INSERT INTO Postcodes
-    (postcode_ID, city, country
+    (postcode, city, country
     )
 VALUES
     (00160, 'Helsinki', 'Finland'
@@ -97,14 +97,14 @@ VALUES
 INSERT INTO Venues
     (name, streetAddress, postcode_ID, tel, email, www, contactPerson)
 VALUES
-    ('Helsingin Teatteri', 'Kekkosenkatu 3', '00140', '09 1234566', 'teatteri@teatteri.fi', 'www.helsinginteatteri.com', 'John Wayne');
+    ('Helsingin Teatteri', 'Kekkosenkatu 3', 3, '09 1234566', 'teatteri@teatteri.fi', 'www.helsinginteatteri.com', 'John Wayne');
 
 -- EVENTORGANIZERS
 
 INSERT INTO EventOrganizers
     (name, streetAddress, postcode_ID, tel, email, www, contactPerson)
 VALUES
-    ('GREAT EVENTS OY', 'Tapahtumakatu 16 a 78', '00150', '09 7865566', 'great@events.fi', 'www.greatevents.com', 'Texas Ted');
+    ('GREAT EVENTS OY', 'Tapahtumakatu 16 a 78', 4, '09 7865566', 'great@events.fi', 'www.greatevents.com', 'Texas Ted');
 
 -- EVENTS
 
@@ -143,14 +143,14 @@ VALUES
         1, 2, 1000, 20
     );
 
--- TICKETS / KAATUU SAATANA!!!
-
--- INSERT INTO Tickets (checkSum, eventTicket_ID, saleRow_ID, ticketStatus_ID) VALUES ('hbfhbvhfbvrhbgeyfgf', 1, 1, 1);
-
--- SALEROWS / KAATUU SAATANA!!!
-
--- INSERT INTO SaleRows (discount, saleEvent_ID, ticket_ID) VALUES (0, 1, 1 );
-
 -- SALEEVENTS
 
 INSERT INTO SaleEvents (dateTime, user_ID) VALUES ('2020-03-03 10:00:00', 3);
+
+-- TICKETS / KAATUU SAATANA!!!
+
+INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID) VALUES ('hbfhbvhfbvrhbgeyfgf', 1, 1);
+
+-- SALEROWS / KAATUU SAATANA!!!
+
+INSERT INTO SaleRows (discount, saleEvent_ID, ticket_ID) VALUES (0, 1, 1 );

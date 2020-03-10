@@ -28,7 +28,7 @@ import fi.rbmk.ticketguru.eventTicket.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(value = "/api/tickettypes", produces = "application/hal+json")
+@RequestMapping(value = "/api/ticketTypes", produces = "application/hal+json")
 public class TicketTypeController {
 
     @Autowired

@@ -1,6 +1,5 @@
 package fi.rbmk.ticketguru.saleRow;
 
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +13,6 @@ import org.springframework.hateoas.ResourceSupport;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import fi.rbmk.ticketguru.ticket.Ticket;
@@ -27,7 +25,7 @@ public class SaleRow extends ResourceSupport {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "saleRow_ID")
-	private Long id;
+	private Long saleRow_ID;
 
 	@Column(name = "discount")
 	private Long discount; // Pitäisikö olla % vai alennus euroina vai...? Varmaan % olisi paras -Mika
@@ -47,7 +45,7 @@ public class SaleRow extends ResourceSupport {
 
 	public SaleRow(Long id, SaleEvent saleEvent, Ticket ticket, Long discount) {
 		super();
-		this.id = id;
+		this.saleRow_ID = id;
 		this.saleEvent = saleEvent;
 		this.ticket = ticket;
 		this.discount = discount;
@@ -59,7 +57,7 @@ public class SaleRow extends ResourceSupport {
 	}
 
 	public Long getSaleRow_ID() {
-		return this.id;
+		return this.saleRow_ID;
 	}
 
 	public Ticket getTicket() {
@@ -70,16 +68,8 @@ public class SaleRow extends ResourceSupport {
 		return this.discount;
 	}
 
-	public void setSaleEvent(SaleEvent saleEvent) {
-		this.saleEvent = saleEvent;
-	}
-
 	// Setterit
-	public void setID(Long id) {
-		this.id = id;
-	}
-
-	public void setSaleEvent_ID(SaleEvent saleEvent) {
+	public void setSaleEvent(SaleEvent saleEvent) {
 		this.saleEvent = saleEvent;
 	}
 
