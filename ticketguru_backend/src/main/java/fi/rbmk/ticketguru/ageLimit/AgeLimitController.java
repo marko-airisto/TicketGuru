@@ -28,7 +28,7 @@ import org.springframework.http.ResponseEntity;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(value = "/api/agelimits", produces = "application/hal+json")
+@RequestMapping(value = "/api/ageLimits", produces = "application/hal+json")
 public class AgeLimitController {
 	
 	@Autowired
@@ -38,11 +38,8 @@ public class AgeLimitController {
     public ResponseEntity<?> add(@Valid @RequestBody AgeLimit newAgeLimit) {
         try {
             AgeLimit ageLimit = alRepository.save(newAgeLimit);
-            Long id = ageLimit.getAgeLimit_ID();
-            Link selfLink = linkTo(AgeLimitController.class).slash(id).withSelfRel();
-            Link eventsLink = linkTo(methodOn(AgeLimitController.class).getEvents(id)).withRel("events");
-            ageLimit.add(selfLink);
-            ageLimit.add(eventsLink);
+            AgeLimitLinks links = new AgeLimitLinks(ageLimit);
+            ageLimit.add(links.getAll());
             Resource<AgeLimit> resource = new Resource<AgeLimit>(ageLimit);
             return ResponseEntity.created(URI.create("/api/ageLimits/" + ageLimit.getAgeLimit_ID())).body(resource);
         } catch (DuplicateKeyException e) {
@@ -78,11 +75,8 @@ public class AgeLimitController {
         Link link = linkTo(AgeLimitController.class).withSelfRel();
         if (ageLimits.size() != 0) {
             for (AgeLimit ageLimit : ageLimits) {
-                Long id = ageLimit.getAgeLimit_ID();
-                Link selfLink = linkTo(AgeLimitController.class).slash(id).withSelfRel();
-                Link eventsLink = linkTo(methodOn(AgeLimitController.class).getEvents(id)).withRel("events");
-                ageLimit.add(selfLink);
-                ageLimit.add(eventsLink);
+                AgeLimitLinks ageLimitLinks = new AgeLimitLinks(ageLimit);
+                ageLimit.add(ageLimitLinks.getAll());
             }
             Resources<AgeLimit> resources = new Resources<AgeLimit>(ageLimits, link);
             return ResponseEntity.ok(resources);
@@ -94,10 +88,8 @@ public class AgeLimitController {
     @GetMapping(value = "/{id}", produces = "application/hal+json")
     public ResponseEntity<Resource<AgeLimit>> one(@PathVariable Long id) {
         AgeLimit ageLimit = alRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        Link selfLink = linkTo(AgeLimitController.class).slash(id).withSelfRel();
-        Link eventsLink = linkTo(methodOn(AgeLimitController.class).getEvents(id)).withRel("events");
-        ageLimit.add(selfLink);
-        ageLimit.add(eventsLink);
+        AgeLimitLinks links = new AgeLimitLinks(ageLimit);
+        ageLimit.add(links.getAll());
         Resource<AgeLimit> resource = new Resource<AgeLimit>(ageLimit);
         return ResponseEntity.ok(resource);
     }

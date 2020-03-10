@@ -30,7 +30,7 @@ import fi.rbmk.ticketguru.ticketType.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(value = "/api/eventtickets", produces = "application/hal+json")
+@RequestMapping(value = "/api/eventTickets", produces = "application/hal+json")
 public class EventTicketController {
 
     @Autowired
@@ -43,18 +43,16 @@ public class EventTicketController {
     TicketTypeRepository ttGroupRepository;
 
     @PostMapping(produces = "application/hal+json")
-    ResponseEntity<?> add(@Valid @RequestBody EventTicket eventTicket) {
+    ResponseEntity<?> add(@Valid @RequestBody EventTicket newEventTicket) {
         try {
-            Long id = eTRepository.save(eventTicket).getEventTicket_ID();
-            Link selfLink = linkTo(EventTicketController.class).slash(id).withSelfRel();
-            Link eventLink = linkTo(methodOn(EventTicketController.class).getEvents(id)).withRel("event");
-            eventTicket.add(selfLink);
-            eventTicket.add(eventLink);
+            EventTicket eventTicket = eTRepository.save(newEventTicket);
+            EventTicketLinks links = new EventTicketLinks(eventTicket);
+            eventTicket.add(links.getAll());
+            Resource<EventTicket> resource = new Resource<EventTicket>(eventTicket);
+            return ResponseEntity.ok(resource);
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.badRequest().body("Duplicate entry");
         }
-        Resource<EventTicket> resource = new Resource<EventTicket>(eventTicket);
-        return ResponseEntity.ok(resource);
     }
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
@@ -74,7 +72,7 @@ public class EventTicketController {
             eventTicket.setPrice(newEventTicket.getPrice());
         }
         eTRepository.save(eventTicket);
-        return ResponseEntity.created(URI.create("/api/eventtickets/" + eventTicket.getEventTicket_ID())).build();
+        return ResponseEntity.created(URI.create("/api/eventTickets/" + eventTicket.getEventTicket_ID())).build();
     }
 
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
@@ -91,14 +89,8 @@ public class EventTicketController {
         Link link = linkTo(EventTicketController.class).withSelfRel();
         if (eventTickets.size() != 0) {
             for (EventTicket eventTicket : eventTickets) {
-                Long id = eventTicket.getEventTicket_ID();
-                Link selfLink = linkTo(EventTicketController.class).slash(id).withSelfRel();
-                Link ticketTypeLink = linkTo(methodOn(EventTicketController.class).getTicketType(id))
-                        .withRel("ticketType");
-
-                eventTicket.add(selfLink);
-                eventTicket.add(ticketTypeLink);
-
+                EventTicketLinks links = new EventTicketLinks(eventTicket);
+                eventTicket.add(links.getAll());
             }
             Resources<EventTicket> resources = new Resources<EventTicket>(eventTickets, link);
             return ResponseEntity.ok(resources);
@@ -109,20 +101,16 @@ public class EventTicketController {
 
     @GetMapping(value = "/{id}", produces = "application/hal+json")
     public ResponseEntity<Resource<EventTicket>> one(@PathVariable Long id) {
-        EventTicket eventTicket = eTRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        Link selfLink = linkTo(EventTicketController.class).slash(id).withSelfRel();
-        Link ticketTypeLink = linkTo(methodOn(EventTicketController.class).getTicketType(id)).withRel("ticketType");
-        eventTicket.add(selfLink);
-        eventTicket.add(ticketTypeLink);
+        EventTicket eventTicket = eTRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+            EventTicketLinks links = new EventTicketLinks(eventTicket);
+            eventTicket.add(links.getAll());
         Resource<EventTicket> resource = new Resource<EventTicket>(eventTicket);
         return ResponseEntity.ok(resource);
     }
 
-    @GetMapping(value = "/{id}/events", produces = "application/hal+json")
-    ResponseEntity<Resource<Event>> getEvents(@PathVariable Long id) {
-        EventTicket eventTicket = eTRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+    @GetMapping(value = "/{id}/event", produces = "application/hal+json")
+    ResponseEntity<Resource<Event>> getEvent(@PathVariable Long id) {
+        EventTicket eventTicket = eTRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         Event event = eventTicket.getEvent();
         Link selfLink = linkTo(methodOn(EventController.class).one(event.getEvent_ID())).withSelfRel();
         Link eventsLink = linkTo(methodOn(EventController.class).getEvents(id)).withRel("events");
@@ -134,12 +122,10 @@ public class EventTicketController {
 
     @GetMapping(value = "/{id}/ticketType", produces = "application/hal+json")
     ResponseEntity<Resource<TicketType>> getTicketType(@PathVariable Long id) {
-        EventTicket eventTicket = eTRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        EventTicket eventTicket = eTRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         TicketType ticketType = eventTicket.getTicketType();
         Link selfLink = linkTo(methodOn(TicketTypeController.class).one(ticketType.getTicketType_ID())).withSelfRel();
-        Link eventTicketsLink = linkTo(methodOn(TicketTypeController.class).getEventTickets(id))
-                .withRel("eventtickets");
+        Link eventTicketsLink = linkTo(methodOn(TicketTypeController.class).getEventTickets(id)).withRel("eventtickets");
         ticketType.add(selfLink);
         ticketType.add(eventTicketsLink);
         Resource<TicketType> resource = new Resource<TicketType>(ticketType);

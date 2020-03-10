@@ -11,8 +11,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.hibernate.validator.constraints.Length;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -35,8 +33,7 @@ public class AgeLimit extends ResourceSupport {
 	@Length(max = 500)
 	@Column(name = "specifier")
 	private String specifier;
-	
-	@JsonIgnore
+
 	@OneToMany(mappedBy = "ageLimit")
 	private List<Event> events;
 
@@ -45,7 +42,7 @@ public class AgeLimit extends ResourceSupport {
 
 	public AgeLimit(AgeLimit ageLimit) {
 	}
-	
+
 	public AgeLimit(String name) {
 		this.name = name;
 	}
@@ -54,27 +51,27 @@ public class AgeLimit extends ResourceSupport {
 		this.name = name;
 		this.specifier = specifier;
 	}
-	
-	//Getters
+
+	// Getters
 
 	public Long getAgeLimit_ID() {
 		return this.ageLimit_ID;
 	}
-	
+
 	public String getName() {
 		return this.name;
 	}
-	
+
 	public String getSpecifier() {
 		return this.specifier;
 	}
-	
+
 	public List<Event> getEvents() {
 		return events;
 	}
-	
-	//Setters
-	
+
+	// Setters
+
 	public void setName(String name) {
 		this.name = name;
 	}

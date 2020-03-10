@@ -1,6 +1,5 @@
 package fi.rbmk.ticketguru.saleRow;
 
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +13,6 @@ import org.springframework.hateoas.ResourceSupport;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import fi.rbmk.ticketguru.ticket.Ticket;

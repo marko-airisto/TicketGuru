@@ -39,13 +39,8 @@ public class EventOrganizerController {
     @PostMapping(produces = "application/hal+json")
     ResponseEntity<?> add(@Valid @RequestBody EventOrganizer eventOrganizer) {
         try {
-            Long id = eoRepository.save(eventOrganizer).getEventOrganizer_ID();
-            Link selfLink = linkTo(EventOrganizerController.class).slash(id).withSelfRel();
-            Link postcodeLink = linkTo(methodOn(EventOrganizerController.class).getPostcode(id)).withRel("postcode");
-            Link eventsLink = linkTo(methodOn(EventOrganizerController.class).getEvents(id)).withRel("events");
-            eventOrganizer.add(selfLink);
-            eventOrganizer.add(postcodeLink);
-            eventOrganizer.add(eventsLink);
+            EventOrganizerLinks eventOrganizerLinks = new EventOrganizerLinks(eventOrganizer);
+            eventOrganizer.add(eventOrganizerLinks.getAll());
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.badRequest().body("Duplicate entry");
         }
@@ -81,13 +76,8 @@ public class EventOrganizerController {
         Link link = linkTo(EventOrganizerController.class).withSelfRel();
         if (eventOrganizers.size() != 0) {
             for (EventOrganizer eventOrganizer : eventOrganizers) {
-                Long id = eventOrganizer.getEventOrganizer_ID();
-                Link selfLink = linkTo(EventOrganizerController.class).slash(id).withSelfRel();
-                Link postcodeLink = linkTo(methodOn(EventOrganizerController.class).getPostcode(id)).withRel("postcode");
-                Link eventsLink = linkTo(methodOn(EventOrganizerController.class).getEvents(id)).withRel("events");
-                eventOrganizer.add(selfLink);
-                eventOrganizer.add(postcodeLink);
-                eventOrganizer.add(eventsLink);
+                EventOrganizerLinks eventOrganizerLinks = new EventOrganizerLinks(eventOrganizer);
+                eventOrganizer.add(eventOrganizerLinks.getAll());
             }
             Resources<EventOrganizer> resources = new Resources<EventOrganizer>(eventOrganizers, link);
             return ResponseEntity.ok(resources);
@@ -99,12 +89,8 @@ public class EventOrganizerController {
     @GetMapping(value = "/{id}", produces = "application/hal+json")
     public ResponseEntity<Resource<EventOrganizer>> one(@PathVariable Long id) {
         EventOrganizer eventOrganizer = eoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        Link selfLink = linkTo(EventOrganizerController.class).slash(id).withSelfRel();
-        Link postcodeLink = linkTo(methodOn(EventOrganizerController.class).getPostcode(id)).withRel("postcode");
-        Link eventsLink = linkTo(methodOn(EventOrganizerController.class).getEvents(id)).withRel("events");
-        eventOrganizer.add(selfLink);
-        eventOrganizer.add(postcodeLink);
-        eventOrganizer.add(eventsLink);
+        EventOrganizerLinks eventOrganizerLinks = new EventOrganizerLinks(eventOrganizer);
+        eventOrganizer.add(eventOrganizerLinks.getAll());
         Resource<EventOrganizer> resource = new Resource<EventOrganizer>(eventOrganizer);
         return ResponseEntity.ok(resource);
     }

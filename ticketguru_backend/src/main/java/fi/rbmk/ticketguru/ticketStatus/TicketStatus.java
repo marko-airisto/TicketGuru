@@ -25,7 +25,7 @@ public class TicketStatus extends ResourceSupport {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ticketStatus_ID")
-	private Long id;
+	private Long ticketStatus_ID;
 
 	@NotEmpty(message = "Ticket status is required")
 	@Length(max = 50)
@@ -49,7 +49,7 @@ public class TicketStatus extends ResourceSupport {
 	// Getters
 
 	public Long getTicketStatus_ID() {
-		return this.id;
+		return this.ticketStatus_ID;
 	}
 
 	public String getName() {
@@ -64,10 +64,6 @@ public class TicketStatus extends ResourceSupport {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public void setTickets(List<Ticket> tickets) {
-		this.tickets = tickets;
 	}
 
 }

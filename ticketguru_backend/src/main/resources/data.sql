@@ -143,14 +143,14 @@ VALUES
         1, 2, 1000, 20
     );
 
--- TICKETS / KAATUU SAATANA!!!
-
--- INSERT INTO Tickets (checkSum, eventTicket_ID, saleRow_ID, ticketStatus_ID) VALUES ('hbfhbvhfbvrhbgeyfgf', 1, 1, 1);
-
--- SALEROWS / KAATUU SAATANA!!!
-
--- INSERT INTO SaleRows (discount, saleEvent_ID, ticket_ID) VALUES (0, 1, 1 );
-
 -- SALEEVENTS
 
 INSERT INTO SaleEvents (dateTime, user_ID) VALUES ('2020-03-03 10:00:00', 3);
+
+-- TICKETS / KAATUU SAATANA!!!
+
+INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID) VALUES ('hbfhbvhfbvrhbgeyfgf', 1, 1);
+
+-- SALEROWS / KAATUU SAATANA!!!
+
+INSERT INTO SaleRows (discount, saleEvent_ID, ticket_ID) VALUES (0, 1, 1 );
