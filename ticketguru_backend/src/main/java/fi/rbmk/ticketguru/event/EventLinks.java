@@ -9,7 +9,7 @@ import java.util.List;
 
 public class EventLinks {
 
-    private Link selfLink, eventTypeLink, eventOrganizerLink, venueLink, ageLimitLink;
+    private Link selfLink, eventTypeLink, eventOrganizerLink, venueLink, ageLimitLink, eventTicketsLink;
     private List<Link> linkList;
 
     public EventLinks(Event event) {
@@ -19,12 +19,14 @@ public class EventLinks {
         this.eventOrganizerLink = linkTo(methodOn(EventController.class).getEventOrganizer(id)).withRel("eventOrganizer");
         this.venueLink = linkTo(methodOn(EventController.class).getVenue(id)).withRel("venue");
         this.ageLimitLink = linkTo(methodOn(EventController.class).getAgeLimit(id)).withRel("ageLimit");
+        this.eventTicketsLink = linkTo(methodOn(EventController.class).getEventTickets(id)).withRel("eventTickets");
         this.linkList = Arrays.asList(
             selfLink,
             eventTypeLink,
             eventOrganizerLink,
             venueLink,
-            ageLimitLink
+            ageLimitLink,
+            eventTicketsLink
         );
     }
 
@@ -34,5 +36,6 @@ public class EventLinks {
     public Link getEventOrganizerLink() { return eventOrganizerLink; }
     public Link getVenueLink() { return venueLink; }
     public Link getAgeLimitLink() { return ageLimitLink; }
+    public Link getEventTicketsLink() { return eventTicketsLink; }
     public List<Link> getAll() { return linkList; }
 }

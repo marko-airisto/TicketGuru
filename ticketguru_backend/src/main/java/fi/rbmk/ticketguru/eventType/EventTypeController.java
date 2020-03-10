@@ -33,18 +33,16 @@ public class EventTypeController {
     @Autowired EventRepository eRepository;
 
     @PostMapping(produces = "application/hal+json")
-    ResponseEntity<?> add(@Valid @RequestBody EventType eventType) {
+    ResponseEntity<?> add(@Valid @RequestBody EventType newEventType) {
         try {
-            Long id = etRepository.save(eventType).getEventType_ID();
-            Link selfLink = linkTo(EventTypeController.class).slash(id).withSelfRel();
-            Link eventsLink = linkTo(methodOn(EventTypeController.class).getEvents(id)).withRel("events");
-            eventType.add(selfLink);
-            eventType.add(eventsLink);
+            EventType eventType = etRepository.save(newEventType);
+            EventTypeLinks links = new EventTypeLinks(eventType);
+            eventType.add(links.getAll());
+            Resource<EventType> resource = new Resource<EventType>(eventType);
+            return ResponseEntity.ok(resource);
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.badRequest().body("Duplicate entry");
         }
-        Resource<EventType> resource = new Resource<EventType>(eventType);
-        return ResponseEntity.ok(resource);
     }
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
@@ -70,11 +68,8 @@ public class EventTypeController {
         Link link = linkTo(EventTypeController.class).withSelfRel();
         if (eventTypes.size() != 0) {
             for (EventType eventType : eventTypes) {
-                Long id = eventType.getEventType_ID();
-                Link selfLink = linkTo(EventTypeController.class).slash(id).withSelfRel();
-                Link eventsLink = linkTo(methodOn(EventTypeController.class).getEvents(id)).withRel("events");
-                eventType.add(selfLink);
-                eventType.add(eventsLink);
+                EventTypeLinks links = new EventTypeLinks(eventType);
+                eventType.add(links.getAll());
             }
             Resources<EventType> resources = new Resources<EventType>(eventTypes, link);
             return ResponseEntity.ok(resources);
@@ -86,24 +81,21 @@ public class EventTypeController {
     @GetMapping(value = "/{id}", produces = "application/hal+json")
     public ResponseEntity<Resource<EventType>> one(@PathVariable Long id) {
         EventType eventType = etRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        Link selfLink = linkTo(EventTypeController.class).slash(id).withSelfRel();
-        Link eventsLink = linkTo(methodOn(EventTypeController.class).getEvents(id)).withRel("events");
-        eventType.add(selfLink);
-        eventType.add(eventsLink);
+        EventTypeLinks links = new EventTypeLinks(eventType);
+        eventType.add(links.getAll());
         Resource<EventType> resource = new Resource<EventType>(eventType);
         return ResponseEntity.ok(resource);
     }
 
-    @GetMapping(value = "/{id}/users", produces = "application/hal+json")
+    @GetMapping(value = "/{id}/events", produces = "application/hal+json")
     public ResponseEntity<Resources<Event>> getEvents(@PathVariable Long id) {
         EventType eventType = etRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         Link link = linkTo(EventTypeController.class).withSelfRel();
         List<Event> events = eventType.getEvents();
         if (events.size() != 0) {
             for (Event event : events) {
-                Long event_ID = event.getEvent_ID();
-                Link selfLink = linkTo(EventTypeController.class).slash(event_ID).withSelfRel();
-                event.add(selfLink);
+                EventLinks links = new EventLinks(event);
+                event.add(links.getAll());
             }
             Resources<Event> resources = new Resources<Event>(events, link);
             return ResponseEntity.ok(resources);

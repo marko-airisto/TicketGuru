@@ -11,8 +11,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.hibernate.validator.constraints.Length;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -32,7 +30,6 @@ public class TicketStatus extends ResourceSupport {
 	@Column(name = "name")
 	private String name;
 
-	@JsonIgnore
 	@OneToMany(mappedBy = "ticketStatus")
 	private List<Ticket> tickets;
 

@@ -44,6 +44,8 @@ public class Ticket extends ResourceSupport {
     @OneToOne(mappedBy = "ticket")
     private SaleRow saleRow;
 
+    //private LocalDateTime timestamp;
+
     public Ticket() {
     }
 

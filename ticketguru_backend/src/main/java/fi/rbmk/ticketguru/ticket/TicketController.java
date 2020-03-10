@@ -36,21 +36,21 @@ public class TicketController {
     @Autowired
     TicketStatusRepository tSRepository;
 
-    @PostMapping(produces = "application/hal+json")
-    ResponseEntity<?> add(@Valid @RequestBody Ticket ticket) {
-        try {
-            Long id = tRepository.save(ticket).getTicket_ID();
-            Link selfLink = linkTo(TicketController.class).slash(id).withSelfRel();
-            Link ticketStatusLink = linkTo(methodOn(TicketController.class).getTicketStatus(id))
-                    .withRel("ticketStatus");
-            ticket.add(selfLink);
-            ticket.add(ticketStatusLink);
-        } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.badRequest().body("Duplicate entry");
-        }
-        Resource<Ticket> resource = new Resource<Ticket>(ticket);
-        return ResponseEntity.ok(resource);
-    }
+    // @PostMapping(produces = "application/hal+json")
+    // ResponseEntity<?> add(@Valid @RequestBody Ticket ticket) {
+    //     try {
+    //         Long id = tRepository.save(ticket).getTicket_ID();
+    //         Link selfLink = linkTo(TicketController.class).slash(id).withSelfRel();
+    //         Link ticketStatusLink = linkTo(methodOn(TicketController.class).getTicketStatus(id))
+    //                 .withRel("ticketStatus");
+    //         ticket.add(selfLink);
+    //         ticket.add(ticketStatusLink);
+    //     } catch (DataIntegrityViolationException e) {
+    //         return ResponseEntity.badRequest().body("Duplicate entry");
+    //     }
+    //     Resource<Ticket> resource = new Resource<Ticket>(ticket);
+    //     return ResponseEntity.ok(resource);
+    // }
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<Ticket> edit(@Valid @RequestBody Ticket newTicket, @PathVariable Long id) {

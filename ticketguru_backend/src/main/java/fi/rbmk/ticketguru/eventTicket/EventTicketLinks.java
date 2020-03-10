@@ -17,6 +17,7 @@ public class EventTicketLinks {
         this.selfLink = linkTo(EventTicketController.class).slash(id).withSelfRel();
         this.eventLink = linkTo(methodOn(EventTicketController.class).getEvent(id)).withRel("event");
         this.ticketTypeLink = linkTo(methodOn(EventTicketController.class).getTicketType(id)).withRel("ticketType");
+        // tickets
         this.linkList = Arrays.asList(
             selfLink,
             eventLink,

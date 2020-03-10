@@ -130,7 +130,7 @@ public class UserController {
             for (SaleEvent saleEvent : saleEvents) {
                 Long saleEvent_ID = saleEvent.getSaleEvent_ID();
                 Link selfLink = linkTo(SaleEventController.class).slash(saleEvent_ID).withSelfRel();
-                user.add(selfLink);
+                saleEvent.add(selfLink);
             }
             Resources<SaleEvent> resources = new Resources<SaleEvent>(saleEvents, link);
             return ResponseEntity.ok(resources);

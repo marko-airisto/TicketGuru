@@ -172,7 +172,7 @@ public class EventController {
     }
 
     @GetMapping(value = "/{id}/eventTickets", produces = "application/hal+json")
-    public ResponseEntity<Resources<EventTicket>> getEvents(@PathVariable Long id) {
+    public ResponseEntity<Resources<EventTicket>> getEventTickets(@PathVariable Long id) {
         Event event = eRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         Link link = linkTo(EventController.class).withSelfRel();
         List<EventTicket> eventTickets = event.getEventTickets();

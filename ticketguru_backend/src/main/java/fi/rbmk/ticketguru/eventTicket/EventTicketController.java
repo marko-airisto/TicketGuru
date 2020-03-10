@@ -112,10 +112,8 @@ public class EventTicketController {
     ResponseEntity<Resource<Event>> getEvent(@PathVariable Long id) {
         EventTicket eventTicket = eTRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         Event event = eventTicket.getEvent();
-        Link selfLink = linkTo(methodOn(EventController.class).one(event.getEvent_ID())).withSelfRel();
-        Link eventsLink = linkTo(methodOn(EventController.class).getEvents(id)).withRel("events");
-        event.add(selfLink);
-        event.add(eventsLink);
+        EventLinks eventLinks = new EventLinks(event);
+        event.add(eventLinks.getAll());
         Resource<Event> resource = new Resource<Event>(event);
         return ResponseEntity.ok(resource);
     }
