@@ -30,7 +30,7 @@ Show all Users the active User can access and with what permission level.
 
 ```json
 [
-     "_embedded":  {
+     "_embedded": {
     "users": [
       {
         "name": "pepe",
