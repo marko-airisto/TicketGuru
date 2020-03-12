@@ -1,8 +1,8 @@
-# Create an Event
+# Create a User
 
-Create an Event.
+Create a User.
 
-**URL** : `/api/events/`
+**URL** : `/api/users/`
 
 **Method** : `POST`
 
@@ -12,18 +12,14 @@ Create an Event.
 
 **Data constraints**
 
-Provide name of Event to be created.
+Provide name of User to be created.
 
 ```json
 {
-    "name": "[VARCHAR 250 chars max]"
-    "eventType": "[eventType_ID]"
-    "dateTime": "[ISO 8601]"
-    "eventOrganizer": "[eventOrganizer_ID]"
-    "venue": "[venue_ID]"
-    "ticketCapacity": "[INT]"
-    "ageLimit": "[ageLimit_ID]"
-    "info": "[VARCHAR 500 CHARS MAX]"
+    "name": "[VARCHAR 50 chars max]"
+    "password": "[VARCHAR 100 chars max]"
+    "active": "[Boolean]"
+    "userGroup": "[userGoup href]"
 }
 ```
 
@@ -31,14 +27,10 @@ Provide name of Event to be created.
 
 ```json
 {
-    "name": "Mika koodaa ja muut kattelee. Kannattaa tulla kauempaakin"
-    "eventType": "1"
-    "dateTime": "2020-03-01T20:00:00"
-    "eventOrganizer": "1"
-    "venue": "1"
-    "ticketCapacity": "1000"
-    "ageLimit": "1"
-    "info": "Ihan pirun kovat bileet"
+    "name": "Johnny",
+    "password": "UliUli",
+    "active": "true",
+    "userGroup" : "http://localhost:8080/api/userGroups/2"
 }
 ```
 
@@ -46,48 +38,26 @@ Provide name of Event to be created.
 
 **Condition** : If everything is OK.
 
-**Code** : `204 OK`
+**Code** : `200 OK`
 
 **Content example**
 
 ```json
  {
-        "id": 1,
-        "name": "Mika koodaa ja muut kattelee. Kannattaa tulla kauempaakin",
-        "eventType": {
-            "eventTypeName": "Silkkaa teatteria",
-            "eventTypeInfo": "Teatteri",
-            "eventType_ID": 1
-        },
-        "dateTime": "2020-03-01T20:00:00",
-        "eventOrganizer": {
-            "companyName": "09 7865566",
-            "companyStreetAddress": "great@events.fi",
-            "companyTel": "www.greatevents.com",
-            "companyEmail": "Tapahtumakatu 16 a 78",
-            "companyWWW": "Texas Ted",
-            "companyContactPerson": "GREAT EVENTS OY",
-            "postcode_ID": 5,
-            "eventOrganizer_ID": 1
-        },
-        "venue": {
-            "id": 1,
-            "name": "teatteri@teatteri.fi",
-            "address": "Helsingin Teatteri",
-            "tel": "www.helsinginteatteri.com",
-            "email": "09 1234566",
-            "www": "John Wayne",
-            "contactPerson": "Kekkosenkatu 3"
-        },
-        "ticketCapacity": 1000,
-        "info": "Ihan pirun kovat bileet",
-        "eventTickets": []
+  "name": "Johnny",
+  "active": true,
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/api/users/5"
     },
-    {
-        "id": 1,
-        "name": "K7",
-        "specifier": "Tapahtuma kielletty alle 7-vuotiailta"
-        }
+    "userGroup": {
+      "href": "http://localhost:8080/api/users/5/userGroup"
+    },
+    "saleEvent": {
+      "href": "http://localhost:8080/api/users/5/saleEvents"
+    }
+  }
+}
 ```
 
 ## Error Responses
@@ -110,9 +80,36 @@ Provide name of Event to be created.
 
 ```json
 {
-    "dateTime": [
-        "Event datetime is required"
-    ]
-}
+    "timestamp": "2020-03-12T11:51:35.015+0000",
+    "status": 400,
+    "error": "Bad Request",
+    "errors": [
+        {
+            "codes": [
+                "NotNull.user.userGroup",
+                "NotNull.userGroup",
+                "NotNull.fi.rbmk.ticketguru.userGroup.UserGroup",
+                "NotNull"
+            ],
+            "arguments": [
+                {
+                    "codes": [
+                        "user.userGroup",
+                        "userGroup"
+                    ],
+                    "arguments": null,
+                    "defaultMessage": "userGroup",
+                    "code": "userGroup"
+                }
+            ],
+            "defaultMessage": "User Group is required",
+            "objectName": "user",
+            "field": "userGroup",
+            "rejectedValue": null,
+            "bindingFailure": false,
+            "code": "NotNull"
+        }
+    ],
+    "path": "/api/users"
 ```
 
