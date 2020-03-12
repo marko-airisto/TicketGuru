@@ -21,7 +21,5 @@ request.
 
 Each endpoint manipulates or displays information::
 
-* [Events](event/get.md) : `GET /api/events/`
-* [Events](event/post.md) : `POST /api/events/`
-* [Events](event/patch.md) : `PATCH /api/events/{id}`
-* [Events](event/delete.md) : `DELETE /api/events/{id}`
+* [Show events](get.md) : `GET /api/events/`
+* [Create event](post.md) : `PUT /api/events/`
