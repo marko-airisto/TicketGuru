@@ -1,8 +1,8 @@
-# Show Accessible Events
+# Show Accessible Users
 
-Show all Events the active User can access and with what permission level.
+Show all Users the active User can access and with what permission level.
 
-**URL** : `/api/events/`
+**URL** : `/api/users/`
 
 **Method** : `GET`
 
@@ -14,7 +14,7 @@ Show all Events the active User can access and with what permission level.
 
 ## Success Responses
 
-**Condition** : User can not see any Events.
+**Condition** : User can not see any Users.
 
 **Code** : `200 OK`
 
@@ -22,45 +22,51 @@ Show all Events the active User can access and with what permission level.
 
 ### OR
 
-**Condition** : User can see one or more Events.
+**Condition** : User can see one or more Users.
 
 **Code** : `200 OK`
 
-**Content** : In this example, the User can see one Event as regular user
+**Content** : In this example, the User can see a list of users, with a link to the Users User Group.
 
 ```json
 [
-    {
-        "id": 1,
-        "name": "Mika koodaa ja muut juopottelee. Kannattaa tulla kauempaakin",
-        "eventType": {
-            "eventTypeName": "Silkkaa teatteria",
-            "eventTypeInfo": "Teatteri",
-            "eventType_ID": 1
-        },
-        "dateTime": "2020-03-01T20:00:00",
-        "eventOrganizer": {
-            "companyName": "09 7865566",
-            "companyStreetAddress": "great@events.fi",
-            "companyTel": "www.greatevents.com",
-            "companyEmail": "Tapahtumakatu 16 a 78",
-            "companyWWW": "Texas Ted",
-            "companyContactPerson": "GREAT EVENTS OY",
-            "postcode_ID": 5,
-            "eventOrganizer_ID": 1
-        },
-        "venue": {
-            "id": 1,
-            "name": "teatteri@teatteri.fi",
-            "address": "Helsingin Teatteri",
-            "tel": "www.helsinginteatteri.com",
-            "email": "09 1234566",
-            "www": "John Wayne",
-            "contactPerson": "Kekkosenkatu 3"
-        },
-        "ticketCapacity": 1000,
-        "info": "Ihan pirun kovat bileet",
-        "eventTickets": []
-    }
+     "_embedded": {
+    "users": [
+      {
+        "name": "pepe",
+        "active": true,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/users/1"
+          },
+          "userGroup": {
+            "href": "http://localhost:8080/api/users/1/userGroup"
+          }
+        }
+      },
+      {
+        "name": "john",
+        "active": true,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/users/2"
+          },
+          "userGroup": {
+            "href": "http://localhost:8080/api/users/2/userGroup"
+          }
+        }
+      },
+      {
+        "name": "kuningas",
+        "active": true,
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/users/3"
+          },
+          "userGroup": {
+            "href": "http://localhost:8080/api/users/3/userGroup"
+          }
+        }
+      }
 ]
 ```
