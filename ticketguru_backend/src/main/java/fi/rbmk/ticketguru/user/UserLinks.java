@@ -17,7 +17,7 @@ public class UserLinks {
         this.selfLink = linkTo(UserController.class).slash(id).withSelfRel();
         this.userGroupLink = linkTo(methodOn(UserController.class).getUserGroup(id)).withRel("userGroup");
         this.saleEventLink = linkTo(methodOn(UserController.class).getSaleEvent(id)).withRel("saleEvent");
-        this.linkList = Arrays.asList(selfLink, userGroupLink);
+        this.linkList = Arrays.asList(selfLink, userGroupLink, saleEventLink);
     }
 
     // Getters
