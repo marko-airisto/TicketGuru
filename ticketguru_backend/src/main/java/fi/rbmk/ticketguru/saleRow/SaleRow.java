@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.hateoas.ResourceSupport;
 
@@ -30,7 +30,7 @@ public class SaleRow extends ResourceSupport {
 	@Column(name = "discount")
 	private Long discount; // Pitäisikö olla % vai alennus euroina vai...? Varmaan % olisi paras -Mika
 
-	@NotEmpty(message = "Sale event is required")
+	@NotNull(message = "Sale event is required")
 	@ManyToOne
 	@JoinColumn(name = "saleEvent_ID")
 	private SaleEvent saleEvent;
