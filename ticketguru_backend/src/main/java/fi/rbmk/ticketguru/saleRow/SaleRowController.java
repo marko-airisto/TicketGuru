@@ -39,20 +39,22 @@ public class SaleRowController {
     @Autowired
     SaleEventRepository sERepository;
 
-    /*
-     * @PostMapping(produces = "application/hal+json") ResponseEntity<?>
-     * add(@Valid @RequestBody SaleRow saleRow) { try { Long id =
-     * sRRepository.save(saleRow).getSaleRow_ID(); Link selfLink =
-     * linkTo(SaleRowController.class).slash(id).withSelfRel(); Link saleEventLink =
-     * linkTo(methodOn(SaleRowController.class).getSaleEvent(id)).withRel(
-     * "saleEvent"); Link ticketLink =
-     * linkTo(methodOn(SaleRowController.class).getTicket(id)).withRel("ticket");
-     * saleRow.add(selfLink); saleRow.add(saleEventLink); saleRow.add(ticketLink); }
-     * catch (DataIntegrityViolationException e) { return
-     * ResponseEntity.badRequest().body("Duplicate entry"); } Resource<SaleRow>
-     * resource = new Resource<SaleRow>(saleRow); return
-     * ResponseEntity.ok(resource); }
-     */
+    @PostMapping(produces = "application/hal+json")
+    ResponseEntity<?> add(@Valid @RequestBody SaleRow newSaleRow) {
+        try {
+            SaleRow saleRow = sRRepository.save(newSaleRow);
+            Link selfLink = linkTo(SaleRowController.class).slash(saleRow.getSaleRow_ID()).withSelfRel();
+            Link saleEventLink = linkTo(methodOn(SaleRowController.class).getSaleEvent(saleRow.getSaleRow_ID())).withRel("saleEvent");
+            //Link ticketLink = linkTo(methodOn(SaleRowController.class).getTicket(saleRow.getSaleRow_ID()withRel("ticket");
+            saleRow.add(selfLink);
+            saleRow.add(saleEventLink);
+            //saleRow.add(ticketLink);
+            Resource<SaleRow> resource = new Resource<SaleRow>(saleRow);
+            return ResponseEntity.ok(resource);
+        } catch (DataIntegrityViolationException e) { return
+            ResponseEntity.badRequest().body("Duplicate entry");
+        }
+    }
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<SaleRow> edit(@Valid @RequestBody SaleRow newSaleRow, @PathVariable Long id) {

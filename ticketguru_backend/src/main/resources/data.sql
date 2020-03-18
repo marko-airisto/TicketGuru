@@ -19,21 +19,17 @@ VALUES
 -- USERS
 
 INSERT INTO Users
-    (password, name, userGroup_ID, active)
+    (password, username, name, userGroup_ID, active)
 VALUES
-    ('$2a$10$/..0qbQN09s20ZVao53j0..hr2dgkS52zVn68b0ZlGcZBzczkoH.y', 'pepe', 1, 1);
+    ('$2a$10$/..0qbQN09s20ZVao53j0..hr2dgkS52zVn68b0ZlGcZBzczkoH.y', 'pepe', 'pepe', 1, 1);
 INSERT INTO Users
-    (password, name, userGroup_ID, active)
+    (password, username, name, userGroup_ID, active)
 VALUES
-    ('$2a$10$K.vSuwrxuG7arNO7nGkAyuPs0Op4JCDxd7hdhiwpF/egYpePZWYay', 'john', 2, 1);
+    ('$2a$10$K.vSuwrxuG7arNO7nGkAyuPs0Op4JCDxd7hdhiwpF/egYpePZWYay', 'john', 'john', 2, 1);
 INSERT INTO Users
-    (password, name, userGroup_ID, active)
+    (password, username, name, userGroup_ID, active)
 VALUES
-    ('$2a$10$tG3a9iRmIpPH3Hkj/EwLYetL8i/A6jBJIF4OQZS.UPV14sOmQB9Nq', 'kuningas', 3, 1);
-INSERT INTO Users
-    (password, name, userGroup_ID, active)
-VALUES
-    ('keke', 'keke', 1, 0);
+    ('$2a$10$tG3a9iRmIpPH3Hkj/EwLYetL8i/A6jBJIF4OQZS.UPV14sOmQB9Nq', 'kuningas', 'kuningas', 3, 1);
 
 
 -- EVENTTYPES
@@ -49,12 +45,27 @@ VALUES
 INSERT INTO AgeLimits
     (name, specifier)
 VALUES
-    ('K7', 'Tapahtuma kielletty alle 7-vuotiailta');
+    ('K7', 'Tapahtuma ei sovellu alle 7-vuotiaille');
 
 INSERT INTO AgeLimits
     (name, specifier)
 VALUES
-    ('K13', 'Tapahtuma kielletty alle 13-vuotiailta');
+    ('K13', 'Tapahtuma ei sovellu alle 13-vuotiaille');
+    
+INSERT INTO AgeLimits
+    (name, specifier)
+VALUES
+    ('K16', 'Tapahtuma ei sovellu alle 16-vuotiaille');
+    
+INSERT INTO AgeLimits
+    (name, specifier)
+VALUES
+    ('K18', 'Tapahtuma ei sovellu alle 18-vuotiaille');
+    
+INSERT INTO AgeLimits
+    (name, specifier)
+VALUES
+    ('S', 'Ikärajaton tapahtuma, sopii kaikenikäisille');
 
 -- POSTCODES
 
@@ -121,18 +132,51 @@ INSERT INTO TicketTypes
     (name)
 VALUES
     (
-        'Aikuisten lippu'
+        'Aikuinen'
     );
 INSERT INTO TicketTypes
     (name)
 VALUES
     (
-        'Lasten lippu'
+        'Lapsi 7-16v'
+    );
+    
+INSERT INTO TicketTypes
+    (name)
+VALUES
+    (
+        'Eläkeläinen'
+    );
+    
+INSERT INTO TicketTypes
+    (name)
+VALUES
+    (
+        'Varus- tai siviilipalvelusmies'
+    );
+    
+INSERT INTO TicketTypes
+    (name)
+VALUES
+    (
+        'Työtön'
     );
 
 -- TICKETSTATUSES
 
 INSERT INTO TicketStatuses (name) VALUES ('voimassa');
+
+INSERT INTO TicketStatuses (name) VALUES ('mitätöity');
+
+INSERT INTO TicketStatuses (name) VALUES ('peruttu');
+
+INSERT INTO TicketStatuses (name) VALUES ('maksettu');
+
+INSERT INTO TicketStatuses (name) VALUES ('hyväksymätön');
+
+INSERT INTO TicketStatuses (name) VALUES ('epäonnistui');
+
+INSERT INTO TicketStatuses (name) VALUES ('hylätty');
 
 -- EVENTTICKETS
 
