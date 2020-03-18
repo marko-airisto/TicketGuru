@@ -88,13 +88,14 @@ export default function Users() {
       Header: 'Name',
       accessor: 'name'
     },
-    {
-      Header: 'Password',
-      accessor: 'password'
-    },
+
     {
       Header: 'User Group',
-      accessor: '_links.userGroups.href'
+      accessor: '_links[1].href'
+    },
+    {
+      Header: 'Sale Events',
+      accessor: '_links[2].href'
     }
   ];
 

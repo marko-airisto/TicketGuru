@@ -10,8 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.springframework.hateoas.ResourceSupport;
 
 import fi.rbmk.ticketguru.saleRow.SaleRow;
