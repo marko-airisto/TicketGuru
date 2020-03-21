@@ -1,21 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import './App.css';
 
-import Login from './pages/Login';
-import Home from './pages/Home';
-import Users from './pages/Users';
-import { PrivateRoute } from './_components/PrivateRoute';
+import SignIn from './pages/SignIn';
 
 function App() {
   return (
     <div>
-      <Router>
-        <Switch>
-          <Route exact path="/" component={Login} />
-          <PrivateRoute path="/Home" component={Home} />
-          <PrivateRoute path="/Users" component={Users} />
-        </Switch>
-      </Router>
+      <SignIn />
     </div>
   );
 }
