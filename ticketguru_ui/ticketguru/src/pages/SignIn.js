@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -17,8 +17,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="#">
+        TicketGuru
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -49,6 +49,37 @@ const useStyles = makeStyles(theme => ({
 export default function SignIn() {
   const classes = useStyles();
 
+  const [user, setUser] = useState({
+    username: '',
+    password: ''
+  });
+
+  const handleInputChange = e => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  function handleFormSubmit(event) {
+    event.preventDefault();
+
+    // Fetch the accessToken from the server
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        authorization: 'jwt'
+      },
+      body: JSON.stringify({ username: user.username, password: user.password })
+    };
+
+    fetch('http://localhost:8080/api/login', requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      });
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -59,17 +90,19 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={handleFormSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="username"
+            label="User Name"
+            name="username"
+            autoComplete="username"
             autoFocus
+            onChange={handleInputChange}
+            value={user.username}
           />
           <TextField
             variant="outlined"
@@ -81,6 +114,8 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={handleInputChange}
+            value={user.password}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
