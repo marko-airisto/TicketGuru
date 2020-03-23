@@ -1,6 +1,6 @@
-package fi.rbmk.ticketguru.user;
+package fi.rbmk.ticketguru.jwt;
 
-import java.util.UUID;
+//import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.DisabledException;
@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import fi.rbmk.ticketguru.user.*;
 
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
@@ -23,7 +25,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("Invalid username or password");
         }
         UserDetails user = new org.springframework.security.core.userdetails.User(username, curruser.getPassword(),
-        AuthorityUtils.createAuthorityList(curruser.getUserGroup().getName()));
+                AuthorityUtils.createAuthorityList(curruser.getUserGroup().getName()));
         if (!curruser.getActive()) {
             throw new DisabledException("The account has not been activated");
         }
