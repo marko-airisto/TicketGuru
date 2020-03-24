@@ -1,5 +1,6 @@
 package fi.rbmk.ticketguru.event;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;

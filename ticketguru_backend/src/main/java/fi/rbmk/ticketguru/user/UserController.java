@@ -33,7 +33,7 @@ import fi.rbmk.ticketguru.eventTicket.EventTicketRepository;
 import fi.rbmk.ticketguru.saleEvent.*;
 import fi.rbmk.ticketguru.userGroup.*;
 
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/api/users", produces = "application/hal+json")
 public class UserController {
@@ -146,7 +146,7 @@ public class UserController {
     public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
+            new SecurityContextLogoutHandler().logout(request,response,auth);
         }
         return ResponseEntity.noContent().build();
     }
