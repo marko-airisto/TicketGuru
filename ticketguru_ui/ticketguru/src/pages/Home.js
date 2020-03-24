@@ -1,8 +1,8 @@
 import React from 'react';
 import { AuthContext } from '../App';
-
 import { makeStyles } from '@material-ui/core/styles';
-import moment from 'moment/moment.js';
+import Moment from 'react-moment';
+import 'moment-timezone';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import Table from '@material-ui/core/Table';
@@ -136,7 +136,9 @@ export const Home = () => {
                       </TableCell>
 
                       <TableCell align="center">
-                        {moment(row.dateTime).format('DD/MM/YYYY HH:mm')}
+                        <Moment format="DD/MM/YYYY  HH:mm">
+                          {row.dateTime}
+                        </Moment>
                       </TableCell>
                       <TableCell align="center">{row.ticketCapacity}</TableCell>
                       <TableCell align="center">{row.info}</TableCell>

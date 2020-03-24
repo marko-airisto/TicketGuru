@@ -61,14 +61,6 @@ export const Login = () => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  /* useEffect(() => {
-    localStorage.setItem('USERNAME', username);
-  }, [username]);
-
-  useEffect(() => {
-    localStorage.setItem('PASSWORD', password);
-  }, [password]); */
-
   function handleFormSubmit(e) {
     e.preventDefault();
     setUser({
@@ -149,15 +141,12 @@ export const Login = () => {
             value={user.password}
           />
 
-          {/*  {user.errorMessage && (
+          {user.errorMessage && (
             <span className="form-error">{user.errorMessage}</span>
           )}
 
-          <button disabled={user.isSubmitting}>
-            {user.isSubmitting ? 'Loading...' : 'Login'}
-          </button> */}
-
           <Button
+            disabled={user.isSubmitting}
             type="submit"
             fullWidth
             variant="contained"
@@ -166,7 +155,7 @@ export const Login = () => {
             href="/home"
             onClick={handleFormSubmit}
           >
-            Sign In
+            {user.isSubmitting ? 'Loading...' : 'Login'}
           </Button>
           <Grid container>
             <Grid item xs>
