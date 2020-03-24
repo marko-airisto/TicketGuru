@@ -125,6 +125,24 @@ VALUES
     (
         'Koodari Kemut 2020', 1, '2020-03-01 20:00:00', 1, 1, 1500, 2, 'Mika koodaa ja muut kattelee. Kannattaa tulla kauempaakin'
     );
+    INSERT INTO Events
+    (name, eventType_ID, dateTime, eventOrganizer_ID, venue_ID, ticketCapacity, ageLimit_ID, info)
+VALUES
+    (
+        'Olut festarit', 1, '2020-04-01 09:15:00', 1, 1, 700, 2, 'Paljon erilaisia oluita tarjolla'
+    );
+     INSERT INTO Events
+    (name, eventType_ID, dateTime, eventOrganizer_ID, venue_ID, ticketCapacity, ageLimit_ID, info)
+VALUES
+    (
+        'Black Metal festarit', 1, '2020-04-04 18:30:00', 1, 1, 666, 2, 'Pelkkää bläkkistä. Tiukkaa tykittelyä.'
+    );
+     INSERT INTO Events
+    (name, eventType_ID, dateTime, eventOrganizer_ID, venue_ID, ticketCapacity, ageLimit_ID, info)
+VALUES
+    (
+        'Helsinki LARP 2020', 1, '2020-04-12 10:00:00', 1, 1, 15, 2, 'Hakkaa kaveriasi kumimiekalla ja nauti.'
+    );
 
 -- TICKETTYPES
 

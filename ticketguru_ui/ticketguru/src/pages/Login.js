@@ -1,23 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { Link } from '@material-ui/core';
+import { AuthContext } from '../App';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="#">
+      <Link color="inherit" to="#">
         TicketGuru
       </Link>{' '}
       {new Date().getFullYear()}
@@ -46,23 +45,29 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignIn() {
+export const Login = () => {
+  const { dispatch } = useContext(AuthContext);
   const classes = useStyles();
-
   const [user, setUser] = useState({
     username: '',
-    password: ''
+    password: '',
+    isSubmitting: false,
+    errorMessage: null
   });
+
+  //const { accessToken, setAccessToken } = User();
 
   const handleInputChange = e => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  function handleFormSubmit(event) {
-    event.preventDefault();
-
-    // Fetch the accessToken from the server
-
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    setUser({
+      ...user,
+      isSubmitting: true,
+      errorMessage: null
+    });
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -70,13 +75,31 @@ export default function SignIn() {
         Accept: 'application/json',
         authorization: 'jwt'
       },
-      body: JSON.stringify({ username: user.username, password: user.password })
+      body: JSON.stringify({
+        username: user.username,
+        password: user.password
+      })
     };
 
     fetch('http://localhost:8080/api/login', requestOptions)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        throw res;
+      })
+      .then(resJson => {
+        dispatch({
+          type: 'LOGIN',
+          payload: resJson
+        });
+      })
+      .catch(error => {
+        setUser({
+          ...user,
+          isSubmitting: false,
+          errorMessage: error.message || error.statusText
+        });
       });
   }
 
@@ -90,7 +113,7 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} onSubmit={handleFormSubmit}>
+        <form className={classes.form}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -117,28 +140,27 @@ export default function SignIn() {
             onChange={handleInputChange}
             value={user.password}
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
+
+          {user.errorMessage && (
+            <span className="form-error">{user.errorMessage}</span>
+          )}
+
           <Button
+            disabled={user.isSubmitting}
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            href="/home"
+            onClick={handleFormSubmit}
           >
-            Sign In
+            {user.isSubmitting ? 'Loading...' : 'Login'}
           </Button>
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
                 Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
           </Grid>
@@ -149,4 +171,5 @@ export default function SignIn() {
       </Box>
     </Container>
   );
-}
+};
+export default Login;
