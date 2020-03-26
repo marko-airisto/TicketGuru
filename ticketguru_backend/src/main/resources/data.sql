@@ -221,16 +221,10 @@ VALUES
 
 INSERT INTO SaleEvents (dateTime, user_ID) VALUES ('2020-03-03 10:00:00', 3);
 
--- TICKETS
-
-INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID) VALUES ('hbfhbvhfbvrhbgeyfgf', 1, 1);
-
-INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID) VALUES ('ferferfgergergergerg', 1, 1);
-
-INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID) VALUES ('erergergergergergerg', 1, 1);
-
-INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID) VALUES ('tyyuyujdgergergwegethgwth', 1, 1);
-
 -- SALEROWS
 
-INSERT INTO SaleRows (discount, saleEvent_ID, ticket_ID) VALUES (0, 1, 1 );
+INSERT INTO SaleRows (discount, saleEvent_ID) VALUES (0, 1);
+
+-- TICKETS
+
+INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('hbfhbvhfbvrhbgeyfgf', 1, 1, 1);
