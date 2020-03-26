@@ -9,8 +9,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Link } from '@material-ui/core';
-import { AuthContext } from '../App';
+//import { Link } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../utils/AuthContext';
+import { useHistory } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -55,7 +57,7 @@ export const Login = () => {
     errorMessage: null
   });
 
-  //const { accessToken, setAccessToken } = User();
+  let history = useHistory();
 
   const handleInputChange = e => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -90,7 +92,7 @@ export const Login = () => {
       })
       .then(resJson => {
         dispatch({
-          type: 'LOGIN',
+          type: 'LOGIN_SUCCESS',
           payload: resJson
         });
       })
@@ -101,6 +103,7 @@ export const Login = () => {
           errorMessage: error.message || error.statusText
         });
       });
+    history.push('/home');
   }
 
   return (
@@ -144,24 +147,25 @@ export const Login = () => {
           {user.errorMessage && (
             <span className="form-error">{user.errorMessage}</span>
           )}
-
-          <Button
-            disabled={user.isSubmitting}
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            href="/home"
-            onClick={handleFormSubmit}
-          >
-            {user.isSubmitting ? 'Loading...' : 'Login'}
-          </Button>
+          <Link to="/home">
+            <Button
+              disabled={user.isSubmitting}
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={handleFormSubmit}
+            >
+              {user.isSubmitting ? 'Loading...' : 'Login'}
+            </Button>
+          </Link>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
+              <Typography variant="body2" align="center">
+                <Link to="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Typography>
             </Grid>
           </Grid>
         </form>

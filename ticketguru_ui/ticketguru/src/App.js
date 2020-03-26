@@ -1,49 +1,33 @@
 import React from 'react';
 import './App.css';
-import Login from './pages/Login';
+import { AuthProvider } from './utils/AuthContext';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import PrivateRoute from './components/PrivateRoute';
 import Home from './pages/Home';
+import Unauthorized from './pages/Unauthorized';
+import Tickets from './pages/Tickets';
+import Login from './pages/Login';
 import Header from './components/Header';
 
-export const AuthContext = React.createContext();
-const initialState = {
-  isAuthenticated: false,
-  user: null,
-  token: null
-};
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'LOGIN':
-      localStorage.setItem('user', JSON.stringify(action.payload.user));
-      localStorage.setItem('token', JSON.stringify(action.payload.token));
-      return {
-        ...state,
-        isAuthenticated: true,
-        user: action.payload.user,
-        token: action.payload.token
-      };
-    case 'LOGOUT':
-      localStorage.clear();
-      return {
-        ...state,
-        isAuthenticated: false,
-        user: null
-      };
-    default:
-      return state;
-  }
-};
 function App() {
-  const [state, dispatch] = React.useReducer(reducer, initialState);
   return (
-    <AuthContext.Provider
-      value={{
-        state,
-        dispatch
-      }}
-    >
-      <Header />
-      <div className="App">{!state.isAuthenticated ? <Login /> : <Home />}</div>
-    </AuthContext.Provider>
+    <AuthProvider>
+      <Router>
+        <div>
+          <Header />
+          <Switch>
+            <Route exact path="/" component={Login} />
+            <PrivateRoute path="/home">
+              <Home />
+            </PrivateRoute>
+            <PrivateRoute path="/tickets">
+              <Tickets />
+            </PrivateRoute>
+            <Route render={() => <Unauthorized />} />
+          </Switch>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 export default App;

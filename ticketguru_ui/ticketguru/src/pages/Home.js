@@ -1,5 +1,4 @@
 import React from 'react';
-import { AuthContext } from '../App';
 import { makeStyles } from '@material-ui/core/styles';
 import Moment from 'react-moment';
 import 'moment-timezone';
@@ -11,6 +10,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import { useAuthContext } from '../utils/AuthContext';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -64,9 +64,9 @@ const reducer = (state, action) => {
   }
 };
 export const Home = () => {
-  const { state: authState } = React.useContext(AuthContext);
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const classes = useStyles();
+  const { auth } = useAuthContext();
 
   React.useEffect(() => {
     dispatch({
@@ -74,7 +74,7 @@ export const Home = () => {
     });
     fetch('http://localhost:8080/api/events', {
       headers: {
-        Authorization: `Bearer ${authState.token}`
+        Authorization: `Bearer ${auth.token}`
       }
     })
       .then(res => {
@@ -97,7 +97,7 @@ export const Home = () => {
           type: 'FETCH_EVENTS_FAILURE'
         });
       });
-  }, [authState.token]);
+  }, [auth.token]);
 
   return (
     <div className="events">

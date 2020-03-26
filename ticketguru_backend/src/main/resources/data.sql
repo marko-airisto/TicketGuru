@@ -141,9 +141,21 @@ VALUES
     (name, eventType_ID, dateTime, eventOrganizer_ID, venue_ID, ticketCapacity, ageLimit_ID, info)
 VALUES
     (
-        'Helsinki LARP 2020', 1, '2020-04-12 10:00:00', 1, 1, 15, 2, 'Hakkaa kaveriasi kumimiekalla ja nauti.'
+        'Lappeenranta Kiljufest 2020', 1, '2020-04-13 07:00:00', 1, 1, 15, 2, 'Juo kiljua ja piereskele.'
     );
-
+     INSERT INTO Events
+    (name, eventType_ID, dateTime, eventOrganizer_ID, venue_ID, ticketCapacity, ageLimit_ID, info)
+VALUES
+    (
+        'Postimekkijamboree', 1, '2020-04-17 10:00:00', 1, 1, 15, 2, 'Liimaile postimerkkejä'
+    );
+     INSERT INTO Events
+    (name, eventType_ID, dateTime, eventOrganizer_ID, venue_ID, ticketCapacity, ageLimit_ID, info)
+VALUES
+    (
+        'Mökkitikan SM:t', 1, '2020-04-20 09:030:00', 1, 1, 15, 2, 'Heitä tikkaa pikkusievässä'
+    );
+    
 -- TICKETTYPES
 
 INSERT INTO TicketTypes
@@ -209,10 +221,16 @@ VALUES
 
 INSERT INTO SaleEvents (dateTime, user_ID) VALUES ('2020-03-03 10:00:00', 3);
 
--- TICKETS / KAATUU SAATANA!!!
+-- TICKETS
 
 INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID) VALUES ('hbfhbvhfbvrhbgeyfgf', 1, 1);
 
--- SALEROWS / KAATUU SAATANA!!!
+INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID) VALUES ('ferferfgergergergerg', 1, 1);
+
+INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID) VALUES ('erergergergergergerg', 1, 1);
+
+INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID) VALUES ('tyyuyujdgergergwegethgwth', 1, 1);
+
+-- SALEROWS
 
 INSERT INTO SaleRows (discount, saleEvent_ID, ticket_ID) VALUES (0, 1, 1 );
