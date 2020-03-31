@@ -1,32 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuthContext } from '../utils/AuthContext';
+import ReactTable from 'react-table';
+import 'react-table/react-table.css';
+import moment from 'moment/moment.js';
+import ReadTicket from '../components/ReadTicket';
+import TicketStatus from '../components/TicketStatus';
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import { QRCode } from 'react-qr-svg';
+
+export const TicketContext = React.createContext();
 
 const useStyles = makeStyles(theme => ({
   root: {
-    minWidth: 275,
     flexGrow: 1,
-    textAlign: 'center',
-    alignContent: 'center'
-  },
-  button: {
-    textAlign: 'center',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    paddingBottom: theme.spacing(2)
-  },
-  title: {
-    fontSize: 14
+    textAlign: 'center'
   }
 }));
-
-export const TicketContext = React.createContext();
 
 const initialState = {
   tickets: [],
@@ -56,24 +44,24 @@ const reducer = (state, action) => {
         hasError: true,
         isFetching: false
       };
-    /* case 'ADD_SONG_REQUEST':
+    case 'PATCH_TICKET_REQUEST':
       return {
         ...state,
         isTicketSubmitting: true,
         songHasError: false
       };
-    case 'ADD_SONG_SUCCESS':
+    case 'PATCH_TICKET_SUCCESS':
       return {
         ...state,
         isTicketSubmitting: false,
-        TICKETS: [...state.TICKETS, action.payload]
+        tickets: [...state.tickets, action.payload]
       };
-    case 'ADD_SONG_FAILURE':
+    case 'PATCH_TICKET_FAILURE':
       return {
         ...state,
         isTicketSubmitting: false,
         songHasError: true
-      }; */
+      };
     default:
       return state;
   }
@@ -83,15 +71,8 @@ export const Tickets = () => {
   const { auth } = useAuthContext();
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const classes = useStyles();
-  /* const [isAddSongModalVisible, setAddSongModalVisibility] = React.useState(
-    false
-  ); */
 
-  /* const toggleAddSong = () => {
-    setAddSongModalVisibility(!isAddSongModalVisible);
-  }; */
-
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch({
       type: 'FETCH_TICKETS_REQUEST'
     });
@@ -108,7 +89,7 @@ export const Tickets = () => {
         }
       })
       .then(resJson => {
-        //console.log(resJson._embedded.tickets);
+        console.log(resJson._embedded.tickets);
         dispatch({
           type: 'FETCH_TICKETS_SUCCESS',
           payload: resJson._embedded.tickets
@@ -122,44 +103,55 @@ export const Tickets = () => {
       });
   }, [auth.token]);
 
+  const columns = [
+    {
+      Header: '',
+      sortable: false,
+      filterable: false,
+      width: 60,
+      accessor: '_links.self.href',
+      Cell: row => <ReadTicket ticket={row.original} />
+    },
+    {
+      Header: 'Checksum',
+      accessor: 'checkSum',
+      style: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center'
+      }
+    },
+    {
+      id: 'invalid',
+      Header: 'Invalidated',
+      style: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center'
+      },
+      accessor: row =>
+        row.invalid === null
+          ? ''
+          : moment(row.invalid).format('DD/MM/YYYY  HH:mm')
+    },
+    {
+      Header: '',
+      sortable: false,
+      filterable: false,
+      width: 60,
+      accessor: '_links.ticketStatus.href',
+      Cell: row => <TicketStatus ticket={row.original} />
+    }
+  ];
+
   return (
-    <div className="tickets">
+    <div className={classes.root}>
       {state.isFetching ? (
         <span className="loader">LOADING...</span>
       ) : state.hasError ? (
         <span className="error">AN ERROR HAS OCCURED</span>
       ) : (
-        <>
-          {state.tickets.map(row => (
-            <Card
-              key={row.checkSum}
-              className={classes.root}
-              variant="outlined"
-            >
-              <CardContent>
-                <Typography
-                  className={classes.title}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  {row.checkSum}
-                </Typography>
-                <QRCode
-                  bgColor="#FFFFFF"
-                  fgColor="#000000"
-                  level="Q"
-                  style={{ width: 256 }}
-                  value={row.checkSum}
-                />
-              </CardContent>
-              <CardActions className={classes.button}>
-                <Button variant="contained" color="primary" size="small">
-                  Mark as used
-                </Button>
-              </CardActions>
-            </Card>
-          ))}
-        </>
+        <ReactTable filterable={false} data={state.tickets} columns={columns} />
       )}
     </div>
   );

@@ -53,10 +53,11 @@ public class Ticket extends ResourceSupport {
     public Ticket(Ticket ticket) {
     }
 
-    public Ticket(EventTicket eventTicket, String checkSum, SaleRow saleRow) {
+    public Ticket(EventTicket eventTicket, String checkSum, SaleRow saleRow, LocalDateTime invalid) {
         this.eventTicket = eventTicket;
         this.checkSum = checkSum;
         this.saleRow = saleRow;
+        this.invalid = invalid;
     }
 
     // Getters

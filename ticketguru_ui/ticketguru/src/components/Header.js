@@ -13,7 +13,9 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
+import LooksOneIcon from '@material-ui/icons/LooksOne';
+import LooksTwoIcon from '@material-ui/icons/LooksTwo';
+import Looks3Icon from '@material-ui/icons/Looks3';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
@@ -92,7 +94,7 @@ export const Header = () => {
           onClick={onItemClick('home')}
         >
           <ListItemIcon>
-            <DirectionsRunIcon />
+            <LooksOneIcon />
           </ListItemIcon>
           <ListItemText>Home</ListItemText>
         </ListItem>
@@ -104,9 +106,21 @@ export const Header = () => {
           onClick={onItemClick('tickets')}
         >
           <ListItemIcon>
-            <DirectionsRunIcon />
+            <LooksTwoIcon />
           </ListItemIcon>
           <ListItemText>Tickets</ListItemText>
+        </ListItem>
+
+        <ListItem
+          button
+          component={Link}
+          to="/events"
+          onClick={onItemClick('events')}
+        >
+          <ListItemIcon>
+            <Looks3Icon />
+          </ListItemIcon>
+          <ListItemText>Events</ListItemText>
         </ListItem>
       </List>
       <Divider />

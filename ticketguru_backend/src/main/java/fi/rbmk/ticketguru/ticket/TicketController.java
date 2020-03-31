@@ -28,7 +28,7 @@ import fi.rbmk.ticketguru.eventTicket.EventTicketRepository;
 import fi.rbmk.ticketguru.saleRow.SaleRow;
 import fi.rbmk.ticketguru.ticketStatus.*;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
 @RestController
 @RequestMapping(value = "/api/tickets", produces = "application/hal+json")
 public class TicketController {
@@ -37,7 +37,6 @@ public class TicketController {
     TicketRepository tRepository;
     TicketStatusRepository tSRepository;
     EventTicketRepository etRepository;
-
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<Ticket> edit(@Valid @RequestBody Ticket newTicket, @PathVariable Long id) {
@@ -113,11 +112,12 @@ public class TicketController {
 
     // @GetMapping(value = "/{id}/saleRow", produces = "application/hal+json")
     // ResponseEntity<Resource<SaleRow>> getSaleRow(@PathVariable Long id) {
-    //     Ticket ticket = tRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-    //     SaleRow saleRow = ticket.getSaleRow();
-    //     SaleRowLinks saleRowLinks = new saleRowLinks(saleRow);
-    //     saleRow.add(saleRowLinks.getAll());
-    //     Resource<SaleRow> resource = new Resource<SaleRow>(saleRow);
-    //     return ResponseEntity.ok(resource);
+    // Ticket ticket = tRepository.findById(id).orElseThrow(() -> new
+    // ResourceNotFoundException("Invalid ID: " + id));
+    // SaleRow saleRow = ticket.getSaleRow();
+    // SaleRowLinks saleRowLinks = new saleRowLinks(saleRow);
+    // saleRow.add(saleRowLinks.getAll());
+    // Resource<SaleRow> resource = new Resource<SaleRow>(saleRow);
+    // return ResponseEntity.ok(resource);
     // }
 }

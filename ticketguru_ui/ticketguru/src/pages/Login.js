@@ -147,18 +147,19 @@ export const Login = () => {
           {user.errorMessage && (
             <span className="form-error">{user.errorMessage}</span>
           )}
-          <Link to="/home">
-            <Button
-              disabled={user.isSubmitting}
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={handleFormSubmit}
-            >
-              {user.isSubmitting ? 'Loading...' : 'Login'}
-            </Button>
-          </Link>
+
+          <Button
+            disabled={user.isSubmitting}
+            fullWidth
+            href="/home"
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            onClick={handleFormSubmit}
+          >
+            {user.isSubmitting ? 'Loading...' : 'Login'}
+          </Button>
+
           <Grid container>
             <Grid item xs>
               <Typography variant="body2" align="center">

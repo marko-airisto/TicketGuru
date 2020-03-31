@@ -228,3 +228,7 @@ INSERT INTO SaleRows (discount, saleEvent_ID) VALUES (0, 1);
 -- TICKETS
 
 INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('hbfhbvhfbvrhbgeyfgf', 1, 1, 1);
+
+INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('hbduhcbdsuhvbushdbuhsbd', 1, 1, 1);
+
+INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('jshsdvgdvctvctvctecvtevcetvc', 1, 1, 1);

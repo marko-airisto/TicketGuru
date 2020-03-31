@@ -4,6 +4,7 @@ import { AuthProvider } from './utils/AuthContext';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import Home from './pages/Home';
+import Events from './pages/Events';
 import Unauthorized from './pages/Unauthorized';
 import Tickets from './pages/Tickets';
 import Login from './pages/Login';
@@ -13,19 +14,20 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div>
-          <Header />
-          <Switch>
-            <Route exact path="/" component={Login} />
-            <PrivateRoute path="/home">
-              <Home />
-            </PrivateRoute>
-            <PrivateRoute path="/tickets">
-              <Tickets />
-            </PrivateRoute>
-            <Route render={() => <Unauthorized />} />
-          </Switch>
-        </div>
+        <Header />
+        <Switch>
+          <Route exact path="/" component={Login} />
+          <PrivateRoute path="/home">
+            <Home />
+          </PrivateRoute>
+          <PrivateRoute path="/events">
+            <Events />
+          </PrivateRoute>
+          <PrivateRoute path="/tickets">
+            <Tickets />
+          </PrivateRoute>
+          <Route render={() => <Unauthorized />} />
+        </Switch>
       </Router>
     </AuthProvider>
   );
