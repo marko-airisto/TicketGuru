@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +38,7 @@ public class TicketController {
     TicketRepository tRepository;
     TicketStatusRepository tSRepository;
     EventTicketRepository etRepository;
+    TicketService tService;
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<Ticket> edit(@Valid @RequestBody Ticket newTicket, @PathVariable Long id) {
@@ -108,6 +110,16 @@ public class TicketController {
         eventTicket.add(eventTicketLinks.getAll());
         Resource<EventTicket> resource = new Resource<EventTicket>(eventTicket);
         return ResponseEntity.ok(resource);
+    }
+
+    @GetMapping(value = "/validate/{checksum}", produces = "application/hal+json")
+    public ResponseEntity<?> validate(@PathVariable String checksum) {
+        Ticket ticket = tService.validate(checksum);
+        if (ticket == null) {
+            Resource<Ticket> resource = new Resource<Ticket>(ticket);
+            return ResponseEntity.ok(resource);
+        }
+        return ResponseEntity.
     }
 
     // @GetMapping(value = "/{id}/saleRow", produces = "application/hal+json")

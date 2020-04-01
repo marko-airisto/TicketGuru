@@ -21,7 +21,8 @@ public class TicketService {
     TicketRepository tRepository;
     @Autowired
     TicketStatusRepository tStatusRepository;
-    BCrypt bCrypt;
+
+    static BCrypt bCrypt;
 
     public List<Ticket> generateTickets(SaleRow saleRow, EventTicket eventTicket, Long count) {
         List<Ticket> ticketList = new ArrayList<Ticket>();
@@ -36,5 +37,27 @@ public class TicketService {
             ticketList.add(tRepository.save(ticket));
         }
         return ticketList;
+    }
+
+    public List<?> validate(String checksum) {
+        List<?> result = new ArrayList<Ticket>();
+        TicketStatus validStatus = tStatusRepository.findById(Integer.toUnsignedLong(0)).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: 0"));
+        Ticket ticket = null;
+        ticket = tRepository.findByCheckSum(checksum);
+        if (ticket == null) {
+            throw new ResourceNotFoundException("Invalid Checksum");
+        }
+        if (ticket.getInvalid() == null || ticket.getTicketStatus().getTicketStatus_ID() != 0) {
+            if (ticket.getInvalid() == null) {
+                result.add(null);
+                result.add("Ticket has been deleted");
+                return result;
+            } else {
+
+            }
+        }
+        ticket.setTicketStatus(tStatusRepository.findById(Integer.toUnsignedLong(0)).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: 1")));
+        tRepository.save(ticket);
+        return ticket;
     }
 }
