@@ -231,9 +231,9 @@ INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALU
 
 INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('Testi_2', 1, 1, 1);
 
-INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('Testi_3', 2, 2, 1);
+INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('Testi_3', 1, 2, 1);
 
-INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('Testi_4', 2, 3, 1);
+INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('Testi_4', 1, 3, 1);
 
 INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('Testi_5', 1, 4, 1);
 
