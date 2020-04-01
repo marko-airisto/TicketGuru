@@ -28,7 +28,7 @@ import fi.rbmk.ticketguru.eventTicket.EventTicketRepository;
 import fi.rbmk.ticketguru.saleRow.SaleRow;
 import fi.rbmk.ticketguru.ticketStatus.*;
 
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/api/tickets", produces = "application/hal+json")
 public class TicketController {

@@ -194,19 +194,19 @@ VALUES
 
 -- TICKETSTATUSES
 
-INSERT INTO TicketStatuses (name) VALUES ('voimassa');
+INSERT INTO TicketStatuses (name) VALUES ('Voimassa');
 
-INSERT INTO TicketStatuses (name) VALUES ('mitätöity');
+INSERT INTO TicketStatuses (name) VALUES ('Käytetty');
 
-INSERT INTO TicketStatuses (name) VALUES ('peruttu');
+INSERT INTO TicketStatuses (name) VALUES ('Peruttu');
 
-INSERT INTO TicketStatuses (name) VALUES ('maksettu');
+INSERT INTO TicketStatuses (name) VALUES ('Maksettu');
 
-INSERT INTO TicketStatuses (name) VALUES ('hyväksymätön');
+INSERT INTO TicketStatuses (name) VALUES ('Hyväksymätön');
 
-INSERT INTO TicketStatuses (name) VALUES ('epäonnistui');
+INSERT INTO TicketStatuses (name) VALUES ('Epäonnistui');
 
-INSERT INTO TicketStatuses (name) VALUES ('hylätty');
+INSERT INTO TicketStatuses (name) VALUES ('Vylätty');
 
 -- EVENTTICKETS
 
@@ -227,8 +227,16 @@ INSERT INTO SaleRows (discount, saleEvent_ID) VALUES (0, 1);
 
 -- TICKETS
 
-INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('hbfhbvhfbvrhbgeyfgf', 1, 1, 1);
+INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('Testi_1', 1, 1, 1);
 
-INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('hbduhcbdsuhvbushdbuhsbd', 1, 1, 1);
+INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('Testi_2', 1, 1, 1);
 
-INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('jshsdvgdvctvctvctecvtevcetvc', 1, 1, 1);
+INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('Testi_3', 2, 2, 1);
+
+INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('Testi_4', 2, 3, 1);
+
+INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('Testi_5', 1, 4, 1);
+
+INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('Testi_6', 1, 5, 1);
+
+INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('Testi_7', 1, 6, 1);

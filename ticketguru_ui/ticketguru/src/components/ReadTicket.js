@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -9,7 +9,6 @@ import SelectAllIcon from '@material-ui/icons/SelectAll';
 import Tooltip from '@material-ui/core/Tooltip';
 import { QRCode } from 'react-qr-svg';
 import { useAuthContext } from '../utils/AuthContext';
-import { TextField } from '@material-ui/core';
 
 export default function ReadTicket(props) {
   const { auth } = useAuthContext();

@@ -9,6 +9,7 @@ import Unauthorized from '../pages/Unauthorized';
 
 const PrivateRoute = ({ children, ...rest }) => {
   const { auth } = useAuthContext();
+
   return (
     <Route
       {...rest}
@@ -16,7 +17,7 @@ const PrivateRoute = ({ children, ...rest }) => {
         auth.isAuthenticated ? (
           children
         ) : (
-          <Redirect to={{ pathname: '/', state: { from: 'location' } }} />
+          <Redirect to={{ pathname: '/', state: { from: location } }} />
         )
       }
     />
@@ -26,10 +27,10 @@ const PrivateRoute = ({ children, ...rest }) => {
 const PrivateRouter = () => (
   <Switch>
     <Route exact path="/" component={Login} />
-    <PrivateRoute exact path="/home" component={Home} />
-    <PrivateRoute exact path="/events" component={Events} />
-    <PrivateRoute exact path="/tickets" component={Tickets} />
-    <Route render={() => <Unauthorized />} />
+    <PrivateRoute path="/home" component={Home} />
+    <PrivateRoute path="/events" component={Events} />
+    <PrivateRoute path="/tickets" component={Tickets} />
+    <Route component={Unauthorized} />
   </Switch>
 );
 
