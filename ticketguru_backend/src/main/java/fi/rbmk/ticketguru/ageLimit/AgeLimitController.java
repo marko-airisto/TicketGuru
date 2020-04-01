@@ -62,12 +62,22 @@ public class AgeLimitController {
         return ResponseEntity.ok(resource);
     }
 
+    /* 
     @DeleteMapping(value = "/{id}")
     ResponseEntity<?> delete(@PathVariable Long id) {
         return alRepository.findById(id).map(m -> {
             alRepository.deleteById(id);
             return ResponseEntity.noContent().build();
         }).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+    }
+    */
+    
+    @DeleteMapping(value = "/{id}", produces = "application/hal+json")
+    ResponseEntity<?> delete(@PathVariable Long id) {
+    	AgeLimit ageLimit = alRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+    	ageLimit.setInvalid();
+    	alRepository.save(ageLimit);
+    	return ResponseEntity.noContent().build();
     }
 
     @GetMapping(produces = "application/hal+json")
