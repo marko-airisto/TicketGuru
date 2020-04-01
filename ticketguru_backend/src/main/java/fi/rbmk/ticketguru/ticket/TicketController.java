@@ -36,8 +36,11 @@ public class TicketController {
 
     @Autowired
     TicketRepository tRepository;
+    @Autowired
     TicketStatusRepository tSRepository;
+    @Autowired
     EventTicketRepository etRepository;
+    @Autowired
     TicketService tService;
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
@@ -113,13 +116,12 @@ public class TicketController {
     }
 
     @GetMapping(value = "/validate/{checksum}", produces = "application/hal+json")
-    public ResponseEntity<?> validate(@PathVariable String checksum) {
-        Ticket ticket = tService.validate(checksum);
-        if (ticket == null) {
-            Resource<Ticket> resource = new Resource<Ticket>(ticket);
-            return ResponseEntity.ok(resource);
+    public ResponseEntity<Resource<Ticket>> validate(@PathVariable String checksum) {
+        List<Object> result = tService.validate(checksum);
+        if (result.size() > 1) {
+            return ResponseEntity.badRequest().header("ErrorMsg", result.get(1).toString()).body((Resource<Ticket>) result.get(0));
         }
-        return ResponseEntity.
+        return ResponseEntity.ok((Resource<Ticket>) result.get(0));
     }
 
     // @GetMapping(value = "/{id}/saleRow", produces = "application/hal+json")
