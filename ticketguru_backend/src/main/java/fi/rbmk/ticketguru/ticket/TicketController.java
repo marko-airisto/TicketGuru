@@ -38,7 +38,6 @@ public class TicketController {
     TicketStatusRepository tSRepository;
     EventTicketRepository etRepository;
 
-
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<Ticket> edit(@Valid @RequestBody Ticket newTicket, @PathVariable Long id) {
         Ticket ticket = tRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
@@ -113,11 +112,12 @@ public class TicketController {
 
     // @GetMapping(value = "/{id}/saleRow", produces = "application/hal+json")
     // ResponseEntity<Resource<SaleRow>> getSaleRow(@PathVariable Long id) {
-    //     Ticket ticket = tRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-    //     SaleRow saleRow = ticket.getSaleRow();
-    //     SaleRowLinks saleRowLinks = new saleRowLinks(saleRow);
-    //     saleRow.add(saleRowLinks.getAll());
-    //     Resource<SaleRow> resource = new Resource<SaleRow>(saleRow);
-    //     return ResponseEntity.ok(resource);
+    // Ticket ticket = tRepository.findById(id).orElseThrow(() -> new
+    // ResourceNotFoundException("Invalid ID: " + id));
+    // SaleRow saleRow = ticket.getSaleRow();
+    // SaleRowLinks saleRowLinks = new saleRowLinks(saleRow);
+    // saleRow.add(saleRowLinks.getAll());
+    // Resource<SaleRow> resource = new Resource<SaleRow>(saleRow);
+    // return ResponseEntity.ok(resource);
     // }
 }

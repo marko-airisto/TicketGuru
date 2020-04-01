@@ -9,8 +9,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Link } from '@material-ui/core';
-import { AuthContext } from '../App';
+import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../utils/AuthContext';
 
 function Copyright() {
   return (
@@ -47,6 +48,7 @@ const useStyles = makeStyles(theme => ({
 
 export const Login = () => {
   const { dispatch } = useContext(AuthContext);
+  let history = useHistory();
   const classes = useStyles();
   const [user, setUser] = useState({
     username: '',
@@ -54,8 +56,6 @@ export const Login = () => {
     isSubmitting: false,
     errorMessage: null
   });
-
-  //const { accessToken, setAccessToken } = User();
 
   const handleInputChange = e => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -90,7 +90,7 @@ export const Login = () => {
       })
       .then(resJson => {
         dispatch({
-          type: 'LOGIN',
+          type: 'LOGIN_SUCCESS',
           payload: resJson
         });
       })
@@ -101,6 +101,7 @@ export const Login = () => {
           errorMessage: error.message || error.statusText
         });
       });
+    history.push('/home');
   }
 
   return (
@@ -147,21 +148,23 @@ export const Login = () => {
 
           <Button
             disabled={user.isSubmitting}
-            type="submit"
             fullWidth
+            href="/home"
             variant="contained"
             color="primary"
             className={classes.submit}
-            href="/home"
             onClick={handleFormSubmit}
           >
             {user.isSubmitting ? 'Loading...' : 'Login'}
           </Button>
+
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
+              <Typography variant="body2" align="center">
+                <Link to="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Typography>
             </Grid>
           </Grid>
         </form>
