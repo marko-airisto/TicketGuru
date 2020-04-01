@@ -9,10 +9,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-//import { Link } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../utils/AuthContext';
-import { useHistory } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -49,6 +48,7 @@ const useStyles = makeStyles(theme => ({
 
 export const Login = () => {
   const { dispatch } = useContext(AuthContext);
+  let history = useHistory();
   const classes = useStyles();
   const [user, setUser] = useState({
     username: '',
@@ -56,8 +56,6 @@ export const Login = () => {
     isSubmitting: false,
     errorMessage: null
   });
-
-  let history = useHistory();
 
   const handleInputChange = e => {
     setUser({ ...user, [e.target.name]: e.target.value });
