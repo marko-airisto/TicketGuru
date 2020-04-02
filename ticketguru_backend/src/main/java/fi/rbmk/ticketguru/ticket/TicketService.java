@@ -1,9 +1,5 @@
 package fi.rbmk.ticketguru.ticket;
 
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,16 +22,11 @@ public class TicketService {
     TicketStatusRepository tStatusRepository;
 
     public List<Ticket> generateTickets(SaleRow saleRow, EventTicket eventTicket, Long count) {
-        SecureRandom random = new SecureRandom();
         List<Ticket> ticketList = new ArrayList<Ticket>();
         TicketStatus ticketStatus = tStatusRepository.findById(Integer.toUnsignedLong(1)).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: 1"));
         for (int i = 0; i < count; i++) {
-            String checkSum = new BigInteger(128, random).toString(32);
-            Ticket ticket = new Ticket();
-            ticket.setEventTicket(eventTicket);
+            Ticket ticket = new Ticket(eventTicket, saleRow);
             ticket.setTicketStatus(ticketStatus);
-            ticket.setCheckSum(checkSum);
-            ticket.setSaleRow(saleRow);
             ticketList.add(tRepository.save(ticket));
         }
         return ticketList;

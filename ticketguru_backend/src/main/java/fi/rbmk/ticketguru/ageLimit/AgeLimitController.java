@@ -61,16 +61,6 @@ public class AgeLimitController {
         Resource<AgeLimit> resource = new Resource<AgeLimit>(ageLimit);
         return ResponseEntity.ok(resource);
     }
-
-    /* 
-    @DeleteMapping(value = "/{id}")
-    ResponseEntity<?> delete(@PathVariable Long id) {
-        return alRepository.findById(id).map(m -> {
-            alRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        }).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-    }
-    */
     
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> delete(@PathVariable Long id) {
@@ -86,8 +76,8 @@ public class AgeLimitController {
         Link link = linkTo(AgeLimitController.class).withSelfRel();
         if (ageLimits.size() != 0) {
             for (AgeLimit ageLimit : ageLimits) {
-                AgeLimitLinks ageLimitLinks = new AgeLimitLinks(ageLimit);
-                ageLimit.add(ageLimitLinks.getAll());
+                AgeLimitLinks links = new AgeLimitLinks(ageLimit);
+                ageLimit.add(links.getAll());
             }
             Resources<AgeLimit> resources = new Resources<AgeLimit>(ageLimits, link);
             return ResponseEntity.ok(resources);
@@ -112,9 +102,8 @@ public class AgeLimitController {
         List<Event> events = ageLimit.getEvents();
         if (events.size() != 0) {
             for (Event event : events) {
-                Long event_ID = event.getEvent_ID();
-                Link selfLink = linkTo(EventController.class).slash(event_ID).withSelfRel();
-                event.add(selfLink);
+                EventLinks links = new EventLinks(event);
+                event.add(links.getAll());
             }
             Resources<Event> resources = new Resources<Event>(events, link);
             return ResponseEntity.ok(resources);
