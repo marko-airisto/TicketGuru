@@ -77,12 +77,22 @@ public class TicketTypeController {
         //created(URI.create("/" + ticketType.getTicketType_ID())).build();
     }
 
+    /*
     @DeleteMapping(value = "/{id}")
     ResponseEntity<?> delete(@PathVariable Long id) {
         return ticketTypeRepository.findById(id).map(m -> {
             ticketTypeRepository.deleteById(id);
             return ResponseEntity.noContent().build();
         }).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+    }
+    */
+    
+    @DeleteMapping(value = "/{id}", produces = "application/hal+json")
+    ResponseEntity<?> delete(@PathVariable Long id) {
+    	TicketType ticketType = ticketTypeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+    	ticketType.setInvalid();
+    	ticketTypeRepository.save(ticketType);
+    	return ResponseEntity.noContent().build();
     }
 
     @GetMapping(produces = "application/hal+json")

@@ -76,12 +76,22 @@ public class TicketStatusController {
         // created(URI.create("/" + ticketStatus.getTicketStatus_ID())).build();
     }
 
+    /*
     @DeleteMapping(value = "/{id}")
     ResponseEntity<?> delete(@PathVariable Long id) {
         return tSRepository.findById(id).map(m -> {
             tSRepository.deleteById(id);
             return ResponseEntity.noContent().build();
         }).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+    }
+    */
+    
+    @DeleteMapping(value = "/{id}", produces = "application/hal+json")
+    ResponseEntity<?> delete(@PathVariable Long id) {
+    	TicketStatus ticketStatus = tSRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+    	ticketStatus.setInvalid();
+    	tSRepository.save(ticketStatus);
+    	return ResponseEntity.noContent().build();
     }
 
     @GetMapping(produces = "application/hal+json")

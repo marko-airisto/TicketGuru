@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,8 +36,12 @@ public class TicketController {
 
     @Autowired
     TicketRepository tRepository;
+    @Autowired
     TicketStatusRepository tSRepository;
+    @Autowired
     EventTicketRepository etRepository;
+    @Autowired
+    TicketService tService;
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<Ticket> edit(@Valid @RequestBody Ticket newTicket, @PathVariable Long id) {
@@ -108,6 +113,15 @@ public class TicketController {
         eventTicket.add(eventTicketLinks.getAll());
         Resource<EventTicket> resource = new Resource<EventTicket>(eventTicket);
         return ResponseEntity.ok(resource);
+    }
+
+    @GetMapping(value = "/validate/{checksum}", produces = "application/hal+json")
+    public ResponseEntity<Resource<Ticket>> validate(@PathVariable String checksum) {
+        List<Object> result = tService.validate(checksum);
+        if (result.size() > 1) {
+            return ResponseEntity.badRequest().header("ErrorMsg", result.get(1).toString()).body((Resource<Ticket>) result.get(0));
+        }
+        return ResponseEntity.ok((Resource<Ticket>) result.get(0));
     }
 
     // @GetMapping(value = "/{id}/saleRow", produces = "application/hal+json")
