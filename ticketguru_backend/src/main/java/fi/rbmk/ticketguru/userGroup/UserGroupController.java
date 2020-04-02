@@ -102,9 +102,8 @@ public class UserGroupController {
         List<User> users = userGroup.getUsers();
         if (users.size() != 0) {
             for (User user : users) {
-                Long user_ID = user.getUser_ID();
-                Link selfLink = linkTo(UserController.class).slash(user_ID).withSelfRel();
-                user.add(selfLink);
+                UserLinks links = new UserLinks(user);
+                user.add(links.getAll());
             }
             Resources<User> resources = new Resources<User>(users, link);
             return ResponseEntity.ok(resources);
