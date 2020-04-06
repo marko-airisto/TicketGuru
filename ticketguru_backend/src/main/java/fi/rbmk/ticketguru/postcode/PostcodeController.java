@@ -59,10 +59,9 @@ public class PostcodeController {
 
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> delete(@PathVariable Long id) {
-        return pRepository.findById(id).map(m -> {
-            pRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        }).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        Postcode postcode = pRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        postcode.setInvalid();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(produces = "application/hal+json")

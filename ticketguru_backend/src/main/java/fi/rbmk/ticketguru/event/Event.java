@@ -79,7 +79,7 @@ public class Event extends ResourceSupport {
     @Column(name = "valid")
     private LocalDateTime valid;
 
-    @Column(name = "valid")
+    @Column(name = "invalid")
     private LocalDateTime invalid;
 
     @OneToMany(mappedBy = "event")
