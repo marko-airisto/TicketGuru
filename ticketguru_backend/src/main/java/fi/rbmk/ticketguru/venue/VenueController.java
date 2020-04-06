@@ -69,11 +69,11 @@ public class VenueController {
 
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> delete(@PathVariable Long id) {
-        return venueRepository.findById(id).map(m -> {
-            venueRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        }).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-    }
+    	Venue venue = venueRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+    	venue.setInvalid();
+    	venueRepository.save(venue);
+        return ResponseEntity.noContent().build();
+        }
 
     @GetMapping(produces = "application/hal+json")
     ResponseEntity<Resources<Venue>> all() {

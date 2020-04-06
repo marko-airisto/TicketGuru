@@ -62,11 +62,11 @@ public class UserGroupController {
 
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> delete(@PathVariable Long id) {
-        return uGRepository.findById(id).map(m -> {
-            uGRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        }).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-    }
+    	UserGroup userGroup = uGRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+    	userGroup.setInvalid();
+    	uGRepository.save(userGroup);
+    	return ResponseEntity.noContent().build();
+        }
 
     @GetMapping(produces = "application/hal+json")
     ResponseEntity<Resources<UserGroup>> all() {

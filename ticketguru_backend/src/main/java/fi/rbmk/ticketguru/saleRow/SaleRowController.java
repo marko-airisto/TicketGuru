@@ -79,11 +79,11 @@ public class SaleRowController {
 
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> delete(@PathVariable Long id) {
-        return sRRepository.findById(id).map(m -> {
-            sRRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        }).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-    }
+    	SaleRow saleRow = sRRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+    	saleRow.setInvalid();
+    	sRRepository.save(saleRow);
+    	return ResponseEntity.noContent().build();
+        }
 
     @GetMapping(produces = "application/hal+json")
     ResponseEntity<Resources<SaleRow>> all() {
