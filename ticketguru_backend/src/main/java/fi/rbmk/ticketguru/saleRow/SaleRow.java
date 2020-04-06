@@ -11,8 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.Id;
