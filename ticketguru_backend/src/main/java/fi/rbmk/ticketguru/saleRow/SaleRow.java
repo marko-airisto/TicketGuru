@@ -36,7 +36,7 @@ public class SaleRow extends ResourceSupport {
 	private Long discount; // Pitäisikö olla % vai alennus euroina vai...? Varmaan % olisi paras -Mika
 
 	@Column(name = "valid")
-	private LocalDateTime valid;
+	private LocalDateTime valid = LocalDateTime.now();
 
 	@Column(name = "invalid")
 	private LocalDateTime invalid;
