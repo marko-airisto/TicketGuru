@@ -6,6 +6,7 @@ import Events from '../pages/Events';
 import Tickets from '../pages/Tickets';
 import Login from '../pages/Login';
 import Unauthorized from '../pages/Unauthorized';
+import TicketReader from '../pages/TicketReader';
 
 const PrivateRoute = ({ children, ...rest }) => {
   const { auth } = useAuthContext();
@@ -30,6 +31,7 @@ const PrivateRouter = () => (
     <PrivateRoute path="/home" component={Home} />
     <PrivateRoute path="/events" component={Events} />
     <PrivateRoute path="/tickets" component={Tickets} />
+    <PrivateRoute path="/ticketreader" component={TicketReader} />
     <Route component={Unauthorized} />
   </Switch>
 );

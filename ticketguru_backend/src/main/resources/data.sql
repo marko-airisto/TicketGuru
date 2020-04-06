@@ -206,7 +206,7 @@ INSERT INTO TicketStatuses (name) VALUES ('Hyväksymätön');
 
 INSERT INTO TicketStatuses (name) VALUES ('Epäonnistui');
 
-INSERT INTO TicketStatuses (name) VALUES ('Vylätty');
+INSERT INTO TicketStatuses (name) VALUES ('Hylätty');
 
 -- EVENTTICKETS
 
@@ -226,6 +226,8 @@ INSERT INTO SaleEvents (dateTime, user_ID) VALUES ('2020-03-03 10:00:00', 3);
 INSERT INTO SaleRows (discount, saleEvent_ID) VALUES (0, 1);
 
 -- TICKETS
+
+INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('Testi_0', 1, 1, 1);
 
 INSERT INTO Tickets (checkSum, eventTicket_ID, ticketStatus_ID, saleRow_ID) VALUES ('Testi_1', 1, 1, 1);
 

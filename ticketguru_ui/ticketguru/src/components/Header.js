@@ -122,6 +122,18 @@ export const Header = () => {
           </ListItemIcon>
           <ListItemText>Events</ListItemText>
         </ListItem>
+
+        <ListItem
+          button
+          component={Link}
+          to="/ticketreader"
+          onClick={onItemClick('Ticket Reader')}
+        >
+          <ListItemIcon>
+            <Looks3Icon />
+          </ListItemIcon>
+          <ListItemText>Ticket Reader</ListItemText>
+        </ListItem>
       </List>
       <Divider />
     </div>
