@@ -81,10 +81,9 @@ public class UserController {
 
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> delete(@PathVariable Long id) {
-        return uRepository.findById(id).map(m -> {
-            uRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        }).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        User user = uRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        user.setInvalid();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(produces = "application/hal+json")
