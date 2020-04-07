@@ -124,7 +124,7 @@ public class TicketController {
             Resource<Ticket> resource = new Resource<Ticket> ((Ticket) result.get(0));
             return ResponseEntity.badRequest().header("ErrorMsg", result.get(1).toString()).body(resource);
         }
-        Resource<Ticket> resource = new Resource<Ticket> ((Ticket) result.get(0));
+        Resource<Ticket> resource = new Resource<Ticket>((Ticket) result.get(0));
         return ResponseEntity.ok(resource);
     }
 
