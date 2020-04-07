@@ -41,20 +41,20 @@ public class TicketService {
         }
         TicketLinks ticketLinks = new TicketLinks(ticket);
         ticket.add(ticketLinks.getAll());
-        Resource<Ticket> resource = new Resource<Ticket>(ticket);
+        //Resource<Ticket> resource = new Resource<Ticket>(ticket);
         if (ticket.getInvalid() != null || ticket.getTicketStatus().getTicketStatus_ID() != 1) {
             if (ticket.getInvalid() != null) {
-                result.add(resource);
+                result.add(ticket);
                 result.add("Ticket has been marked invalid");
                 return result;
             } else {
-                result.add(resource);
+                result.add(ticket);
                 result.add("Invalid ticket status: " + ticket.getTicketStatus().getName());
                 return result;
             }
         }
         ticket.setTicketStatus(tStatusRepository.findById(Integer.toUnsignedLong(2)).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: 1")));
-        result.add(new Resource<Ticket>(tRepository.save(ticket)));
+        result.add(tRepository.save(ticket));
         return result;
     }
 }
