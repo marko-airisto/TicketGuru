@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const Header = () => {
+const Header = () => {
   const { auth, dispatch } = useAuthContext();
   const classes = useStyles();
   const [title, setTitle] = useState('home');
@@ -90,7 +90,7 @@ export const Header = () => {
         <ListItem
           button
           component={Link}
-          to="/home"
+          to="/app/home"
           onClick={onItemClick('home')}
         >
           <ListItemIcon>
@@ -102,7 +102,7 @@ export const Header = () => {
         <ListItem
           button
           component={Link}
-          to="/tickets"
+          to="/app/tickets"
           onClick={onItemClick('tickets')}
         >
           <ListItemIcon>
@@ -114,7 +114,7 @@ export const Header = () => {
         <ListItem
           button
           component={Link}
-          to="/events"
+          to="/app/events"
           onClick={onItemClick('events')}
         >
           <ListItemIcon>
@@ -126,7 +126,7 @@ export const Header = () => {
         <ListItem
           button
           component={Link}
-          to="/ticketreader"
+          to="/app/ticketreader"
           onClick={onItemClick('Ticket Reader')}
         >
           <ListItemIcon>

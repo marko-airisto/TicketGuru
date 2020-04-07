@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import QrReader from 'react-qr-reader';
 import { useAuthContext } from '../utils/AuthContext';
 
@@ -13,10 +13,9 @@ export default function ReadQr() {
       setState({
         result: data
       });
+      validateTicket();
     }
   };
-
-  useEffect(() => validateTicket());
 
   const handleError = err => {
     console.error(err);
