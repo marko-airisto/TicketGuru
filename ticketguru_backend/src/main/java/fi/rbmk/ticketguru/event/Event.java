@@ -67,7 +67,7 @@ public class Event extends ResourceSupport {
 
     @NotNull(message = "Age limit must be set")
     @ManyToOne
-    @JoinColumn(name = "agelimit_id")
+    @JoinColumn(name = "age_limit_id")
     private AgeLimit ageLimit;
 
     @Length(max = 500)

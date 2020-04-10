@@ -19,12 +19,12 @@ import org.springframework.hateoas.ResourceSupport;
 import fi.rbmk.ticketguru.event.Event;
 
 @Entity
-@Table(name = "agelimits")
+@Table(name = "age_limits")
 public class AgeLimit extends ResourceSupport {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "agelimit_id")
+	@Column(name = "age_limit_id")
 	private Long ageLimit_id;
 
 	@NotEmpty(message = "Age limit name must be set")
