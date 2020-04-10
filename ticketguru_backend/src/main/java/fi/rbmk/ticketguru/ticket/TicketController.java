@@ -2,8 +2,6 @@ package fi.rbmk.ticketguru.ticket;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +41,12 @@ public class TicketController {
     TicketService tService;
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
-    ResponseEntity<Resource<Ticket>> edit(@Valid @RequestBody Ticket newTicket, @PathVariable Long id) {
+    ResponseEntity<?> edit(@RequestBody Ticket newTicket, @PathVariable Long id) {
         Ticket ticket = tRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        if (newTicket.getTicketStatus() != null) {
+        if (ticket.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify Ticket that is marked as deleted");
+        }
+        if (newTicket.getTicketStatus() != null && newTicket.getTicketStatus() != ticket.getTicketStatus()) {
             ticket.setTicketStatus(newTicket.getTicketStatus());
         }
         tRepository.save(ticket);
@@ -58,6 +59,9 @@ public class TicketController {
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> delete(@PathVariable Long id) {
         Ticket ticket = tRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        if (ticket.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify Ticket that is marked as deleted");
+        }
         ticket.setInvalid();
         tRepository.save(ticket);
         return ResponseEntity.noContent().build();

@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.hateoas.ResourceSupport;
 
 import fi.rbmk.ticketguru.saleRow.SaleRow;
@@ -29,12 +30,9 @@ public class SaleEvent extends ResourceSupport {
 	@Column(name = "saleEvent_ID")
 	private Long saleEvent_ID;
 
-	@NotNull(message = "Please enter the date time")
-	@Column(name = "dateTime")
-	private LocalDateTime dateTime;
-
-	@Column(name = "valid")
-	private LocalDateTime valid = LocalDateTime.now();
+	@CreationTimestamp
+	@Column(name = "created")
+	private LocalDateTime created;
 
 	@Column(name = "invalid")
 	private LocalDateTime invalid;
@@ -54,20 +52,17 @@ public class SaleEvent extends ResourceSupport {
 	public SaleEvent(Long id, LocalDateTime dateTime, User user) {
 		super();
 		this.saleEvent_ID = id;
-		this.dateTime = dateTime;
 		this.user = user;
 	}
 
 	// Getterit
 	public Long getSaleEvent_ID() { return this.saleEvent_ID; }
-	public LocalDateTime getDateTime() { return this.dateTime; }
-	public LocalDateTime getValid() { return valid; }
+	public LocalDateTime getCreated() { return created; }
 	public LocalDateTime getInvalid() { return invalid; }
 	public List<SaleRow> getSaleRows() { return this.saleRows; }
 	public User getUser() { return this.user; }
 
 	// Setterit
-	public void setDateTime(LocalDateTime dateTime) { this.dateTime = dateTime; }
 	public void setInvalid() { this.invalid = LocalDateTime.now(); }
 	public void setUser(User user) { this.user = user; }
 }

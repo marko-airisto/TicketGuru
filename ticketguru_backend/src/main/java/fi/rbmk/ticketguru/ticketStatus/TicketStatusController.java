@@ -51,11 +51,12 @@ public class TicketStatusController {
     }
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
-    public ResponseEntity<Resource<TicketStatus>> edit(@Valid @RequestBody TicketStatus newTicketStatus,
-            @PathVariable Long id) {
-        TicketStatus ticketStatus = tSRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: + id"));
-        if (newTicketStatus.getName() != "" || newTicketStatus.getName() != ticketStatus.getName()) {
+    public ResponseEntity<?> edit(@Valid @RequestBody TicketStatus newTicketStatus, @PathVariable Long id) {
+        TicketStatus ticketStatus = tSRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: + id"));
+        if (ticketStatus.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify TicketStatus that is marked as deleted");
+        }
+        if (newTicketStatus.getName() != null && newTicketStatus.getName() != "" && newTicketStatus.getName() != ticketStatus.getName()) {
             ticketStatus.setName(newTicketStatus.getName());
         }
         tSRepository.save(ticketStatus);
@@ -67,7 +68,10 @@ public class TicketStatusController {
     
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> delete(@PathVariable Long id) {
-    	TicketStatus ticketStatus = tSRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        TicketStatus ticketStatus = tSRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        if (ticketStatus.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify TicketStatus that is marked as deleted");
+        }
     	ticketStatus.setInvalid();
     	tSRepository.save(ticketStatus);
     	return ResponseEntity.noContent().build();

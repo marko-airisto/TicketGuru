@@ -14,6 +14,7 @@ import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -33,8 +34,9 @@ public class TicketType extends ResourceSupport {
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "valid")
-	private LocalDateTime valid = LocalDateTime.now();
+	@CreationTimestamp
+	@Column(name = "created")
+	private LocalDateTime created;
 
 	@Column(name = "invalid")
 	private LocalDateTime invalid;
@@ -56,7 +58,7 @@ public class TicketType extends ResourceSupport {
 	// Getters
 	public Long getTicketType_ID() { return id; }
 	public String getName() { return name; }
-	public LocalDateTime getValid() { return valid; }
+	public LocalDateTime getCreated() { return created; }
 	public LocalDateTime getInvalid() { return invalid; }
 	public List<EventTicket> getEventTickets() { return eventTickets; }
 

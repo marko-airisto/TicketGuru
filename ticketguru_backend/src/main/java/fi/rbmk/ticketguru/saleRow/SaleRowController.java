@@ -1,9 +1,10 @@
 package fi.rbmk.ticketguru.saleRow;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
-import javax.validation.Valid;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fi.rbmk.ticketguru.ticket.*;
@@ -47,39 +47,71 @@ public class SaleRowController {
     TicketService tService;
 
 
-    @PostMapping(produces = "application/hal+json")
-    ResponseEntity<?> add(@Valid @RequestBody SaleRow newSaleRow, @RequestParam Long eT, @RequestParam Long count) {
+    private Long getIdFromUri(String str) {
         try {
-            SaleRow saleRow = sRRepository.save(newSaleRow);
-            EventTicket eventTicket = etRepository.findById(eT)
-                .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + eT));
-            tService.generateTickets(saleRow, eventTicket, count);
+            URI uri = new URI(str);
+            String[] uriParts = uri.getPath().split("/");
+            if (uriParts.length < 2) {
+                return null;
+            }
+            return Long.parseLong(uriParts[uriParts.length - 1]);
+        } catch (URISyntaxException e) {
+            return null;
+        }
+    }
+
+    @PostMapping(produces = "application/hal+json")
+    ResponseEntity<?> add(@RequestBody JsonNode requestBody) {
+        try {
+            SaleEvent saleEvent = sERepository.findById(getIdFromUri(requestBody.get("saleEvent").textValue()))
+                .orElseThrow(() -> new ResourceNotFoundException("Invalid ID"));
+            if (saleEvent.getInvalid() != null) {
+                return ResponseEntity.badRequest().body("Cannot create SaleRow for SaleEvent that is marked as deleted");
+            }
+            EventTicket eventTicket = etRepository.findById(getIdFromUri(requestBody.get("eventTicket").textValue()))
+                .orElseThrow(() -> new ResourceNotFoundException("Invalid ID"));
+            if (eventTicket.getInvalid() != null) {
+                return ResponseEntity.badRequest().body("Cannot create SaleRow with EventTicket that is marked as deleted");
+            }
+            Long discount = requestBody.get("discount").asLong();
+            SaleRow saleRow = sRRepository.save(new SaleRow(saleEvent, discount));
+            tService.generateTickets(saleRow, eventTicket, requestBody.get("count").asLong());
             SaleRowLinks links = new SaleRowLinks(saleRow);
             saleRow.add(links.getAll());
             Resource<SaleRow> resource = new Resource<SaleRow>(saleRow);
             return ResponseEntity.ok(resource);
-        } catch (DataIntegrityViolationException e) { return
-            ResponseEntity.badRequest().body("Duplicate entry");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.badRequest().body("Duplicate entry");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid ID");
         }
     }
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
-    ResponseEntity<SaleRow> edit(@Valid @RequestBody SaleRow newSaleRow, @PathVariable Long id) {
-        SaleRow SaleRow = sRRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        if (newSaleRow.getSaleEvent() != null) {
-            SaleRow.setSaleEvent(newSaleRow.getSaleEvent());
+    ResponseEntity<?> edit(@RequestBody SaleRow newSaleRow, @PathVariable Long id) {
+        SaleRow saleRow = sRRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        if (saleRow.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify SaleRow that is marked as deleted");
         }
-        if (newSaleRow.getDiscount() != null) {
-            SaleRow.setDiscount(newSaleRow.getDiscount());
+        if (newSaleRow.getSaleEvent() != null && newSaleRow.getSaleEvent() != saleRow.getSaleEvent()) {
+            saleRow.setSaleEvent(newSaleRow.getSaleEvent());
         }
-        sRRepository.save(SaleRow);
-        return ResponseEntity.created(URI.create("/api/saleRows/" + SaleRow.getSaleRow_ID())).build();
+        if (newSaleRow.getDiscount() != null && newSaleRow.getDiscount() != saleRow.getDiscount()) {
+            saleRow.setDiscount(newSaleRow.getDiscount());
+        }
+        sRRepository.save(saleRow);
+        SaleRowLinks links = new SaleRowLinks(saleRow);
+        saleRow.add(links.getAll());
+        Resource<SaleRow> resource = new Resource<SaleRow>(saleRow);
+        return ResponseEntity.ok(resource);
     }
 
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> delete(@PathVariable Long id) {
-    	SaleRow saleRow = sRRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        SaleRow saleRow = sRRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        if (saleRow.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify SaleRow that is marked as deleted");
+        }
     	saleRow.setInvalid();
     	sRRepository.save(saleRow);
     	return ResponseEntity.noContent().build();

@@ -50,6 +50,18 @@ public class EventController {
     @PostMapping(produces = "application/hal+json")
     ResponseEntity<?> add(@Valid @RequestBody Event newEvent) {
         try {
+            if (newEvent.getAgeLimit().getInvalid() != null) {
+                return ResponseEntity.badRequest().body("Cannot link AgeLimit that is marked as deleted");
+            }
+            if (newEvent.getEventType().getInvalid() != null) {
+                return ResponseEntity.badRequest().body("Cannot link EventType that is marked as deleted");
+            }
+            if (newEvent.getEventOrganizer().getInvalid() != null) {
+                return ResponseEntity.badRequest().body("Cannot link EventOrganizer that is marked as deleted");
+            }
+            if (newEvent.getVenue().getInvalid() != null) {
+                return ResponseEntity.badRequest().body("Cannot link Venue that is marked as deleted");
+            }
             Event event = eRepository.save(newEvent);
             EventLinks links = new EventLinks(event);
             event.add(links.getAll());
@@ -61,28 +73,46 @@ public class EventController {
     }
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
-    ResponseEntity<Resource<Event>> edit(@Valid @RequestBody Event newEvent, @PathVariable Long id) {
+    ResponseEntity<?> edit(@RequestBody Event newEvent, @PathVariable Long id) {
         Event event = eRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        if (newEvent.getName() != "") {
+        if (event.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify Event that is marked as deleted");
+        }
+        if (newEvent.getName() != null && newEvent.getName() != "" && newEvent.getName() != event.getName()) {
             event.setName(newEvent.getName());
         }
-        if (newEvent.getEventType() != null) {
+        if (newEvent.getEventType() != null && newEvent.getEventType() != event.getEventType()) {
+            if (newEvent.getEventType().getInvalid() != null) {
+                return ResponseEntity.badRequest().body("Cannot link EventType that is marked as deleted");
+            }
             event.setEventType(newEvent.getEventType());
         }
-        if (newEvent.getDateTime() != null) {
+        if (newEvent.getDateTime() != null && newEvent.getDateTime() != event.getDateTime()) {
             event.setDateTime(newEvent.getDateTime());
         }
-        if (newEvent.getEventOrganizer() != null) {
+        if (newEvent.getEventOrganizer() != null && newEvent.getEventOrganizer() != event.getEventOrganizer()) {
+            if (newEvent.getEventOrganizer().getInvalid() != null) {
+                return ResponseEntity.badRequest().body("Cannot link EventOrganizer that is marked as deleted");
+            }
             event.setEventOrganizer(newEvent.getEventOrganizer());
         }
-        if (newEvent.getVenue() != null) {
+        if (newEvent.getVenue() != null && newEvent.getVenue() != event.getVenue()) {
+            if (newEvent.getVenue().getInvalid() != null) {
+                return ResponseEntity.badRequest().body("Cannot link Venue that is marked as deleted");
+            }
             event.setVenue(newEvent.getVenue());
         }
-        if (newEvent.getTicketCapacity() != null) {
+        if (newEvent.getTicketCapacity() != null && newEvent.getTicketCapacity() != event.getTicketCapacity()) {
             event.setTicketCapacity(newEvent.getTicketCapacity());
         }
-        if (newEvent.getAgeLimit() != null) {
+        if (newEvent.getAgeLimit() != null && newEvent.getAgeLimit() != event.getAgeLimit()) {
+            if (newEvent.getAgeLimit().getInvalid() != null) {
+                return ResponseEntity.badRequest().body("Cannot link AgeLimit that is marked as deleted");
+            }
             event.setAgeLimit(newEvent.getAgeLimit());
+        }
+        if (newEvent.getInfo() != null && newEvent.getInfo() != event.getInfo()) {
+            event.setInfo(newEvent.getInfo());
         }
         eRepository.save(event);
         EventLinks links = new EventLinks(event);
@@ -94,6 +124,9 @@ public class EventController {
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> delete(@PathVariable Long id) {
         Event event = eRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        if (event.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify Event that is marked as deleted");
+        }
         event.setInvalid();
         eRepository.save(event);
         return ResponseEntity.noContent().build();
@@ -116,7 +149,7 @@ public class EventController {
     }
 
     @GetMapping(value = "/{id}", produces = "application/hal+json")
-    public ResponseEntity<Resource<Event>> one(@PathVariable Long id) {
+    ResponseEntity<Resource<Event>> one(@PathVariable Long id) {
         Event event = eRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         EventLinks links = new EventLinks(event);
         event.add(links.getAll());
@@ -165,7 +198,7 @@ public class EventController {
     }
 
     @GetMapping(value = "/{id}/eventTickets", produces = "application/hal+json")
-    public ResponseEntity<Resources<EventTicket>> getEventTickets(@PathVariable Long id) {
+    ResponseEntity<?> getEventTickets(@PathVariable Long id) {
         Event event = eRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         Link link = linkTo(EventController.class).withSelfRel();
         List<EventTicket> eventTickets = event.getEventTickets();

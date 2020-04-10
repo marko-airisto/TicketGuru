@@ -1,6 +1,5 @@
 package fi.rbmk.ticketguru.user;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,6 +48,9 @@ public class UserController {
     @PostMapping(produces = "application/hal+json")
     ResponseEntity<?> add(@Valid @RequestBody User newUser) {
         try {
+            if (newUser.getUserGroup().getInvalid() != null) {
+                return ResponseEntity.badRequest().body("Cannot link UserGroup that is marked as deleted");
+            }
             User user = uRepository.save(newUser);
             UserLinks links = new UserLinks(user);
             user.add(links.getAll());
@@ -61,27 +63,39 @@ public class UserController {
     }
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
-    ResponseEntity<User> edit(@Valid @RequestBody User newUser, @PathVariable Long id) {
+    ResponseEntity<?> edit(@RequestBody User newUser, @PathVariable Long id) {
         User user = uRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        if (newUser.getPassword() != "") {
+        if (user.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify User that is marked as deleted");
+        }
+        if (newUser.getPassword() != null && newUser.getPassword() != "" && newUser.getPassword() != user.getPassword()) {
             user.setPassword(newUser.getPassword());
         }
-        if (newUser.getName() != "") {
-            user.setName(newUser.getName());
+        if (newUser.getName() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify username");
         }
-        if (newUser.getUserGroup() != null) {
+        if (newUser.getUserGroup() != null && newUser.getUserGroup() != user.getUserGroup()) {
+            if (newUser.getUserGroup().getInvalid() != null) {
+                return ResponseEntity.badRequest().body("Cannot link UserGroup that is marked as deleted");
+            }
             user.setUserGroup(newUser.getUserGroup());
         }
-        if (newUser.getActive() != user.getActive()) {
+        if (newUser.getActive() != null && newUser.getActive() != user.getActive()) {
             user.setActive(newUser.getActive());
         }
         uRepository.save(user);
-        return ResponseEntity.created(URI.create("/api/users/" + user.getUser_ID())).build();
+        UserLinks links = new UserLinks(user);
+        user.add(links.getAll());
+        Resource<User> resource = new Resource<User>(user);
+        return ResponseEntity.ok(resource);
     }
 
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> delete(@PathVariable Long id) {
         User user = uRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        if (user.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify User that is marked as deleted");
+        }
         user.setInvalid();
         return ResponseEntity.noContent().build();
     }

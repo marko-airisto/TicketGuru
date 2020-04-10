@@ -1,6 +1,5 @@
 package fi.rbmk.ticketguru.eventTicket;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -45,6 +44,12 @@ public class EventTicketController {
     @PostMapping(produces = "application/hal+json")
     ResponseEntity<?> add(@Valid @RequestBody EventTicket newEventTicket) {
         try {
+            if (newEventTicket.getEvent().getInvalid() != null) {
+                return ResponseEntity.badRequest().body("Cannot link Event that is marked as deleted");
+            }
+            if (newEventTicket.getTicketType().getInvalid() != null) {
+                return ResponseEntity.badRequest().body("Cannot link TicketType that is marked as deleted");
+            }
             EventTicket eventTicket = eTRepository.save(newEventTicket);
             EventTicketLinks links = new EventTicketLinks(eventTicket);
             eventTicket.add(links.getAll());
@@ -56,28 +61,42 @@ public class EventTicketController {
     }
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
-    ResponseEntity<EventTicket> edit(@Valid @RequestBody EventTicket newEventTicket, @PathVariable Long id) {
-        EventTicket eventTicket = eTRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        if (newEventTicket.getEvent() != null) {
+    ResponseEntity<?> edit(@RequestBody EventTicket newEventTicket, @PathVariable Long id) {
+        EventTicket eventTicket = eTRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        if (eventTicket.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify EventTicket that is marked as deleted");
+        }
+        if (newEventTicket.getEvent() != null && newEventTicket.getEvent() != eventTicket.getEvent()) {
+            if (newEventTicket.getEvent().getInvalid() != null) {
+                return ResponseEntity.badRequest().body("Cannot link Event that is marked as deleted");
+            }
             eventTicket.setEvent(newEventTicket.getEvent());
         }
-        if (newEventTicket.getTicketType() != null) {
+        if (newEventTicket.getTicketType() != null && newEventTicket.getTicketType() != eventTicket.getTicketType()) {
+            if (newEventTicket.getTicketType().getInvalid() != null) {
+                return ResponseEntity.badRequest().body("Cannot link TicketType that is marked as deleted");
+            }
             eventTicket.setTicketType(newEventTicket.getTicketType());
         }
-        if (newEventTicket.getTicketCount() != null) {
+        if (newEventTicket.getTicketCount() != null && newEventTicket.getTicketCount() != eventTicket.getTicketCount()) {
             eventTicket.setTicketCount(newEventTicket.getTicketCount());
         }
-        if (newEventTicket.getPrice() != null) {
+        if (newEventTicket.getPrice() != null && newEventTicket.getPrice() != eventTicket.getPrice()) {
             eventTicket.setPrice(newEventTicket.getPrice());
         }
         eTRepository.save(eventTicket);
-        return ResponseEntity.created(URI.create("/api/eventTickets/" + eventTicket.getEventTicket_ID())).build();
+        EventTicketLinks links = new EventTicketLinks(eventTicket);
+        eventTicket.add(links.getAll());
+        Resource<EventTicket> resource = new Resource<EventTicket>(eventTicket);
+        return ResponseEntity.ok(resource);
     }
 
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> delete(@PathVariable Long id) {
         EventTicket eventTicket = eTRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        if (eventTicket.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify EventTicket that is marked as deleted");
+        }
         eventTicket.setInvalid();
         eTRepository.save(eventTicket);
         return ResponseEntity.noContent().build();

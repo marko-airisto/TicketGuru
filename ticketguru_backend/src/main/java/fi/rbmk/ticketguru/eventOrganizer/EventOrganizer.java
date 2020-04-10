@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.JoinColumn;
@@ -28,15 +29,34 @@ public class EventOrganizer extends ResourceSupport {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "eventOrganizer_ID")
 	private Long eventOrganizer_ID;
-	private String name, streetAddress, tel, email, www, contactPerson;
+
+	@NotEmpty(message = "Event organizer name is required")
+	@Column(name = "name")
+	private String name;
+	
+	@Column(name = "streetAddress")
+	private String streetAddress;
+	
+	@Column(name = "tel")
+	private String tel;
+
+	@Column(name = "email")
+	private String email;
+
+	@Column(name = "www")
+	private String www;
+
+	@Column(name = "contactPerson")
+	private String contactPerson;
 
 	@NotEmpty(message = "Postcode is required")
 	@ManyToOne
 	@JoinColumn(name = "postcode_ID")
 	private Postcode postcode;
 
-	@Column(name = "valid")
-	private LocalDateTime valid = LocalDateTime.now();
+	@CreationTimestamp
+	@Column(name = "created")
+	private LocalDateTime created;
 
 	@Column(name = "invalid")
 	private LocalDateTime invalid;
@@ -72,7 +92,7 @@ public class EventOrganizer extends ResourceSupport {
 	public String getWWW() { return www; }
 	public String getContactPerson() { return contactPerson; }
 	public Postcode getPostcode() { return postcode; }
-	public LocalDateTime getValid() { return valid; }
+	public LocalDateTime getCreated() { return created; }
 	public LocalDateTime getInvalid() { return invalid; }
 	public List<Event> getEvents() { return events; }
 

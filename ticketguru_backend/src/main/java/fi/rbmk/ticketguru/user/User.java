@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -46,13 +47,14 @@ public class User extends ResourceSupport {
 	@Length(max = 50)
 	private String name;
 
-	@Column(name = "valid")
-	private LocalDateTime valid = LocalDateTime.now();
+	@CreationTimestamp
+	@Column(name = "created")
+	private LocalDateTime created;
 
 	@Column(name = "invalid")
 	private LocalDateTime invalid;
 
-	private boolean active = false;
+	private Boolean active = false;
 
 	@ManyToOne
 	@NotNull(message = "User Group is required")
@@ -68,7 +70,7 @@ public class User extends ResourceSupport {
 	public User(User user) {
 	}
 
-	public User(String name, String username, String password, UserGroup userGroup, boolean active) {
+	public User(String name, String username, String password, UserGroup userGroup, Boolean active) {
 		super();
 		this.name = name;
 		this.username = username;
@@ -82,9 +84,9 @@ public class User extends ResourceSupport {
 	public String getName() { return username; }
 	public String getUsername() { return username; }
 	public String getPassword() { return password; }
-	public LocalDateTime getValid() { return valid; }
+	public LocalDateTime getCreated() { return created; }
 	public LocalDateTime getInvalid() { return invalid; }
-	public boolean getActive() { return active; }
+	public Boolean getActive() { return active; }
 	public UserGroup getUserGroup() { return userGroup; }
 	public List<SaleEvent> getSaleEvents() { return saleEvents; }
 
@@ -93,6 +95,6 @@ public class User extends ResourceSupport {
 	public void setUsername(String username) { this.username = username; }
 	public void setPassword(String password) { this.password = password; }
 	public void setUserGroup(UserGroup userGroup) { this.userGroup = userGroup; }
-	public void setActive(boolean active) { this.active = active; }
+	public void setActive(Boolean active) { this.active = active; }
 	public void setInvalid() { this.invalid = LocalDateTime.now(); }
 }

@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -36,8 +37,9 @@ public class EventType extends ResourceSupport {
 	@Column(name = "info")
 	private String info;
 
-	@Column(name = "valid")
-	private LocalDateTime valid = LocalDateTime.now();
+	@CreationTimestamp
+	@Column(name = "created")
+	private LocalDateTime created;
 
 	@Column(name = "invalid")
 	private LocalDateTime invalid;
@@ -61,7 +63,7 @@ public class EventType extends ResourceSupport {
 	public Long getEventType_ID() { return eventType_ID; }
 	public String getName() { return name; }
 	public String getInfo() { return info; }
-	public LocalDateTime getValid() { return valid; }
+	public LocalDateTime getCreated() { return created; }
 	public LocalDateTime getInvalid() { return invalid; }
 	public List<Event> getEvents() { return events; }
 
