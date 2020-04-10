@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.ManyToOne;
@@ -33,8 +34,9 @@ public class EventTicket extends ResourceSupport {
     @Column(name = "price")
     private Double price;
 
-    @Column(name = "valid")
-    private LocalDateTime valid = LocalDateTime.now();
+    @CreationTimestamp
+    @Column(name = "created")
+    private LocalDateTime created;
 
     @Column(name = "invalid")
     private LocalDateTime invalid;
@@ -60,7 +62,7 @@ public class EventTicket extends ResourceSupport {
     public Long getEventTicket_ID() { return id; }
     public Long getTicketCount() { return ticketCount; }
     public Double getPrice() { return price; }
-    public LocalDateTime getValid() { return valid; }
+    public LocalDateTime getCreated() { return created; }
     public LocalDateTime getInvalid() { return invalid; }
     public Event getEvent() { return event; }
     public TicketType getTicketType() { return ticketType; }

@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -31,8 +32,9 @@ public class UserGroup extends ResourceSupport {
 	@Length(max = 100)
 	private String name;
 
-	@Column(name = "valid")
-	private LocalDateTime valid = LocalDateTime.now();
+	@CreationTimestamp
+	@Column(name = "created")
+	private LocalDateTime created;
 
 	@Column(name = "invalid")
 	private LocalDateTime invalid;
@@ -53,7 +55,7 @@ public class UserGroup extends ResourceSupport {
 	// Getters
 	public Long getUserGroup_ID() { return userGroup_ID; }
 	public String getName() { return name; }
-	public LocalDateTime getValid() { return valid; }
+	public LocalDateTime getCreated() { return created; }
 	public LocalDateTime getInvalid() { return invalid; }
 	public List<User> getUsers() { return users; }
 

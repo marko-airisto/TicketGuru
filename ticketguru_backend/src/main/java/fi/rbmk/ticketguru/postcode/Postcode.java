@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -41,8 +43,9 @@ public class Postcode extends ResourceSupport {
 	@Column(name = "country")
 	private String country;
 
-	@Column(name = "valid")
-	private LocalDateTime valid = LocalDateTime.now();
+	@CreationTimestamp
+	@Column(name = "created")
+	private LocalDateTime created;
 
 	@Column(name = "invalid")
 	private LocalDateTime invalid;
@@ -72,7 +75,7 @@ public class Postcode extends ResourceSupport {
 	public String getPostcode() { return postcode; }
 	public String getCity() { return city; }
 	public String getCountry() { return country; }
-	public LocalDateTime getValid() { return valid; }
+	public LocalDateTime getCreated() { return created; }
 	public LocalDateTime getInvalid() {return invalid; }
 	public List<Venue> getVenues() { return venues; }
 	public List<EventOrganizer> getEventOrganizers() { return eventOrganizers; }

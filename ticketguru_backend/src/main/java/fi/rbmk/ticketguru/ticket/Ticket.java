@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -46,8 +47,9 @@ public class Ticket extends ResourceSupport {
     @JoinColumn(name = "saleRow_ID")
     private SaleRow saleRow;
 
-    @Column(name = "valid")
-    private LocalDateTime valid = LocalDateTime.now();
+    @CreationTimestamp
+    @Column(name = "created")
+    private LocalDateTime created;
 
     @Column(name = "invalid")
     private LocalDateTime invalid;
@@ -71,7 +73,7 @@ public class Ticket extends ResourceSupport {
     public TicketStatus getTicketStatus() { return ticketStatus; }
     public String getCheckSum() { return checkSum; }
     public SaleRow getSaleRow() { return saleRow; }
-    public LocalDateTime getValid() { return valid; }
+    public LocalDateTime getCreated() { return created; }
     public LocalDateTime getInvalid() { return invalid; }
 
     // Setters

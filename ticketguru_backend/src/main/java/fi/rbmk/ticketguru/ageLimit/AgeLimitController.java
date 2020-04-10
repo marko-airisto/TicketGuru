@@ -9,7 +9,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +26,6 @@ import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/api/ageLimits", produces = "application/hal+json")
 public class AgeLimitController {
@@ -49,12 +47,15 @@ public class AgeLimitController {
     }
     
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
-    public ResponseEntity<Resource<AgeLimit>> edit(@Valid @RequestBody AgeLimit newAgeLimit, @PathVariable Long id) {
+    public ResponseEntity<?> edit(@RequestBody AgeLimit newAgeLimit, @PathVariable Long id) {
         AgeLimit ageLimit = alRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        if (newAgeLimit.getName() != "" || newAgeLimit.getName() != ageLimit.getName()) {
+        if (ageLimit.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify AgeLimit that is marked as deleted");
+        }
+        if (newAgeLimit.getName() != null && newAgeLimit.getName() != "" && newAgeLimit.getName() != ageLimit.getName()) {
             ageLimit.setName(newAgeLimit.getName());
         }
-        if (newAgeLimit.getSpecifier() != "" || newAgeLimit.getSpecifier() != ageLimit.getSpecifier()) {
+        if (newAgeLimit.getSpecifier() != null && newAgeLimit.getSpecifier() != ageLimit.getSpecifier()) {
             ageLimit.setSpecifier(newAgeLimit.getSpecifier());
         }
         alRepository.save(ageLimit);
@@ -64,7 +65,10 @@ public class AgeLimitController {
     
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> delete(@PathVariable Long id) {
-    	AgeLimit ageLimit = alRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        AgeLimit ageLimit = alRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        if (ageLimit.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify AgeLimit that is marked as deleted");
+        }
     	ageLimit.setInvalid();
     	alRepository.save(ageLimit);
     	return ResponseEntity.noContent().build();

@@ -1,6 +1,5 @@
 package fi.rbmk.ticketguru.postcode;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -48,19 +47,35 @@ public class PostcodeController {
     }
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
-    ResponseEntity<Postcode> edit(@Valid @RequestBody Postcode newPostcode, @PathVariable Long id) {
+    ResponseEntity<?> edit(@RequestBody Postcode newPostcode, @PathVariable Long id) {
         Postcode postcode = pRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        if(newPostcode.getPostcode() != "") { postcode.setPostcode(newPostcode.getPostcode()); }
-        if(newPostcode.getCity() != "") { postcode.setCity(newPostcode.getCity()); }
-        if(newPostcode.getCountry() != "") { postcode.setCountry(newPostcode.getCountry()); }
+        if (postcode.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify Postcode that is marked as deleted");
+        }
+        if(newPostcode.getPostcode() != null && newPostcode.getPostcode() != "" && newPostcode.getPostcode() != postcode.getPostcode()) {
+            postcode.setPostcode(newPostcode.getPostcode());
+        }
+        if(newPostcode.getCity() != null && newPostcode.getCity() != "" && newPostcode.getCity() != postcode.getCity()) {
+            postcode.setCity(newPostcode.getCity());
+        }
+        if(newPostcode.getCountry() != null && newPostcode.getCountry() != "" && newPostcode.getCountry() != postcode.getCountry()) {
+            postcode.setCountry(newPostcode.getCountry());
+        }
         pRepository.save(postcode);
-        return ResponseEntity.created(URI.create("/" + postcode.getPostcode_ID())).build();
+        PostcodeLinks links = new PostcodeLinks(postcode);
+        postcode.add(links.getAll());
+        Resource<Postcode> resource = new Resource<Postcode>(postcode);
+        return ResponseEntity.ok(resource);
     }
 
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> delete(@PathVariable Long id) {
         Postcode postcode = pRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        if (postcode.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify Postcode that is marked as deleted");
+        }
         postcode.setInvalid();
+        pRepository.save(postcode);
         return ResponseEntity.noContent().build();
     }
 

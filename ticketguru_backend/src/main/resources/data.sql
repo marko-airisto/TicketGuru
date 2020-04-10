@@ -219,7 +219,7 @@ VALUES
 
 -- SALEEVENTS
 
-INSERT INTO SaleEvents (dateTime, user_ID) VALUES ('2020-03-03 10:00:00', 3);
+INSERT INTO SaleEvents (user_ID) VALUES (3);
 
 -- SALEROWS
 

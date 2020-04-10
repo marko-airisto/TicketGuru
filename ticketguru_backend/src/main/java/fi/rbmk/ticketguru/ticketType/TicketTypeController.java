@@ -14,7 +14,6 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fi.rbmk.ticketguru.eventTicket.*;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/api/ticketTypes", produces = "application/hal+json")
 public class TicketTypeController {
@@ -51,9 +49,12 @@ public class TicketTypeController {
     }    
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
-    public ResponseEntity<Resource<TicketType>> edit(@Valid @RequestBody TicketType newTicketType, @PathVariable Long id) {
+    public ResponseEntity<?> edit(@Valid @RequestBody TicketType newTicketType, @PathVariable Long id) {
         TicketType ticketType = ticketTypeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        if (newTicketType.getName() != "" || newTicketType.getName() != ticketType.getName()) {
+        if (ticketType.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify TicketType that is marked as deleted");
+        }
+        if (newTicketType.getName() != null && newTicketType.getName() != "" && newTicketType.getName() != ticketType.getName()) {
             ticketType.setName(newTicketType.getName());
         }
         ticketTypeRepository.save(ticketType);
@@ -63,7 +64,10 @@ public class TicketTypeController {
     
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> delete(@PathVariable Long id) {
-    	TicketType ticketType = ticketTypeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        TicketType ticketType = ticketTypeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        if (ticketType.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify TicketType that is marked as deleted");
+        }
     	ticketType.setInvalid();
     	ticketTypeRepository.save(ticketType);
     	return ResponseEntity.noContent().build();

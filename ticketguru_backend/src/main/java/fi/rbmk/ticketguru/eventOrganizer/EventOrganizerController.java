@@ -1,6 +1,5 @@
 package fi.rbmk.ticketguru.eventOrganizer;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -14,7 +13,6 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -27,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 import fi.rbmk.ticketguru.postcode.*;
 import fi.rbmk.ticketguru.event.*;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/api/eventOrganizers", produces = "application/hal+json")
 public class EventOrganizerController {
@@ -37,34 +34,64 @@ public class EventOrganizerController {
     @Autowired EventRepository eRepository;
 
     @PostMapping(produces = "application/hal+json")
-    ResponseEntity<?> add(@Valid @RequestBody EventOrganizer eventOrganizer) {
+    ResponseEntity<?> add(@Valid @RequestBody EventOrganizer newEventOrganizer) {
         try {
+            if (newEventOrganizer.getPostcode().getInvalid() != null) {
+                return ResponseEntity.badRequest().body("Cannot link entity that is marked as deleted");
+            }
+            EventOrganizer eventOrganizer = eoRepository.save(newEventOrganizer);
             EventOrganizerLinks links = new EventOrganizerLinks(eventOrganizer);
             eventOrganizer.add(links.getAll());
+            Resource<EventOrganizer> resource = new Resource<EventOrganizer>(eventOrganizer);
+            return ResponseEntity.ok(resource);
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.badRequest().body("Duplicate entry");
         }
-        Resource<EventOrganizer> resource = new Resource<EventOrganizer>(eventOrganizer);
-        return ResponseEntity.ok(resource);
     }
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
-    ResponseEntity<EventOrganizer> edit(@Valid @RequestBody EventOrganizer newEventOrganizer, @PathVariable Long id) {
+    ResponseEntity<?> edit(@RequestBody EventOrganizer newEventOrganizer, @PathVariable Long id) {
         EventOrganizer eventOrganizer = eoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        if(newEventOrganizer.getName() != "") { eventOrganizer.setName(newEventOrganizer.getName()); }
-        if(newEventOrganizer.getStreetAddress() != "") { eventOrganizer.setStreetAddress(newEventOrganizer.getStreetAddress()); }
-        if(newEventOrganizer.getPostcode() != null) { eventOrganizer.setPostcode(newEventOrganizer.getPostcode()); }
-        if(newEventOrganizer.getTel() != "") { eventOrganizer.setTel(newEventOrganizer.getTel()); }
-        if(newEventOrganizer.getEmail() != "") { eventOrganizer.setEmail(newEventOrganizer.getEmail()); }
-        if(newEventOrganizer.getWWW() != "") { eventOrganizer.setWWW(newEventOrganizer.getWWW()); }
-        if(newEventOrganizer.getContactPerson() != "") { eventOrganizer.setContactPerson(newEventOrganizer.getContactPerson()); }
+        if (eventOrganizer.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify EventOrganizer that is marked as deleted");
+        }
+        if(newEventOrganizer.getName() != null && newEventOrganizer.getName() != "" && newEventOrganizer.getName() != eventOrganizer.getName()) {
+            eventOrganizer.setName(newEventOrganizer.getName());
+        }
+        if(newEventOrganizer.getStreetAddress() != null && newEventOrganizer.getStreetAddress() != eventOrganizer.getStreetAddress()) {
+            eventOrganizer.setStreetAddress(newEventOrganizer.getStreetAddress());
+        }
+        if(newEventOrganizer.getPostcode() != null && newEventOrganizer.getPostcode() != eventOrganizer.getPostcode()) {
+            if (newEventOrganizer.getPostcode().getInvalid() != null) {
+                return ResponseEntity.badRequest().body("Cannot link Postcode that is marked as deleted");
+            }
+            eventOrganizer.setPostcode(newEventOrganizer.getPostcode());
+        }
+        if(newEventOrganizer.getTel() != null && newEventOrganizer.getTel() != eventOrganizer.getTel()) {
+            eventOrganizer.setTel(newEventOrganizer.getTel());
+        }
+        if(newEventOrganizer.getEmail() != null && newEventOrganizer.getEmail() != eventOrganizer.getEmail()) {
+            eventOrganizer.setEmail(newEventOrganizer.getEmail());
+        }
+        if(newEventOrganizer.getWWW() != null && newEventOrganizer.getWWW() != eventOrganizer.getWWW()) {
+            eventOrganizer.setWWW(newEventOrganizer.getWWW());
+        }
+        if(newEventOrganizer.getContactPerson() != null && newEventOrganizer.getContactPerson() != eventOrganizer.getContactPerson()) {
+            eventOrganizer.setContactPerson(newEventOrganizer.getContactPerson());
+        }
         eoRepository.save(eventOrganizer);
-        return ResponseEntity.created(URI.create("/api/eventOrganizers/" + eventOrganizer.getEventOrganizer_ID())).build();
+        EventOrganizerLinks links = new EventOrganizerLinks(eventOrganizer);
+        eventOrganizer.add(links.getAll());
+        Resource<EventOrganizer> resource = new Resource<EventOrganizer>(eventOrganizer);
+        return ResponseEntity.ok(resource);
     }
 
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> delete(@PathVariable Long id) {
         EventOrganizer eventOrganizer = eoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        if (eventOrganizer.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify EventOrganizer that is marked as deleted");
+        }
         eventOrganizer.setInvalid();
         eoRepository.save(eventOrganizer);
         return ResponseEntity.noContent().build();

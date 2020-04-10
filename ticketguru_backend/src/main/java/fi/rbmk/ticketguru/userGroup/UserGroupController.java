@@ -14,7 +14,6 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fi.rbmk.ticketguru.user.*;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/api/userGroups", produces = "application/hal+json")
 public class UserGroupController {
@@ -49,20 +47,27 @@ public class UserGroupController {
     }
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
-    public ResponseEntity<Resource<UserGroup>> edit(@Valid @RequestBody UserGroup newUserGroup, @PathVariable Long id) {
-        UserGroup userGroup = uGRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        if (newUserGroup.getName() != "" || newUserGroup.getName() != newUserGroup.getName()) {
+    public ResponseEntity<?> edit(@RequestBody UserGroup newUserGroup, @PathVariable Long id) {
+        UserGroup userGroup = uGRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        if (userGroup.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify UserGroup that is marked as deleted");
+        }
+        if (newUserGroup.getName() != null && newUserGroup.getName() != "" && newUserGroup.getName() != userGroup.getName()) {
             userGroup.setName(newUserGroup.getName());
         }
         uGRepository.save(userGroup);
+        UserGroupLinks links = new UserGroupLinks(userGroup);
+        userGroup.add(links.getAll());
         Resource<UserGroup> resource = new Resource<UserGroup>(userGroup);
         return ResponseEntity.ok(resource);
     }
 
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> delete(@PathVariable Long id) {
-    	UserGroup userGroup = uGRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        UserGroup userGroup = uGRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        if (userGroup.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify UserGroup that is marked as deleted");
+        }
     	userGroup.setInvalid();
     	uGRepository.save(userGroup);
     	return ResponseEntity.noContent().build();
