@@ -40,7 +40,7 @@ public class AgeLimitController {
             AgeLimitLinks links = new AgeLimitLinks(ageLimit);
             ageLimit.add(links.getAll());
             Resource<AgeLimit> resource = new Resource<AgeLimit>(ageLimit);
-            return ResponseEntity.created(URI.create("/api/ageLimits/" + ageLimit.getAgeLimit_ID())).body(resource);
+            return ResponseEntity.created(URI.create("/api/ageLimits/" + ageLimit.getAgeLimit_id())).body(resource);
         } catch (DuplicateKeyException e) {
             return ResponseEntity.badRequest().body("Duplicate entry");
         }
@@ -55,8 +55,8 @@ public class AgeLimitController {
         if (newAgeLimit.getName() != null && newAgeLimit.getName() != "" && newAgeLimit.getName() != ageLimit.getName()) {
             ageLimit.setName(newAgeLimit.getName());
         }
-        if (newAgeLimit.getSpecifier() != null && newAgeLimit.getSpecifier() != ageLimit.getSpecifier()) {
-            ageLimit.setSpecifier(newAgeLimit.getSpecifier());
+        if (newAgeLimit.getInfo() != null && newAgeLimit.getInfo() != ageLimit.getInfo()) {
+            ageLimit.setInfo(newAgeLimit.getInfo());
         }
         alRepository.save(ageLimit);
         Resource<AgeLimit> resource = new Resource<AgeLimit>(ageLimit);

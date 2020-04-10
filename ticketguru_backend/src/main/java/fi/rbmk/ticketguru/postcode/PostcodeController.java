@@ -47,13 +47,13 @@ public class PostcodeController {
     }
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
-    ResponseEntity<?> edit(@RequestBody Postcode newPostcode, @PathVariable Long id) {
+    ResponseEntity<?> edit(@RequestBody Postcode newPostcode, @PathVariable String id) {
         Postcode postcode = pRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (postcode.getInvalid() != null) {
             return ResponseEntity.badRequest().body("Cannot modify Postcode that is marked as deleted");
         }
-        if(newPostcode.getPostcode() != null && newPostcode.getPostcode() != "" && newPostcode.getPostcode() != postcode.getPostcode()) {
-            postcode.setPostcode(newPostcode.getPostcode());
+        if(newPostcode.getPostcode_id() != null && newPostcode.getPostcode_id() != "" && newPostcode.getPostcode_id() != postcode.getPostcode_id()) {
+            postcode.setPostcode_id(newPostcode.getPostcode_id());
         }
         if(newPostcode.getCity() != null && newPostcode.getCity() != "" && newPostcode.getCity() != postcode.getCity()) {
             postcode.setCity(newPostcode.getCity());
@@ -69,7 +69,7 @@ public class PostcodeController {
     }
 
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
-    ResponseEntity<?> delete(@PathVariable Long id) {
+    ResponseEntity<?> delete(@PathVariable String id) {
         Postcode postcode = pRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (postcode.getInvalid() != null) {
             return ResponseEntity.badRequest().body("Cannot modify Postcode that is marked as deleted");
@@ -96,7 +96,7 @@ public class PostcodeController {
     }
 
     @GetMapping(value = "/{id}", produces = "application/hal+json")
-    public ResponseEntity<Resource<Postcode>> one(@PathVariable Long id) {
+    public ResponseEntity<Resource<Postcode>> one(@PathVariable String id) {
         Postcode postcode = pRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         PostcodeLinks links = new PostcodeLinks(postcode);
         postcode.add(links.getAll());
@@ -105,7 +105,7 @@ public class PostcodeController {
     }
 
     @GetMapping(value = "/{id}/eventOrganizers", produces = "application/hal+json")
-    public ResponseEntity<Resources<EventOrganizer>> getEventOrganizers(@PathVariable Long id) {
+    public ResponseEntity<Resources<EventOrganizer>> getEventOrganizers(@PathVariable String id) {
         Postcode postcode = pRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         Link link = linkTo(PostcodeController.class).withSelfRel();
         List<EventOrganizer> eventOrganizers = postcode.getEventOrganizers();
@@ -122,7 +122,7 @@ public class PostcodeController {
     }
 
     @GetMapping(value = "/{id}/venues", produces = "application/hal+json")
-    public ResponseEntity<Resources<Venue>> getVenues(@PathVariable Long id) {
+    public ResponseEntity<Resources<Venue>> getVenues(@PathVariable String id) {
         Postcode postcode = pRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         Link link = linkTo(PostcodeController.class).withSelfRel();
         List<Venue> venues = postcode.getVenues();

@@ -19,13 +19,13 @@ import org.springframework.hateoas.ResourceSupport;
 import fi.rbmk.ticketguru.event.Event;
 
 @Entity
-@Table(name = "AgeLimits")
+@Table(name = "age_limits")
 public class AgeLimit extends ResourceSupport {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ageLimit_ID")
-	private Long ageLimit_ID;
+	@Column(name = "age_limit_id")
+	private Long ageLimit_id;
 
 	@NotEmpty(message = "Age limit name must be set")
 	@Length(max = 50)
@@ -33,8 +33,8 @@ public class AgeLimit extends ResourceSupport {
 	private String name;
 
 	@Length(max = 500)
-	@Column(name = "specifier")
-	private String specifier;
+	@Column(name = "info")
+	private String info;
 	
 	@CreationTimestamp
 	@Column(name = "created")
@@ -58,20 +58,20 @@ public class AgeLimit extends ResourceSupport {
 
 	public AgeLimit(String name, String specifier) {
 		this.name = name;
-		this.specifier = specifier;
+		this.info = specifier;
 	}
 
 	// Getters
-	public Long getAgeLimit_ID() { return this.ageLimit_ID; }
+	public Long getAgeLimit_id() { return this.ageLimit_id; }
 	public String getName() { return this.name; }
-	public String getSpecifier() { return this.specifier; }
+	public String getInfo() { return this.info; }
 	public LocalDateTime getCreated() { return created; }
 	public LocalDateTime getInvalid() { return invalid; }
 	public List<Event> getEvents() { return events; }
 
 	// Setters
 	public void setName(String name) { this.name = name; }
-	public void setSpecifier(String specifier) { this.specifier = specifier; }
+	public void setInfo(String info) { this.info = info; }
 	public void setInvalid() { this.invalid = LocalDateTime.now(); }
 	public void setEvents(List<Event> events) { this.events = events; }
 

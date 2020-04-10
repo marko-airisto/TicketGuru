@@ -22,13 +22,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-@Table(name = "SaleEvents")
+@Table(name = "sale_events")
 public class SaleEvent extends ResourceSupport {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "saleEvent_ID")
-	private Long saleEvent_ID;
+	@Column(name = "sale_event_id")
+	private Long saleEvent_id;
 
 	@CreationTimestamp
 	@Column(name = "created")
@@ -39,7 +39,7 @@ public class SaleEvent extends ResourceSupport {
 
 	@NotNull(message = "Please enter the user ID")
 	@ManyToOne
-	@JoinColumn(name = "user_ID")
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "saleEvent")
@@ -51,12 +51,12 @@ public class SaleEvent extends ResourceSupport {
 
 	public SaleEvent(Long id, LocalDateTime dateTime, User user) {
 		super();
-		this.saleEvent_ID = id;
+		this.saleEvent_id = id;
 		this.user = user;
 	}
 
 	// Getterit
-	public Long getSaleEvent_ID() { return this.saleEvent_ID; }
+	public Long getSaleEvent_id() { return this.saleEvent_id; }
 	public LocalDateTime getCreated() { return created; }
 	public LocalDateTime getInvalid() { return invalid; }
 	public List<SaleRow> getSaleRows() { return this.saleRows; }

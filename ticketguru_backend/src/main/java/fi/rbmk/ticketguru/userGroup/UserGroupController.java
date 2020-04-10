@@ -39,7 +39,7 @@ public class UserGroupController {
             UserGroupLinks links = new UserGroupLinks(userGroup);
             userGroup.add(links.getAll());
             Resource<UserGroup> resource = new Resource<UserGroup>(userGroup);
-            return ResponseEntity.created(URI.create("/api/userGroups/" + userGroup.getUserGroup_ID())).body(resource);
+            return ResponseEntity.created(URI.create("/api/userGroups/" + userGroup.getUserGroup_id())).body(resource);
         } catch (DuplicateKeyException e) {
             return ResponseEntity.badRequest().body("Duplicate entry");
         }

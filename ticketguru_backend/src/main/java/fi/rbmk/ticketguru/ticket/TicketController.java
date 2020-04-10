@@ -88,7 +88,7 @@ public class TicketController {
             Long id = Long.parseLong(s);
             ticket = tRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         } catch (NumberFormatException e) {
-            ticket = tRepository.findByCheckSum(s);
+            ticket = tRepository.findByChecksum(s);
             if (ticket == null) {
                 throw new ResourceNotFoundException("Invalid Checksum: " + s);
             }

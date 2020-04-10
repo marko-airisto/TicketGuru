@@ -19,13 +19,13 @@ import org.springframework.hateoas.ResourceSupport;
 import fi.rbmk.ticketguru.ticket.Ticket;
 
 @Entity
-@Table(name = "TicketStatuses")
+@Table(name = "ticket_statuses")
 public class TicketStatus extends ResourceSupport {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ticketStatus_ID")
-	private Long ticketStatus_ID;
+	@Column(name = "ticket_status_id")
+	private Long ticketStatus_id;
 
 	@NotEmpty(message = "Ticket status is required")
 	@Length(max = 50)
@@ -53,7 +53,7 @@ public class TicketStatus extends ResourceSupport {
 	}
 
 	// Getters
-	public Long getTicketStatus_ID() { return this.ticketStatus_ID; }
+	public Long getTicketStatus_id() { return this.ticketStatus_id; }
 	public String getName() { return this.name; }
 	public LocalDateTime getCreated() { return created; }
 	public LocalDateTime getInvalid() { return invalid; }

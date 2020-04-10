@@ -23,18 +23,18 @@ import org.springframework.hateoas.ResourceSupport;
 import javax.persistence.JoinColumn;
 
 @Entity
-@Table(name = "EventOrganizers")
+@Table(name = "event_organizers")
 public class EventOrganizer extends ResourceSupport {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "eventOrganizer_ID")
-	private Long eventOrganizer_ID;
+	@Column(name = "event_organizer_id")
+	private Long eventOrganizer_id;
 
 	@NotEmpty(message = "Event organizer name is required")
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "streetAddress")
+	@Column(name = "street_address")
 	private String streetAddress;
 	
 	@Column(name = "tel")
@@ -46,12 +46,12 @@ public class EventOrganizer extends ResourceSupport {
 	@Column(name = "www")
 	private String www;
 
-	@Column(name = "contactPerson")
+	@Column(name = "contact_person")
 	private String contactPerson;
 
 	@NotEmpty(message = "Postcode is required")
 	@ManyToOne
-	@JoinColumn(name = "postcode_ID")
+	@JoinColumn(name = "postcode_id")
 	private Postcode postcode;
 
 	@CreationTimestamp
@@ -73,7 +73,7 @@ public class EventOrganizer extends ResourceSupport {
 	public EventOrganizer(Long id, Postcode postcode, String name, String streetAddress, String tel, String email,
 			String www, String contactPerson) {
 		super();
-		this.eventOrganizer_ID = id;
+		this.eventOrganizer_id = id;
 		this.postcode = postcode;
 		this.name = name;
 		this.streetAddress = streetAddress;
@@ -84,7 +84,7 @@ public class EventOrganizer extends ResourceSupport {
 	}
 
 	// Getters
-	public Long getEventOrganizer_ID() { return eventOrganizer_ID; }
+	public Long getEventOrganizer_id() { return eventOrganizer_id; }
 	public String getName() { return name; }
 	public String getStreetAddress() { return streetAddress; }
 	public String getTel() { return tel; }
@@ -108,7 +108,7 @@ public class EventOrganizer extends ResourceSupport {
 
 	@Override
 	public String toString() {
-		return "EventOrganizer[id=" + eventOrganizer_ID + ", name=" + name + ", streetAddress=" + streetAddress
+		return "EventOrganizer[id=" + eventOrganizer_id + ", name=" + name + ", streetAddress=" + streetAddress
 				+ ", tel=" + tel + ", email=" + email + ", www=" + www + ", contactPerson=" + contactPerson
 				+ ", postcode=" + postcode + "]";
 	}

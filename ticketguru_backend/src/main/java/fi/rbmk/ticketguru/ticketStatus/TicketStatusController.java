@@ -41,7 +41,7 @@ public class TicketStatusController {
             TicketStatusLinks links = new TicketStatusLinks(ticketStatus);
             ticketStatus.add(links.getAll());
             Resource<TicketStatus> resource = new Resource<TicketStatus>(ticketStatus);
-            return ResponseEntity.created(URI.create("/api/ticketStatuses/" + ticketStatus.getTicketStatus_ID()))
+            return ResponseEntity.created(URI.create("/api/ticketStatuses/" + ticketStatus.getTicketStatus_id()))
                     .body(resource);
         } catch (DuplicateKeyException e) {
             return ResponseEntity.badRequest().body("Duplicate entry");
