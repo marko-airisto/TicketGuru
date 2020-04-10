@@ -19,13 +19,13 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.hateoas.ResourceSupport;
 
 @Entity
-@Table(name = "EventTypes")
+@Table(name = "event_types")
 public class EventType extends ResourceSupport {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "eventType_ID")
-	private Long eventType_ID;
+	@Column(name = "event_type_id")
+	private Long eventType_id;
 
 	@NotEmpty(message = "Event type name is required")
 	@Length(max = 100)
@@ -60,7 +60,7 @@ public class EventType extends ResourceSupport {
 	}
 
 	// Getters
-	public Long getEventType_ID() { return eventType_ID; }
+	public Long getEventType_id() { return eventType_id; }
 	public String getName() { return name; }
 	public String getInfo() { return info; }
 	public LocalDateTime getCreated() { return created; }
@@ -74,6 +74,6 @@ public class EventType extends ResourceSupport {
 
 	@Override
 	public String toString() {
-		return "EventType[id=" + eventType_ID + ", name=" + name + ", info=" + info + "]";
+		return "EventType[id=" + eventType_id + ", name=" + name + ", info=" + info + "]";
 	}
 }

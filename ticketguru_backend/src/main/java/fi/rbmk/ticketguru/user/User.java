@@ -26,25 +26,28 @@ import fi.rbmk.ticketguru.saleEvent.SaleEvent;
 import fi.rbmk.ticketguru.userGroup.UserGroup;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "users")
 public class User extends ResourceSupport {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_ID", nullable = false, updatable = false)
-	private Long user_ID;
+	@Column(name = "user_id", nullable = false, updatable = false)
+	private Long user_id;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@NotEmpty(message = "Password is required")
 	@Length(max = 100)
+	@Column(name = "password")
 	private String password;
 
 	@NotEmpty(message = "Username is required")
 	@Length(max = 50)
+	@Column(name = "username")
 	private String username;
 
 	@NotEmpty(message = "Name is required")
 	@Length(max = 50)
+	@Column(name = "name")
 	private String name;
 
 	@CreationTimestamp
@@ -54,11 +57,12 @@ public class User extends ResourceSupport {
 	@Column(name = "invalid")
 	private LocalDateTime invalid;
 
+	@Column(name = "active")
 	private Boolean active = false;
 
 	@ManyToOne
 	@NotNull(message = "User Group is required")
-	@JoinColumn(name = "userGroup_ID")
+	@JoinColumn(name = "user_group_id")
 	private UserGroup userGroup;
 
 	@OneToMany(mappedBy = "user")
@@ -80,7 +84,7 @@ public class User extends ResourceSupport {
 	}
 
 	// Getters
-	public Long getUser_ID() { return user_ID; }
+	public Long getUser_id() { return user_id; }
 	public String getName() { return username; }
 	public String getUsername() { return username; }
 	public String getPassword() { return password; }

@@ -28,13 +28,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-@Table(name = "Events")
+@Table(name = "events")
 public class Event extends ResourceSupport {
 
     @Id // Määritellään kenttä ID:ksi
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Automaattinen juoksenva numerointi. HUOM! Käytetään GenerationType.IDENTITY spring bootin bugin vuoksi
-    @Column(name = "event_ID") // Tietokannassa olevan kentän nimi
-    private Long event_ID; // Muuttujan nimi, ei välttämättä sama kuin tietokannassa. Tässä tapauksessa id jotta automaattisesti generoidut funktiot toimivat
+    @Column(name = "event_id") // Tietokannassa olevan kentän nimi
+    private Long event_id; // Muuttujan nimi, ei välttämättä sama kuin tietokannassa. Tässä tapauksessa id jotta automaattisesti generoidut funktiot toimivat
 
     @NotEmpty(message = "Event name is required") // Lisätään pakollisiin kenttiin virheilmoituksen kera
     @Length(max = 250) // Määritellään kaikille kentille jotka sen vaativat maksimipituus
@@ -43,31 +43,31 @@ public class Event extends ResourceSupport {
 
     @NotNull(message = "Event type is required")
     @ManyToOne // Relaatio
-    @JoinColumn(name = "eventType_ID") // Mitä kenttää tietokannassa viitataan
+    @JoinColumn(name = "event_type_id") // Mitä kenttää tietokannassa viitataan
     private EventType eventType; // Huomatkaa että FK tyyppiset kentät ovat objektityyppi, ei string, long tai int
 
     @NotNull(message = "Event datetime is required")
-    @Column(name = "dateTime")
+    @Column(name = "datetime")
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dateTime; // Aikaleimoihin joissa vaaditaan sekä päivä että kellonaika käytetään LocalDateTime tyyppiä
 
     @NotNull(message = "Event organizer is required")
     @ManyToOne
-    @JoinColumn(name = "eventOrganizer_ID")
+    @JoinColumn(name = "event_organizer_id")
     private EventOrganizer eventOrganizer;
 
     @NotNull(message = "Event venue is required")
     @ManyToOne
-    @JoinColumn(name = "venue_ID")
+    @JoinColumn(name = "venue_id")
     private Venue venue;
 
     @NotNull(message = "Event ticket capacity is required")
-    @Column(name = "ticketCapacity")
+    @Column(name = "ticket_capacity")
     private Long ticketCapacity;
 
     @NotNull(message = "Age limit must be set")
     @ManyToOne
-    @JoinColumn(name = "ageLimit_ID")
+    @JoinColumn(name = "agelimit_id")
     private AgeLimit ageLimit;
 
     @Length(max = 500)
@@ -118,7 +118,7 @@ public class Event extends ResourceSupport {
     }
 
     // Getterit
-    public Long getEvent_ID() { return this.event_ID; }
+    public Long getEvent_id() { return this.event_id; }
     public String getName() { return this.name; }
     public EventType getEventType() { return this.eventType; }
     public LocalDateTime getDateTime() { return this.dateTime; }

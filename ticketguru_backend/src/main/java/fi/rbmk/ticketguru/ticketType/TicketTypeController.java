@@ -42,7 +42,7 @@ public class TicketTypeController {
         	TicketTypeLinks links = new TicketTypeLinks(ticketType);
         	ticketType.add(links.getAll());
         	Resource<TicketType> resource = new Resource<TicketType>(ticketType);
-        	return ResponseEntity.created(URI.create("/api/ticketTypes/" + ticketType.getTicketType_ID())).body(resource);
+        	return ResponseEntity.created(URI.create("/api/ticketTypes/" + ticketType.getTicketType_id())).body(resource);
         } catch (DuplicateKeyException e) {
         	return ResponseEntity.badRequest().body("Duplicate entry");
         }
