@@ -14,7 +14,6 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fi.rbmk.ticketguru.ticket.*;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/api/ticketstatuses", produces = "application/hal+json")
 public class TicketStatusController {
@@ -43,7 +41,7 @@ public class TicketStatusController {
             TicketStatusLinks links = new TicketStatusLinks(ticketStatus);
             ticketStatus.add(links.getAll());
             Resource<TicketStatus> resource = new Resource<TicketStatus>(ticketStatus);
-            return ResponseEntity.created(URI.create("/api/ticketStatuses/" + ticketStatus.getTicketStatus_ID()))
+            return ResponseEntity.created(URI.create("/api/ticketStatuses/" + ticketStatus.getTicketStatus_id()))
                     .body(resource);
         } catch (DuplicateKeyException e) {
             return ResponseEntity.badRequest().body("Duplicate entry");
@@ -51,11 +49,12 @@ public class TicketStatusController {
     }
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
-    public ResponseEntity<Resource<TicketStatus>> edit(@Valid @RequestBody TicketStatus newTicketStatus,
-            @PathVariable Long id) {
-        TicketStatus ticketStatus = tSRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: + id"));
-        if (newTicketStatus.getName() != "" || newTicketStatus.getName() != ticketStatus.getName()) {
+    public ResponseEntity<?> edit(@Valid @RequestBody TicketStatus newTicketStatus, @PathVariable Long id) {
+        TicketStatus ticketStatus = tSRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: + id"));
+        if (ticketStatus.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify TicketStatus that is marked as deleted");
+        }
+        if (newTicketStatus.getName() != null && newTicketStatus.getName() != "" && newTicketStatus.getName() != ticketStatus.getName()) {
             ticketStatus.setName(newTicketStatus.getName());
         }
         tSRepository.save(ticketStatus);
@@ -67,7 +66,10 @@ public class TicketStatusController {
     
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> delete(@PathVariable Long id) {
-    	TicketStatus ticketStatus = tSRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        TicketStatus ticketStatus = tSRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        if (ticketStatus.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify TicketStatus that is marked as deleted");
+        }
     	ticketStatus.setInvalid();
     	tSRepository.save(ticketStatus);
     	return ResponseEntity.noContent().build();

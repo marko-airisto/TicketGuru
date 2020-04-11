@@ -1,6 +1,5 @@
 package fi.rbmk.ticketguru.eventType;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -46,18 +45,32 @@ public class EventTypeController {
     }
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
-    ResponseEntity<EventType> edit(@Valid @RequestBody EventType newEventType, @PathVariable Long id) {
+    ResponseEntity<?> edit(@RequestBody EventType newEventType, @PathVariable Long id) {
         EventType eventType = etRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        if(newEventType.getName() != "") { eventType.setName(newEventType.getName()); }
-        if(newEventType.getInfo() != "") { eventType.setInfo(newEventType.getInfo()); }
+        if (eventType.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify EventType that is marked as deleted");
+        }
+        if(newEventType.getName() != null && newEventType.getName() != "" && newEventType.getName() != eventType.getName()) {
+            eventType.setName(newEventType.getName());
+        }
+        if(newEventType.getInfo() != null && newEventType.getInfo() != eventType.getInfo()) {
+            eventType.setInfo(newEventType.getInfo());
+        }
         etRepository.save(eventType);
-        return ResponseEntity.created(URI.create("/" + eventType.getEventType_ID())).build();
+        EventTypeLinks links = new EventTypeLinks(eventType);
+        eventType.add(links.getAll());
+        Resource<EventType> resource = new Resource<EventType>(eventType);
+        return ResponseEntity.ok(resource);
     }
 
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> delete(@PathVariable Long id) {
         EventType eventType = etRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        if (eventType.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify EventType that is marked as deleted");
+        }
         eventType.setInvalid();
+        etRepository.save(eventType);
         return ResponseEntity.noContent().build();
     }
 

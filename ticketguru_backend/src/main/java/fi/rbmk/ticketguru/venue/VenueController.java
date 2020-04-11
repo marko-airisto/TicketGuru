@@ -1,6 +1,5 @@
 package fi.rbmk.ticketguru.venue;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -14,7 +13,6 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -27,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 import fi.rbmk.ticketguru.postcode.*;
 import fi.rbmk.ticketguru.event.*;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/api/venues", produces = "application/hal+json")
 public class VenueController {
@@ -40,6 +37,9 @@ public class VenueController {
     @PostMapping(produces = "application/hal+json")
     ResponseEntity<?> add(@Valid @RequestBody Venue newVenue) {
         try {
+            if (newVenue.getPostcode().getInvalid() != null) {
+                return ResponseEntity.badRequest().body("Cannot link Postcode that is marked as deleted");
+            }
             Venue venue = venueRepository.save(newVenue);
             VenueLinks links = new VenueLinks(venue);
             venue.add(links.getAll());
@@ -51,25 +51,37 @@ public class VenueController {
     }
 
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
-    ResponseEntity<Venue> edit(@Valid @RequestBody Venue newVenue, @PathVariable Long id) {
-        Venue venue = venueRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-        if (newVenue.getName() != "") {
+    ResponseEntity<?> edit(@Valid @RequestBody Venue newVenue, @PathVariable Long id) {
+        Venue venue = venueRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        if (venue.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify Venue that is marked as deleted");
+        }
+        if (newVenue.getName() != null && newVenue.getName() != "" && newVenue.getName() != venue.getName()) {
             venue.setName(newVenue.getName());
         }
-        if (newVenue.getAddress() != null) {
+        if (newVenue.getAddress() != null && newVenue.getAddress() != "" && newVenue.getAddress() != venue.getAddress()) {
             venue.setAddress(newVenue.getAddress());
         }
-        if (newVenue.getPostcode() != venue.getPostcode()) {
+        if (newVenue.getPostcode() != null && newVenue.getPostcode() != venue.getPostcode()) {
+            if (newVenue.getPostcode().getInvalid() != null) {
+                return ResponseEntity.badRequest().body("Cannot link Postcode that is marked as deleted");
+            }
             venue.setPostcode(newVenue.getPostcode());
         }
         venueRepository.save(venue);
-        return ResponseEntity.created(URI.create("/api/venues/" + venue.getId())).build();
+        VenueLinks links = new VenueLinks(venue);
+        venue.add(links.getAll());
+        Resource<Venue> resource = new Resource<Venue>(venue);
+        return ResponseEntity.ok(resource);
+        //return ResponseEntity.created(URI.create("/api/venues/" + venue.getId())).build();
     }
 
     @DeleteMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> delete(@PathVariable Long id) {
-    	Venue venue = venueRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        Venue venue = venueRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+        if (venue.getInvalid() != null) {
+            return ResponseEntity.badRequest().body("Cannot modify Venue that is marked as deleted");
+        }
     	venue.setInvalid();
     	venueRepository.save(venue);
         return ResponseEntity.noContent().build();

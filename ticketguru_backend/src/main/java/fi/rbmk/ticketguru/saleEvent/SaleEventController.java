@@ -1,6 +1,5 @@
 package fi.rbmk.ticketguru.saleEvent;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -14,7 +13,6 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -27,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 import fi.rbmk.ticketguru.saleRow.*;
 import fi.rbmk.ticketguru.user.*;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(value = "/api/saleEvents", produces = "application/hal+json")
 public class SaleEventController {
@@ -43,6 +40,9 @@ public class SaleEventController {
 	@PostMapping(produces = "application/hal+json")
 	ResponseEntity<?> add(@Valid @RequestBody SaleEvent newSaleEvent) {
 		try {
+			if (newSaleEvent.getUser().getInvalid() != null) {
+				return ResponseEntity.badRequest().body("Cannot link User that is marked as deleted");
+			}
 			SaleEvent saleEvent = sERepository.save(newSaleEvent);
 			SaleEventLinks links = new SaleEventLinks(saleEvent);
 			saleEvent.add(links.getAll());
@@ -54,22 +54,27 @@ public class SaleEventController {
 	}
 
 	@PatchMapping(value = "/{id}", produces = "application/hal+json")
-	ResponseEntity<SaleEvent> edit(@Valid @RequestBody SaleEvent newSaleEvent, @PathVariable Long id) {
-		SaleEvent saleEvent = sERepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
-		if (newSaleEvent.getDateTime() != null) {
-			saleEvent.setDateTime(newSaleEvent.getDateTime());
+	ResponseEntity<?> edit(@Valid @RequestBody SaleEvent newSaleEvent, @PathVariable Long id) {
+		SaleEvent saleEvent = sERepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+		if (saleEvent.getInvalid() != null) {
+			return ResponseEntity.badRequest().body("Cannot modify SaleEvent that is marked as deleted");
 		}
-		if (newSaleEvent.getUser() != null) {
+		if (newSaleEvent.getUser() != null && newSaleEvent.getUser() != saleEvent.getUser()) {
 			saleEvent.setUser(newSaleEvent.getUser());
 		}
 		sERepository.save(saleEvent);
-		return ResponseEntity.created(URI.create("/api/saleEvents/" + saleEvent.getSaleEvent_ID())).build();
+		SaleEventLinks links = new SaleEventLinks(saleEvent);
+		saleEvent.add(links.getAll());
+		Resource<SaleEvent> resource = new Resource<SaleEvent>(saleEvent);
+		return ResponseEntity.ok(resource);
 	}
 
 	@DeleteMapping(value = "/{id}", produces = "application/hal+json")
 	ResponseEntity<?> delete(@PathVariable Long id) {
 		SaleEvent saleEvent = sERepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
+		if (saleEvent.getInvalid() != null) {
+			return ResponseEntity.badRequest().body("Cannot modify SaleEvent that is marked as deleted");
+		}
 		saleEvent.setInvalid();
 		sERepository.save(saleEvent);
 		return ResponseEntity.noContent().build();
