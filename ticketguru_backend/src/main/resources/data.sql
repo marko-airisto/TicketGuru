@@ -206,7 +206,7 @@ INSERT INTO ticket_statuses (name) VALUES ('Hyväksymätön');
 
 INSERT INTO ticket_statuses (name) VALUES ('Epäonnistui');
 
-INSERT INTO ticket_statuses (name) VALUES ('Vylätty');
+INSERT INTO ticket_statuses (name) VALUES ('Hylätty');
 
 -- EVENTTICKETS
 
