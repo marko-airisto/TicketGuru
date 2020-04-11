@@ -12,6 +12,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import fi.rbmk.ticketguru.event.*;
 
@@ -24,6 +25,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RestController
@@ -50,7 +52,7 @@ public class AgeLimitController {
     public ResponseEntity<?> edit(@RequestBody AgeLimit newAgeLimit, @PathVariable Long id) {
         AgeLimit ageLimit = alRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (ageLimit.getInvalid() != null) {
-            return ResponseEntity.badRequest().body("Cannot modify AgeLimit that is marked as deleted");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify AgeLimit that is marked as deleted");
         }
         if (newAgeLimit.getName() != null && newAgeLimit.getName() != "" && newAgeLimit.getName() != ageLimit.getName()) {
             ageLimit.setName(newAgeLimit.getName());
@@ -67,7 +69,7 @@ public class AgeLimitController {
     ResponseEntity<?> delete(@PathVariable Long id) {
         AgeLimit ageLimit = alRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (ageLimit.getInvalid() != null) {
-            return ResponseEntity.badRequest().body("Cannot modify AgeLimit that is marked as deleted");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify AgeLimit that is marked as deleted");
         }
     	ageLimit.setInvalid();
     	alRepository.save(ageLimit);

@@ -12,6 +12,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import fi.rbmk.ticketguru.eventType.*;
 import fi.rbmk.ticketguru.eventOrganizer.*;
@@ -49,16 +51,16 @@ public class EventController {
     ResponseEntity<?> add(@Valid @RequestBody Event newEvent) {
         try {
             if (newEvent.getAgeLimit().getInvalid() != null) {
-                return ResponseEntity.badRequest().body("Cannot link AgeLimit that is marked as deleted");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot link AgeLimit that is marked as deleted");
             }
             if (newEvent.getEventType().getInvalid() != null) {
-                return ResponseEntity.badRequest().body("Cannot link EventType that is marked as deleted");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot link EventType that is marked as deleted");
             }
             if (newEvent.getEventOrganizer().getInvalid() != null) {
-                return ResponseEntity.badRequest().body("Cannot link EventOrganizer that is marked as deleted");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot link EventOrganizer that is marked as deleted");
             }
             if (newEvent.getVenue().getInvalid() != null) {
-                return ResponseEntity.badRequest().body("Cannot link Venue that is marked as deleted");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot link Venue that is marked as deleted");
             }
             Event event = eRepository.save(newEvent);
             EventLinks links = new EventLinks(event);
@@ -74,14 +76,14 @@ public class EventController {
     ResponseEntity<?> edit(@RequestBody Event newEvent, @PathVariable Long id) {
         Event event = eRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (event.getInvalid() != null) {
-            return ResponseEntity.badRequest().body("Cannot modify Event that is marked as deleted");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify Event that is marked as deleted");
         }
         if (newEvent.getName() != null && newEvent.getName() != "" && newEvent.getName() != event.getName()) {
             event.setName(newEvent.getName());
         }
         if (newEvent.getEventType() != null && newEvent.getEventType() != event.getEventType()) {
             if (newEvent.getEventType().getInvalid() != null) {
-                return ResponseEntity.badRequest().body("Cannot link EventType that is marked as deleted");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot link EventType that is marked as deleted");
             }
             event.setEventType(newEvent.getEventType());
         }
@@ -90,13 +92,13 @@ public class EventController {
         }
         if (newEvent.getEventOrganizer() != null && newEvent.getEventOrganizer() != event.getEventOrganizer()) {
             if (newEvent.getEventOrganizer().getInvalid() != null) {
-                return ResponseEntity.badRequest().body("Cannot link EventOrganizer that is marked as deleted");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot link EventOrganizer that is marked as deleted");
             }
             event.setEventOrganizer(newEvent.getEventOrganizer());
         }
         if (newEvent.getVenue() != null && newEvent.getVenue() != event.getVenue()) {
             if (newEvent.getVenue().getInvalid() != null) {
-                return ResponseEntity.badRequest().body("Cannot link Venue that is marked as deleted");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot link Venue that is marked as deleted");
             }
             event.setVenue(newEvent.getVenue());
         }
@@ -105,7 +107,7 @@ public class EventController {
         }
         if (newEvent.getAgeLimit() != null && newEvent.getAgeLimit() != event.getAgeLimit()) {
             if (newEvent.getAgeLimit().getInvalid() != null) {
-                return ResponseEntity.badRequest().body("Cannot link AgeLimit that is marked as deleted");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot link AgeLimit that is marked as deleted");
             }
             event.setAgeLimit(newEvent.getAgeLimit());
         }
@@ -123,7 +125,7 @@ public class EventController {
     ResponseEntity<?> delete(@PathVariable Long id) {
         Event event = eRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (event.getInvalid() != null) {
-            return ResponseEntity.badRequest().body("Cannot modify Event that is marked as deleted");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify Event that is marked as deleted");
         }
         event.setInvalid();
         eRepository.save(event);
