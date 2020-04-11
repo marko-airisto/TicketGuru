@@ -3,32 +3,35 @@ import QrReader from 'react-qr-reader';
 import { useAuthContext } from '../utils/AuthContext';
 
 export default function ReadQr() {
-  const [state, setState] = useState({
-    result: 'No result'
-  });
   const { auth } = useAuthContext();
+  const [state, setState] = useState({
+    result: 'No result',
+  });
 
-  const handleScan = data => {
+  const handleScan = (data) => {
     if (data) {
       setState({
-        result: data
+        result: data,
       });
       validateTicket();
     }
   };
 
-  const handleError = err => {
+  const handleError = (err) => {
     console.error(err);
   };
 
   const validateTicket = () => {
-    fetch(`http://localhost:8080/api/tickets/validate/${state.result}`, {
-      headers: {
-        Authorization: `Bearer ${auth.token}`
+    fetch(
+      `https://rbmk-ticketguru-backend.herokuapp.com/api/tickets/validate/${state.result}`,
+      {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
       }
-    })
-      .then(response => response.json())
-      .then(data => console.log(data));
+    )
+      .then((response) => response.json())
+      .then((data) => console.log(data));
   };
 
   return (
