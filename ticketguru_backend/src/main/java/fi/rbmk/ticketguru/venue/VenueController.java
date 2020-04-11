@@ -12,6 +12,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import fi.rbmk.ticketguru.postcode.*;
 import fi.rbmk.ticketguru.event.*;
@@ -38,7 +40,8 @@ public class VenueController {
     ResponseEntity<?> add(@Valid @RequestBody Venue newVenue) {
         try {
             if (newVenue.getPostcode().getInvalid() != null) {
-                return ResponseEntity.badRequest().body("Cannot link Postcode that is marked as deleted");
+                /*return ResponseEntity.badRequest().body("Cannot link Postcode that is marked as deleted");*/
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot link Postcode that is marked as deleted");
             }
             Venue venue = venueRepository.save(newVenue);
             VenueLinks links = new VenueLinks(venue);
@@ -46,7 +49,8 @@ public class VenueController {
             Resource<Venue> resource = new Resource<Venue>(venue);
             return ResponseEntity.ok(resource);
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.badRequest().body("Duplicate entry");
+            /*return ResponseEntity.badRequest().body("Duplicate entry");*/
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Duplicate entry");
         }
     }
 
@@ -54,7 +58,8 @@ public class VenueController {
     ResponseEntity<?> edit(@Valid @RequestBody Venue newVenue, @PathVariable Long id) {
         Venue venue = venueRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (venue.getInvalid() != null) {
-            return ResponseEntity.badRequest().body("Cannot modify Venue that is marked as deleted");
+            /*return ResponseEntity.badRequest().body("Cannot modify Venue that is marked as deleted");*/
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify Venue that is marked as deleted");
         }
         if (newVenue.getName() != null && newVenue.getName() != "" && newVenue.getName() != venue.getName()) {
             venue.setName(newVenue.getName());
@@ -64,7 +69,8 @@ public class VenueController {
         }
         if (newVenue.getPostcode() != null && newVenue.getPostcode() != venue.getPostcode()) {
             if (newVenue.getPostcode().getInvalid() != null) {
-                return ResponseEntity.badRequest().body("Cannot link Postcode that is marked as deleted");
+                /*return ResponseEntity.badRequest().body("Cannot link Postcode that is marked as deleted");*/
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot link Postcode that is marked as deleted");
             }
             venue.setPostcode(newVenue.getPostcode());
         }
@@ -80,7 +86,8 @@ public class VenueController {
     ResponseEntity<?> delete(@PathVariable Long id) {
         Venue venue = venueRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (venue.getInvalid() != null) {
-            return ResponseEntity.badRequest().body("Cannot modify Venue that is marked as deleted");
+            /*return ResponseEntity.badRequest().body("Cannot modify Venue that is marked as deleted");*/
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify Venue that is marked as deleted");
         }
     	venue.setInvalid();
     	venueRepository.save(venue);

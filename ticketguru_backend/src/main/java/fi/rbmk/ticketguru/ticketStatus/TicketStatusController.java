@@ -13,6 +13,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import fi.rbmk.ticketguru.ticket.*;
 
@@ -44,7 +46,8 @@ public class TicketStatusController {
             return ResponseEntity.created(URI.create("/api/ticketStatuses/" + ticketStatus.getTicketStatus_id()))
                     .body(resource);
         } catch (DuplicateKeyException e) {
-            return ResponseEntity.badRequest().body("Duplicate entry");
+            /*return ResponseEntity.badRequest().body("Duplicate entry");*/
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Duplicate entry");
         }
     }
 
@@ -52,7 +55,8 @@ public class TicketStatusController {
     public ResponseEntity<?> edit(@Valid @RequestBody TicketStatus newTicketStatus, @PathVariable Long id) {
         TicketStatus ticketStatus = tSRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: + id"));
         if (ticketStatus.getInvalid() != null) {
-            return ResponseEntity.badRequest().body("Cannot modify TicketStatus that is marked as deleted");
+            /*return ResponseEntity.badRequest().body("Cannot modify TicketStatus that is marked as deleted");*/
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify TicketStatus that is marked as deleted");
         }
         if (newTicketStatus.getName() != null && newTicketStatus.getName() != "" && newTicketStatus.getName() != ticketStatus.getName()) {
             ticketStatus.setName(newTicketStatus.getName());
@@ -68,7 +72,8 @@ public class TicketStatusController {
     ResponseEntity<?> delete(@PathVariable Long id) {
         TicketStatus ticketStatus = tSRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (ticketStatus.getInvalid() != null) {
-            return ResponseEntity.badRequest().body("Cannot modify TicketStatus that is marked as deleted");
+            /*return ResponseEntity.badRequest().body("Cannot modify TicketStatus that is marked as deleted");*/
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify TicketStatus that is marked as deleted");
         }
     	ticketStatus.setInvalid();
     	tSRepository.save(ticketStatus);

@@ -12,6 +12,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import fi.rbmk.ticketguru.saleRow.*;
 import fi.rbmk.ticketguru.user.*;
@@ -41,7 +43,8 @@ public class SaleEventController {
 	ResponseEntity<?> add(@Valid @RequestBody SaleEvent newSaleEvent) {
 		try {
 			if (newSaleEvent.getUser().getInvalid() != null) {
-				return ResponseEntity.badRequest().body("Cannot link User that is marked as deleted");
+				/*return ResponseEntity.badRequest().body("Cannot link User that is marked as deleted");*/
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot link User that is marked as deleted");
 			}
 			SaleEvent saleEvent = sERepository.save(newSaleEvent);
 			SaleEventLinks links = new SaleEventLinks(saleEvent);
@@ -49,7 +52,8 @@ public class SaleEventController {
 			Resource<SaleEvent> resource = new Resource<SaleEvent>(saleEvent);
 			return ResponseEntity.ok(resource);
 		} catch (DataIntegrityViolationException e) {
-			return ResponseEntity.badRequest().body("Duplicate entry");
+			/*return ResponseEntity.badRequest().body("Duplicate entry");*/
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Duplicate entry");
 		}
 	}
 
@@ -57,7 +61,8 @@ public class SaleEventController {
 	ResponseEntity<?> edit(@Valid @RequestBody SaleEvent newSaleEvent, @PathVariable Long id) {
 		SaleEvent saleEvent = sERepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
 		if (saleEvent.getInvalid() != null) {
-			return ResponseEntity.badRequest().body("Cannot modify SaleEvent that is marked as deleted");
+			/*return ResponseEntity.badRequest().body("Cannot modify SaleEvent that is marked as deleted");*/
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify SaleEvent that is marked as deleted");
 		}
 		if (newSaleEvent.getUser() != null && newSaleEvent.getUser() != saleEvent.getUser()) {
 			saleEvent.setUser(newSaleEvent.getUser());
@@ -73,7 +78,8 @@ public class SaleEventController {
 	ResponseEntity<?> delete(@PathVariable Long id) {
 		SaleEvent saleEvent = sERepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
 		if (saleEvent.getInvalid() != null) {
-			return ResponseEntity.badRequest().body("Cannot modify SaleEvent that is marked as deleted");
+			/*return ResponseEntity.badRequest().body("Cannot modify SaleEvent that is marked as deleted");*/
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify SaleEvent that is marked as deleted");
 		}
 		saleEvent.setInvalid();
 		sERepository.save(saleEvent);

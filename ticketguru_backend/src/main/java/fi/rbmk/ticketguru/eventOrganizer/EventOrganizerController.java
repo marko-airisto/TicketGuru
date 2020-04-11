@@ -1,10 +1,10 @@
 package fi.rbmk.ticketguru.eventOrganizer;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+
 import java.util.List;
 
 import javax.validation.Valid;
-
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -12,6 +12,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +22,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
-import fi.rbmk.ticketguru.postcode.*;
-import fi.rbmk.ticketguru.event.*;
+import fi.rbmk.ticketguru.event.Event;
+import fi.rbmk.ticketguru.event.EventLinks;
+import fi.rbmk.ticketguru.event.EventRepository;
+import fi.rbmk.ticketguru.postcode.Postcode;
+import fi.rbmk.ticketguru.postcode.PostcodeLinks;
+import fi.rbmk.ticketguru.postcode.PostcodeRepository;
 
 @RestController
 @RequestMapping(value = "/api/eventOrganizers", produces = "application/hal+json")
@@ -45,7 +51,8 @@ public class EventOrganizerController {
             Resource<EventOrganizer> resource = new Resource<EventOrganizer>(eventOrganizer);
             return ResponseEntity.ok(resource);
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.badRequest().body("Duplicate entry");
+            /*return ResponseEntity.badRequest().body("Duplicate entry");*/
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Duplicate entry");
         }
     }
 
@@ -53,7 +60,8 @@ public class EventOrganizerController {
     ResponseEntity<?> edit(@RequestBody EventOrganizer newEventOrganizer, @PathVariable Long id) {
         EventOrganizer eventOrganizer = eoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (eventOrganizer.getInvalid() != null) {
-            return ResponseEntity.badRequest().body("Cannot modify EventOrganizer that is marked as deleted");
+            /*return ResponseEntity.badRequest().body("Cannot modify EventOrganizer that is marked as deleted");*/
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify EventOrganizer that is marked as deleted");
         }
         if(newEventOrganizer.getName() != null && newEventOrganizer.getName() != "" && newEventOrganizer.getName() != eventOrganizer.getName()) {
             eventOrganizer.setName(newEventOrganizer.getName());
@@ -63,7 +71,8 @@ public class EventOrganizerController {
         }
         if(newEventOrganizer.getPostcode() != null && newEventOrganizer.getPostcode() != eventOrganizer.getPostcode()) {
             if (newEventOrganizer.getPostcode().getInvalid() != null) {
-                return ResponseEntity.badRequest().body("Cannot link Postcode that is marked as deleted");
+                /*return ResponseEntity.badRequest().body("Cannot link Postcode that is marked as deleted");*/
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot link Postcode that is marked as deleted");
             }
             eventOrganizer.setPostcode(newEventOrganizer.getPostcode());
         }
@@ -90,7 +99,8 @@ public class EventOrganizerController {
     ResponseEntity<?> delete(@PathVariable Long id) {
         EventOrganizer eventOrganizer = eoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (eventOrganizer.getInvalid() != null) {
-            return ResponseEntity.badRequest().body("Cannot modify EventOrganizer that is marked as deleted");
+            /*return ResponseEntity.badRequest().body("Cannot modify EventOrganizer that is marked as deleted");*/
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify EventOrganizer that is marked as deleted");
         }
         eventOrganizer.setInvalid();
         eoRepository.save(eventOrganizer);

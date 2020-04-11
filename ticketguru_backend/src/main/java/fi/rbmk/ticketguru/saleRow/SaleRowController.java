@@ -14,6 +14,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import fi.rbmk.ticketguru.ticket.*;
 import fi.rbmk.ticketguru.ticketStatus.TicketStatusRepository;
@@ -64,12 +66,14 @@ public class SaleRowController {
             SaleEvent saleEvent = sERepository.findById(getIdFromUri(requestBody.get("saleEvent").textValue()))
                 .orElseThrow(() -> new ResourceNotFoundException("Invalid ID"));
             if (saleEvent.getInvalid() != null) {
-                return ResponseEntity.badRequest().body("Cannot create SaleRow for SaleEvent that is marked as deleted");
+                /*return ResponseEntity.badRequest().body("Cannot create SaleRow for SaleEvent that is marked as deleted");*/
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot create SaleRow for SaleEvent that is marked as deleted");
             }
             EventTicket eventTicket = etRepository.findById(getIdFromUri(requestBody.get("eventTicket").textValue()))
                 .orElseThrow(() -> new ResourceNotFoundException("Invalid ID"));
             if (eventTicket.getInvalid() != null) {
-                return ResponseEntity.badRequest().body("Cannot create SaleRow with EventTicket that is marked as deleted");
+                /*return ResponseEntity.badRequest().body("Cannot create SaleRow with EventTicket that is marked as deleted");*/
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot create SaleRow with EventTicket that is marked as deleted");
             }
             Long discount = requestBody.get("discount").asLong();
             SaleRow saleRow = sRRepository.save(new SaleRow(saleEvent, discount));
@@ -79,9 +83,11 @@ public class SaleRowController {
             Resource<SaleRow> resource = new Resource<SaleRow>(saleRow);
             return ResponseEntity.ok(resource);
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.badRequest().body("Duplicate entry");
+            /*return ResponseEntity.badRequest().body("Duplicate entry");*/
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Duplicate entry");
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("Invalid ID");
+            /*return ResponseEntity.badRequest().body("Invalid ID");*/
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid ID");
         }
     }
 
@@ -89,7 +95,8 @@ public class SaleRowController {
     ResponseEntity<?> edit(@RequestBody SaleRow newSaleRow, @PathVariable Long id) {
         SaleRow saleRow = sRRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (saleRow.getInvalid() != null) {
-            return ResponseEntity.badRequest().body("Cannot modify SaleRow that is marked as deleted");
+            /*return ResponseEntity.badRequest().body("Cannot modify SaleRow that is marked as deleted");*/
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify SaleRow that is marked as deleted");
         }
         if (newSaleRow.getSaleEvent() != null && newSaleRow.getSaleEvent() != saleRow.getSaleEvent()) {
             saleRow.setSaleEvent(newSaleRow.getSaleEvent());
@@ -108,7 +115,8 @@ public class SaleRowController {
     ResponseEntity<?> delete(@PathVariable Long id) {
         SaleRow saleRow = sRRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (saleRow.getInvalid() != null) {
-            return ResponseEntity.badRequest().body("Cannot modify SaleRow that is marked as deleted");
+            /*return ResponseEntity.badRequest().body("Cannot modify SaleRow that is marked as deleted");*/
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify SaleRow that is marked as deleted");
         }
     	saleRow.setInvalid();
     	sRRepository.save(saleRow);

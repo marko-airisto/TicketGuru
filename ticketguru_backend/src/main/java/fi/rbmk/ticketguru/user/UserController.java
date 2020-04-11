@@ -14,6 +14,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import fi.rbmk.ticketguru.eventTicket.EventTicketRepository;
 import fi.rbmk.ticketguru.saleEvent.*;
@@ -47,7 +49,8 @@ public class UserController {
     ResponseEntity<?> add(@Valid @RequestBody User newUser) {
         try {
             if (newUser.getUserGroup().getInvalid() != null) {
-                return ResponseEntity.badRequest().body("Cannot link UserGroup that is marked as deleted");
+                /*return ResponseEntity.badRequest().body("Cannot link UserGroup that is marked as deleted");*/
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot link UserGroup that is marked as deleted");
             }
             User user = uRepository.save(newUser);
             UserLinks links = new UserLinks(user);
@@ -55,7 +58,8 @@ public class UserController {
             Resource<User> resource = new Resource<User>(user);
             return ResponseEntity.ok(resource);
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.badRequest().body("Duplicate entry");
+            /*return ResponseEntity.badRequest().body("Duplicate entry");*/
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Duplicate entry");
         }
 
     }
@@ -64,17 +68,20 @@ public class UserController {
     ResponseEntity<?> edit(@RequestBody User newUser, @PathVariable Long id) {
         User user = uRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (user.getInvalid() != null) {
-            return ResponseEntity.badRequest().body("Cannot modify User that is marked as deleted");
+            /*return ResponseEntity.badRequest().body("Cannot modify User that is marked as deleted");*/
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify User that is marked as deleted");
         }
         if (newUser.getPassword() != null && newUser.getPassword() != "" && newUser.getPassword() != user.getPassword()) {
             user.setPassword(newUser.getPassword());
         }
         if (newUser.getName() != null) {
-            return ResponseEntity.badRequest().body("Cannot modify username");
+            /*return ResponseEntity.badRequest().body("Cannot modify username");*/
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify username");
         }
         if (newUser.getUserGroup() != null && newUser.getUserGroup() != user.getUserGroup()) {
             if (newUser.getUserGroup().getInvalid() != null) {
-                return ResponseEntity.badRequest().body("Cannot link UserGroup that is marked as deleted");
+                /*return ResponseEntity.badRequest().body("Cannot link UserGroup that is marked as deleted");*/
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot link UserGroup that is marked as deleted");
             }
             user.setUserGroup(newUser.getUserGroup());
         }
@@ -92,7 +99,8 @@ public class UserController {
     ResponseEntity<?> delete(@PathVariable Long id) {
         User user = uRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (user.getInvalid() != null) {
-            return ResponseEntity.badRequest().body("Cannot modify User that is marked as deleted");
+            /*return ResponseEntity.badRequest().body("Cannot modify User that is marked as deleted");*/
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify User that is marked as deleted");
         }
         user.setInvalid();
         return ResponseEntity.noContent().build();

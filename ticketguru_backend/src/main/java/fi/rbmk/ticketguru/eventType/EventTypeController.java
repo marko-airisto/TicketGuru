@@ -12,6 +12,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import fi.rbmk.ticketguru.event.*;
 
@@ -40,7 +42,8 @@ public class EventTypeController {
             Resource<EventType> resource = new Resource<EventType>(eventType);
             return ResponseEntity.ok(resource);
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.badRequest().body("Duplicate entry");
+            /*return ResponseEntity.badRequest().body("Duplicate entry");*/
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Duplicate entry");
         }
     }
 
@@ -48,7 +51,8 @@ public class EventTypeController {
     ResponseEntity<?> edit(@RequestBody EventType newEventType, @PathVariable Long id) {
         EventType eventType = etRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (eventType.getInvalid() != null) {
-            return ResponseEntity.badRequest().body("Cannot modify EventType that is marked as deleted");
+            /*return ResponseEntity.badRequest().body("Cannot modify EventType that is marked as deleted");*/
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify EventType that is marked as deleted");
         }
         if(newEventType.getName() != null && newEventType.getName() != "" && newEventType.getName() != eventType.getName()) {
             eventType.setName(newEventType.getName());
@@ -67,7 +71,8 @@ public class EventTypeController {
     ResponseEntity<?> delete(@PathVariable Long id) {
         EventType eventType = etRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (eventType.getInvalid() != null) {
-            return ResponseEntity.badRequest().body("Cannot modify EventType that is marked as deleted");
+            /*return ResponseEntity.badRequest().body("Cannot modify EventType that is marked as deleted");*/
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify EventType that is marked as deleted");
         }
         eventType.setInvalid();
         etRepository.save(eventType);
