@@ -32,7 +32,6 @@ public class EventType extends ResourceSupport {
 	@Column(name = "name")
 	private String name;
 
-	@NotEmpty(message = "Event info is required")
 	@Length(max = 500)
 	@Column(name = "info")
 	private String info;

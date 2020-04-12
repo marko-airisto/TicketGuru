@@ -1,8 +1,13 @@
 package fi.rbmk.ticketguru.event;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Set;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
@@ -29,6 +34,7 @@ import fi.rbmk.ticketguru.eventOrganizer.*;
 import fi.rbmk.ticketguru.eventTicket.*;
 import fi.rbmk.ticketguru.venue.*;
 import fi.rbmk.ticketguru.ageLimit.*;
+import fi.rbmk.ticketguru.constraintViolationParser.ConstraintViolationParser;
 
 @RestController
 @RequestMapping(value = "/api/events", produces = "application/hal+json")
@@ -46,6 +52,8 @@ public class EventController {
     AgeLimitRepository alRepository;
     @Autowired
     EventTicketRepository eventTicketRepository;
+
+    private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     @PostMapping(produces = "application/hal+json")
     ResponseEntity<?> add(@Valid @RequestBody Event newEvent) {
@@ -66,7 +74,7 @@ public class EventController {
             EventLinks links = new EventLinks(event);
             event.add(links.getAll());
             Resource<Event> resource = new Resource<Event>(event);
-            return ResponseEntity.ok(resource);
+            return ResponseEntity.created(URI.create(event.getId().getHref())).body(resource);
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.badRequest().body("Duplicate entry");
         }
@@ -78,7 +86,12 @@ public class EventController {
         if (event.getInvalid() != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify Event that is marked as deleted");
         }
-        if (newEvent.getName() != null && newEvent.getName() != "" && newEvent.getName() != event.getName()) {
+        Set<ConstraintViolation<Object>> violations = validator.validate(newEvent);
+        if (!violations.isEmpty()) {
+            ConstraintViolationParser constraintViolationParser = new ConstraintViolationParser(violations, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(constraintViolationParser.parse());
+        }
+        if (newEvent.getName() != null && newEvent.getName() != event.getName()) {
             event.setName(newEvent.getName());
         }
         if (newEvent.getEventType() != null && newEvent.getEventType() != event.getEventType()) {

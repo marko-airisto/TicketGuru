@@ -36,7 +36,7 @@ public class User extends ResourceSupport {
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@NotEmpty(message = "Password is required")
-	@Length(max = 100)
+	@Length(max = 250)
 	@Column(name = "password")
 	private String password;
 
@@ -45,8 +45,7 @@ public class User extends ResourceSupport {
 	@Column(name = "username", unique = true)
 	private String username;
 
-	@NotEmpty(message = "Name is required")
-	@Length(max = 50)
+	@Length(max = 100)
 	@Column(name = "name")
 	private String name;
 

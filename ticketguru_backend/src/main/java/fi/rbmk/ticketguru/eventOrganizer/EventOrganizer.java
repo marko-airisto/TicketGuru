@@ -16,8 +16,10 @@ import javax.persistence.Table;
 
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.JoinColumn;
@@ -31,25 +33,31 @@ public class EventOrganizer extends ResourceSupport {
 	private Long eventOrganizer_id;
 
 	@NotEmpty(message = "Event organizer name is required")
+	@Length(max = 100)
 	@Column(name = "name")
 	private String name;
 	
+	@Length(max = 150)
 	@Column(name = "street_address")
 	private String streetAddress;
 	
+	@Length(max = 25)
 	@Column(name = "tel")
 	private String tel;
 
+	@Length(max = 150)
 	@Column(name = "email")
 	private String email;
 
+	@Length(max = 250)
 	@Column(name = "www")
 	private String www;
 
+	@Length(max = 250)
 	@Column(name = "contact_person")
 	private String contactPerson;
 
-	@NotEmpty(message = "Postcode is required")
+	@NotNull(message = "Postcode is required")
 	@ManyToOne
 	@JoinColumn(name = "postcode_id")
 	private Postcode postcode;

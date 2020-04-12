@@ -3,6 +3,11 @@ package fi.rbmk.ticketguru.saleRow;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -28,6 +33,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import fi.rbmk.ticketguru.ticket.*;
 import fi.rbmk.ticketguru.ticketStatus.TicketStatusRepository;
+import fi.rbmk.ticketguru.constraintViolationParser.ConstraintViolationParser;
 import fi.rbmk.ticketguru.eventTicket.*;
 import fi.rbmk.ticketguru.saleEvent.*;
 
@@ -46,6 +52,7 @@ public class SaleRowController {
     @Autowired
     TicketService tService;
 
+    private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     private Long getIdFromUri(String str) {
         try {
@@ -66,13 +73,11 @@ public class SaleRowController {
             SaleEvent saleEvent = sERepository.findById(getIdFromUri(requestBody.get("saleEvent").textValue()))
                 .orElseThrow(() -> new ResourceNotFoundException("Invalid ID"));
             if (saleEvent.getInvalid() != null) {
-                /*return ResponseEntity.badRequest().body("Cannot create SaleRow for SaleEvent that is marked as deleted");*/
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot create SaleRow for SaleEvent that is marked as deleted");
             }
             EventTicket eventTicket = etRepository.findById(getIdFromUri(requestBody.get("eventTicket").textValue()))
                 .orElseThrow(() -> new ResourceNotFoundException("Invalid ID"));
             if (eventTicket.getInvalid() != null) {
-                /*return ResponseEntity.badRequest().body("Cannot create SaleRow with EventTicket that is marked as deleted");*/
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot create SaleRow with EventTicket that is marked as deleted");
             }
             Long discount = requestBody.get("discount").asLong();
@@ -81,12 +86,10 @@ public class SaleRowController {
             SaleRowLinks links = new SaleRowLinks(saleRow);
             saleRow.add(links.getAll());
             Resource<SaleRow> resource = new Resource<SaleRow>(saleRow);
-            return ResponseEntity.ok(resource);
+            return ResponseEntity.created(URI.create(saleRow.getId().getHref())).body(resource);
         } catch (DataIntegrityViolationException e) {
-            /*return ResponseEntity.badRequest().body("Duplicate entry");*/
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Duplicate entry");
         } catch (IllegalArgumentException e) {
-            /*return ResponseEntity.badRequest().body("Invalid ID");*/
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid ID");
         }
     }
@@ -95,8 +98,12 @@ public class SaleRowController {
     ResponseEntity<?> edit(@RequestBody SaleRow newSaleRow, @PathVariable Long id) {
         SaleRow saleRow = sRRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (saleRow.getInvalid() != null) {
-            /*return ResponseEntity.badRequest().body("Cannot modify SaleRow that is marked as deleted");*/
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify SaleRow that is marked as deleted");
+        }
+        Set<ConstraintViolation<Object>> violations = validator.validate(newSaleRow);
+        if (!violations.isEmpty()) {
+            ConstraintViolationParser constraintViolationParser = new ConstraintViolationParser(violations, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(constraintViolationParser.parse());
         }
         if (newSaleRow.getSaleEvent() != null && newSaleRow.getSaleEvent() != saleRow.getSaleEvent()) {
             saleRow.setSaleEvent(newSaleRow.getSaleEvent());
@@ -115,7 +122,6 @@ public class SaleRowController {
     ResponseEntity<?> delete(@PathVariable Long id) {
         SaleRow saleRow = sRRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (saleRow.getInvalid() != null) {
-            /*return ResponseEntity.badRequest().body("Cannot modify SaleRow that is marked as deleted");*/
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify SaleRow that is marked as deleted");
         }
     	saleRow.setInvalid();

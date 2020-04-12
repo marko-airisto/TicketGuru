@@ -1,13 +1,18 @@
 package fi.rbmk.ticketguru.eventType;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Set;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
@@ -24,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import fi.rbmk.ticketguru.constraintViolationParser.ConstraintViolationParser;
 import fi.rbmk.ticketguru.event.*;
 
 @RestController
@@ -33,6 +39,8 @@ public class EventTypeController {
     @Autowired EventTypeRepository etRepository;
     @Autowired EventRepository eRepository;
 
+    private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
     @PostMapping(produces = "application/hal+json")
     ResponseEntity<?> add(@Valid @RequestBody EventType newEventType) {
         try {
@@ -40,9 +48,8 @@ public class EventTypeController {
             EventTypeLinks links = new EventTypeLinks(eventType);
             eventType.add(links.getAll());
             Resource<EventType> resource = new Resource<EventType>(eventType);
-            return ResponseEntity.ok(resource);
-        } catch (DataIntegrityViolationException e) {
-            /*return ResponseEntity.badRequest().body("Duplicate entry");*/
+            return ResponseEntity.created(URI.create(eventType.getId().getHref())).body(resource);
+        } catch (DuplicateKeyException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Duplicate entry");
         }
     }
@@ -51,10 +58,14 @@ public class EventTypeController {
     ResponseEntity<?> edit(@RequestBody EventType newEventType, @PathVariable Long id) {
         EventType eventType = etRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (eventType.getInvalid() != null) {
-            /*return ResponseEntity.badRequest().body("Cannot modify EventType that is marked as deleted");*/
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify EventType that is marked as deleted");
         }
-        if(newEventType.getName() != null && newEventType.getName() != "" && newEventType.getName() != eventType.getName()) {
+        Set<ConstraintViolation<Object>> violations = validator.validate(newEventType);
+        if (!violations.isEmpty()) {
+            ConstraintViolationParser constraintViolationParser = new ConstraintViolationParser(violations, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(constraintViolationParser.parse());
+        }
+        if(newEventType.getName() != null && newEventType.getName() != eventType.getName()) {
             eventType.setName(newEventType.getName());
         }
         if(newEventType.getInfo() != null && newEventType.getInfo() != eventType.getInfo()) {
@@ -71,7 +82,6 @@ public class EventTypeController {
     ResponseEntity<?> delete(@PathVariable Long id) {
         EventType eventType = etRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (eventType.getInvalid() != null) {
-            /*return ResponseEntity.badRequest().body("Cannot modify EventType that is marked as deleted");*/
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify EventType that is marked as deleted");
         }
         eventType.setInvalid();

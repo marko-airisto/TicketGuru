@@ -1,8 +1,13 @@
 package fi.rbmk.ticketguru.postcode;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Set;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
@@ -24,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import fi.rbmk.ticketguru.constraintViolationParser.ConstraintViolationParser;
 import fi.rbmk.ticketguru.eventOrganizer.*;
 import fi.rbmk.ticketguru.venue.*;
 
@@ -35,6 +41,8 @@ public class PostcodeController {
     @Autowired EventOrganizerRepository eoRepository;
     @Autowired VenueRepository vRepository;
 
+    private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
     @PostMapping(produces = "application/hal+json")
     ResponseEntity<?> add(@Valid @RequestBody Postcode newPostcode) {
         try {
@@ -42,9 +50,8 @@ public class PostcodeController {
             PostcodeLinks links = new PostcodeLinks(postcode);
             postcode.add(links.getAll());
             Resource<Postcode> resource = new Resource<Postcode>(postcode);
-            return ResponseEntity.ok(resource);
+            return ResponseEntity.created(URI.create(postcode.getId().getHref())).body(resource);
         } catch (DataIntegrityViolationException e) {
-            /*return ResponseEntity.badRequest().body("Duplicate entry");*/
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Duplicate entry");
         }
     }
@@ -53,16 +60,20 @@ public class PostcodeController {
     ResponseEntity<?> edit(@RequestBody Postcode newPostcode, @PathVariable String id) {
         Postcode postcode = pRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (postcode.getInvalid() != null) {
-            /*return ResponseEntity.badRequest().body("Cannot modify Postcode that is marked as deleted");*/
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify Postcode that is marked as deleted");
         }
-        if(newPostcode.getPostcode_id() != null && newPostcode.getPostcode_id() != "" && newPostcode.getPostcode_id() != postcode.getPostcode_id()) {
+        Set<ConstraintViolation<Object>> violations = validator.validate(newPostcode);
+        if (!violations.isEmpty()) {
+            ConstraintViolationParser constraintViolationParser = new ConstraintViolationParser(violations, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(constraintViolationParser.parse());
+        }
+        if(newPostcode.getPostcode_id() != null && newPostcode.getPostcode_id() != postcode.getPostcode_id()) {
             postcode.setPostcode_id(newPostcode.getPostcode_id());
         }
-        if(newPostcode.getCity() != null && newPostcode.getCity() != "" && newPostcode.getCity() != postcode.getCity()) {
+        if(newPostcode.getCity() != null && newPostcode.getCity() != postcode.getCity()) {
             postcode.setCity(newPostcode.getCity());
         }
-        if(newPostcode.getCountry() != null && newPostcode.getCountry() != "" && newPostcode.getCountry() != postcode.getCountry()) {
+        if(newPostcode.getCountry() != null && newPostcode.getCountry() != postcode.getCountry()) {
             postcode.setCountry(newPostcode.getCountry());
         }
         pRepository.save(postcode);
@@ -76,7 +87,6 @@ public class PostcodeController {
     ResponseEntity<?> delete(@PathVariable String id) {
         Postcode postcode = pRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (postcode.getInvalid() != null) {
-            /*return ResponseEntity.badRequest().body("Cannot modify Postcode that is marked as deleted");*/
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify Postcode that is marked as deleted");
         }
         postcode.setInvalid();
