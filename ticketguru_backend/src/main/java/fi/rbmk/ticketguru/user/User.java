@@ -42,7 +42,7 @@ public class User extends ResourceSupport {
 
 	@NotEmpty(message = "Username is required")
 	@Length(max = 50)
-	@Column(name = "username")
+	@Column(name = "username", unique = true)
 	private String username;
 
 	@NotEmpty(message = "Name is required")
