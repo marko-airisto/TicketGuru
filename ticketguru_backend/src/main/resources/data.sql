@@ -42,27 +42,27 @@ VALUES
 
 -- AGELIMITS
 
-INSERT INTO agelimits
+INSERT INTO age_limits
     (name, info)
 VALUES
     ('K7', 'Tapahtuma ei sovellu alle 7-vuotiaille');
 
-INSERT INTO agelimits
+INSERT INTO age_limits
     (name, info)
 VALUES
     ('K13', 'Tapahtuma ei sovellu alle 13-vuotiaille');
     
-INSERT INTO agelimits
+INSERT INTO age_limits
     (name, info)
 VALUES
     ('K16', 'Tapahtuma ei sovellu alle 16-vuotiaille');
     
-INSERT INTO agelimits
+INSERT INTO age_limits
     (name, info)
 VALUES
     ('K18', 'Tapahtuma ei sovellu alle 18-vuotiaille');
     
-INSERT INTO agelimits
+INSERT INTO age_limits
     (name, info)
 VALUES
     ('S', 'Ikärajaton tapahtuma, sopii kaikenikäisille');
@@ -120,37 +120,37 @@ VALUES
 -- EVENTS
 
 INSERT INTO events
-    (name, event_type_id, datetime, event_organizer_id, venue_id, ticket_capacity, agelimit_id, info)
+    (name, event_type_id, datetime, event_organizer_id, venue_id, ticket_capacity, age_limit_id, info)
 VALUES
     (
         'Koodari Kemut 2020', 1, '2020-03-01 20:00:00', 1, 1, 1500, 2, 'Mika koodaa ja muut kattelee. Kannattaa tulla kauempaakin'
     );
     INSERT INTO events
-    (name, event_type_id, datetime, event_organizer_id, venue_id, ticket_capacity, agelimit_id, info)
+    (name, event_type_id, datetime, event_organizer_id, venue_id, ticket_capacity, age_limit_id, info)
 VALUES
     (
         'Olut festarit', 1, '2020-04-01 09:15:00', 1, 1, 700, 2, 'Paljon erilaisia oluita tarjolla'
     );
      INSERT INTO events
-    (name, event_type_id, datetime, event_organizer_id, venue_id, ticket_capacity, agelimit_id, info)
+    (name, event_type_id, datetime, event_organizer_id, venue_id, ticket_capacity, age_limit_id, info)
 VALUES
     (
         'Black Metal festarit', 1, '2020-04-04 18:30:00', 1, 1, 666, 2, 'Pelkkää bläkkistä. Tiukkaa tykittelyä.'
     );
      INSERT INTO events
-    (name, event_type_id, datetime, event_organizer_id, venue_id, ticket_capacity, agelimit_id, info)
+    (name, event_type_id, datetime, event_organizer_id, venue_id, ticket_capacity, age_limit_id, info)
 VALUES
     (
         'Lappeenranta Kiljufest 2020', 1, '2020-04-13 07:00:00', 1, 1, 15, 2, 'Juo kiljua ja piereskele.'
     );
      INSERT INTO events
-    (name, event_type_id, datetime, event_organizer_id, venue_id, ticket_capacity, agelimit_id, info)
+    (name, event_type_id, datetime, event_organizer_id, venue_id, ticket_capacity, age_limit_id, info)
 VALUES
     (
         'Postimekkijamboree', 1, '2020-04-17 10:00:00', 1, 1, 15, 2, 'Liimaile postimerkkejä'
     );
      INSERT INTO events
-    (name, event_type_id, datetime, event_organizer_id, venue_id, ticket_capacity, agelimit_id, info)
+    (name, event_type_id, datetime, event_organizer_id, venue_id, ticket_capacity, age_limit_id, info)
 VALUES
     (
         'Mökkitikan SM:t', 1, '2020-04-20 09:030:00', 1, 1, 15, 2, 'Heitä tikkaa pikkusievässä'

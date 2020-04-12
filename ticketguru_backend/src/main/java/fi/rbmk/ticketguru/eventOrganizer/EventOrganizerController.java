@@ -2,12 +2,17 @@ package fi.rbmk.ticketguru.eventOrganizer;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Set;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
@@ -24,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import fi.rbmk.ticketguru.constraintViolationParser.ConstraintViolationParser;
 import fi.rbmk.ticketguru.event.Event;
 import fi.rbmk.ticketguru.event.EventLinks;
 import fi.rbmk.ticketguru.event.EventRepository;
@@ -39,6 +45,8 @@ public class EventOrganizerController {
     @Autowired PostcodeRepository pRepository;
     @Autowired EventRepository eRepository;
 
+    private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
     @PostMapping(produces = "application/hal+json")
     ResponseEntity<?> add(@Valid @RequestBody EventOrganizer newEventOrganizer) {
         try {
@@ -49,9 +57,8 @@ public class EventOrganizerController {
             EventOrganizerLinks links = new EventOrganizerLinks(eventOrganizer);
             eventOrganizer.add(links.getAll());
             Resource<EventOrganizer> resource = new Resource<EventOrganizer>(eventOrganizer);
-            return ResponseEntity.ok(resource);
-        } catch (DataIntegrityViolationException e) {
-            /*return ResponseEntity.badRequest().body("Duplicate entry");*/
+            return ResponseEntity.created(URI.create(eventOrganizer.getId().getHref())).body(resource);
+        } catch (DuplicateKeyException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Duplicate entry");
         }
     }
@@ -60,10 +67,14 @@ public class EventOrganizerController {
     ResponseEntity<?> edit(@RequestBody EventOrganizer newEventOrganizer, @PathVariable Long id) {
         EventOrganizer eventOrganizer = eoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (eventOrganizer.getInvalid() != null) {
-            /*return ResponseEntity.badRequest().body("Cannot modify EventOrganizer that is marked as deleted");*/
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify EventOrganizer that is marked as deleted");
         }
-        if(newEventOrganizer.getName() != null && newEventOrganizer.getName() != "" && newEventOrganizer.getName() != eventOrganizer.getName()) {
+        Set<ConstraintViolation<Object>> violations = validator.validate(newEventOrganizer);
+        if (!violations.isEmpty()) {
+            ConstraintViolationParser constraintViolationParser = new ConstraintViolationParser(violations, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(constraintViolationParser.parse());
+        }
+        if(newEventOrganizer.getName() != null && newEventOrganizer.getName() != eventOrganizer.getName()) {
             eventOrganizer.setName(newEventOrganizer.getName());
         }
         if(newEventOrganizer.getStreetAddress() != null && newEventOrganizer.getStreetAddress() != eventOrganizer.getStreetAddress()) {
@@ -71,7 +82,6 @@ public class EventOrganizerController {
         }
         if(newEventOrganizer.getPostcode() != null && newEventOrganizer.getPostcode() != eventOrganizer.getPostcode()) {
             if (newEventOrganizer.getPostcode().getInvalid() != null) {
-                /*return ResponseEntity.badRequest().body("Cannot link Postcode that is marked as deleted");*/
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot link Postcode that is marked as deleted");
             }
             eventOrganizer.setPostcode(newEventOrganizer.getPostcode());
@@ -99,7 +109,6 @@ public class EventOrganizerController {
     ResponseEntity<?> delete(@PathVariable Long id) {
         EventOrganizer eventOrganizer = eoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (eventOrganizer.getInvalid() != null) {
-            /*return ResponseEntity.badRequest().body("Cannot modify EventOrganizer that is marked as deleted");*/
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify EventOrganizer that is marked as deleted");
         }
         eventOrganizer.setInvalid();

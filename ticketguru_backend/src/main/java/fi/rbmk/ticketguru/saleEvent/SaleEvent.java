@@ -37,7 +37,7 @@ public class SaleEvent extends ResourceSupport {
 	@Column(name = "invalid")
 	private LocalDateTime invalid;
 
-	@NotNull(message = "Please enter the user ID")
+	@NotNull(message = "User is required")
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;

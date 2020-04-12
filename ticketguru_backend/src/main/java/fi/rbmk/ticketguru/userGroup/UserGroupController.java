@@ -2,8 +2,12 @@ package fi.rbmk.ticketguru.userGroup;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
@@ -25,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import fi.rbmk.ticketguru.constraintViolationParser.ConstraintViolationParser;
 import fi.rbmk.ticketguru.user.*;
 
 @RestController
@@ -34,6 +39,8 @@ public class UserGroupController {
     @Autowired
     UserGroupRepository uGRepository;
 
+    private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
     @PostMapping(produces = "application/hal+json")
     public ResponseEntity<?> add(@Valid @RequestBody UserGroup newUserGroup) {
         try {
@@ -41,9 +48,8 @@ public class UserGroupController {
             UserGroupLinks links = new UserGroupLinks(userGroup);
             userGroup.add(links.getAll());
             Resource<UserGroup> resource = new Resource<UserGroup>(userGroup);
-            return ResponseEntity.created(URI.create("/api/userGroups/" + userGroup.getUserGroup_id())).body(resource);
+            return ResponseEntity.created(URI.create(userGroup.getId().getHref())).body(resource);
         } catch (DuplicateKeyException e) {
-            /*return ResponseEntity.badRequest().body("Duplicate entry");*/
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Duplicate entry");
         }
 
@@ -53,10 +59,14 @@ public class UserGroupController {
     public ResponseEntity<?> edit(@RequestBody UserGroup newUserGroup, @PathVariable Long id) {
         UserGroup userGroup = uGRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (userGroup.getInvalid() != null) {
-            /*return ResponseEntity.badRequest().body("Cannot modify UserGroup that is marked as deleted");*/
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify UserGroup that is marked as deleted");
         }
-        if (newUserGroup.getName() != null && newUserGroup.getName() != "" && newUserGroup.getName() != userGroup.getName()) {
+        Set<ConstraintViolation<Object>> violations = validator.validate(newUserGroup);
+        if (!violations.isEmpty()) {
+            ConstraintViolationParser constraintViolationParser = new ConstraintViolationParser(violations, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(constraintViolationParser.parse());
+        }
+        if (newUserGroup.getName() != null && newUserGroup.getName() != userGroup.getName()) {
             userGroup.setName(newUserGroup.getName());
         }
         uGRepository.save(userGroup);
@@ -70,7 +80,6 @@ public class UserGroupController {
     ResponseEntity<?> delete(@PathVariable Long id) {
         UserGroup userGroup = uGRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (userGroup.getInvalid() != null) {
-            /*return ResponseEntity.badRequest().body("Cannot modify UserGroup that is marked as deleted");*/
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify UserGroup that is marked as deleted");
         }
     	userGroup.setInvalid();

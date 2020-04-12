@@ -29,7 +29,7 @@ public class TicketType extends ResourceSupport {
 	@Column(name = "ticket_type_id")
 	private Long ticketType_id;
 
-	@NotEmpty(message = "Ticket type is required")
+	@NotEmpty(message = "Ticket type name is required")
 	@Length(max = 100)
 	@Column(name = "name")
 	private String name;

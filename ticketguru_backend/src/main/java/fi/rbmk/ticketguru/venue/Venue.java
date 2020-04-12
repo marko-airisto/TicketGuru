@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
@@ -40,6 +41,7 @@ public class Venue extends ResourceSupport {
     @Column(name = "street_address")
     private String address;
 
+    @NotNull(message = "Postcode is required")
     @ManyToOne
     @JoinColumn(name = "postcode_id")
     private Postcode postcode;

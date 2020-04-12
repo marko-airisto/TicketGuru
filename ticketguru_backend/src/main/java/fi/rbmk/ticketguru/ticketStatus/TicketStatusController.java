@@ -4,8 +4,12 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -25,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import fi.rbmk.ticketguru.constraintViolationParser.ConstraintViolationParser;
 import fi.rbmk.ticketguru.ticket.*;
 
 @RestController
@@ -36,6 +41,8 @@ public class TicketStatusController {
     @Autowired
     TicketRepository tRepository;
 
+    private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
     @PostMapping(produces = "application/hal+json")
     public ResponseEntity<?> add(@Valid @RequestBody TicketStatus newTicketStatus) {
         try {
@@ -43,10 +50,8 @@ public class TicketStatusController {
             TicketStatusLinks links = new TicketStatusLinks(ticketStatus);
             ticketStatus.add(links.getAll());
             Resource<TicketStatus> resource = new Resource<TicketStatus>(ticketStatus);
-            return ResponseEntity.created(URI.create("/api/ticketStatuses/" + ticketStatus.getTicketStatus_id()))
-                    .body(resource);
+            return ResponseEntity.created(URI.create(ticketStatus.getId().getHref())).body(resource);
         } catch (DuplicateKeyException e) {
-            /*return ResponseEntity.badRequest().body("Duplicate entry");*/
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Duplicate entry");
         }
     }
@@ -55,10 +60,14 @@ public class TicketStatusController {
     public ResponseEntity<?> edit(@Valid @RequestBody TicketStatus newTicketStatus, @PathVariable Long id) {
         TicketStatus ticketStatus = tSRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: + id"));
         if (ticketStatus.getInvalid() != null) {
-            /*return ResponseEntity.badRequest().body("Cannot modify TicketStatus that is marked as deleted");*/
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify TicketStatus that is marked as deleted");
         }
-        if (newTicketStatus.getName() != null && newTicketStatus.getName() != "" && newTicketStatus.getName() != ticketStatus.getName()) {
+        Set<ConstraintViolation<Object>> violations = validator.validate(newTicketStatus);
+        if (!violations.isEmpty()) {
+            ConstraintViolationParser constraintViolationParser = new ConstraintViolationParser(violations, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(constraintViolationParser.parse());
+        }
+        if (newTicketStatus.getName() != null && newTicketStatus.getName() != ticketStatus.getName()) {
             ticketStatus.setName(newTicketStatus.getName());
         }
         tSRepository.save(ticketStatus);
