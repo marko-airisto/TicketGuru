@@ -2,8 +2,12 @@ package fi.rbmk.ticketguru.ageLimit;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validator;
+import javax.validation.Validation;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import fi.rbmk.ticketguru.constraintViolationParser.ConstraintViolationParser;
 import fi.rbmk.ticketguru.event.*;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +38,9 @@ import org.springframework.http.ResponseEntity;
 public class AgeLimitController {
 	
 	@Autowired
-	private AgeLimitRepository alRepository;
+    private AgeLimitRepository alRepository;
+
+    private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 	
     @PostMapping(produces = "application/hal+json")
     public ResponseEntity<?> add(@Valid @RequestBody AgeLimit newAgeLimit) {
@@ -42,7 +49,7 @@ public class AgeLimitController {
             AgeLimitLinks links = new AgeLimitLinks(ageLimit);
             ageLimit.add(links.getAll());
             Resource<AgeLimit> resource = new Resource<AgeLimit>(ageLimit);
-            return ResponseEntity.created(URI.create("/api/ageLimits/" + ageLimit.getAgeLimit_id())).body(resource);
+            return ResponseEntity.created(URI.create(ageLimit.getId().getHref())).body(resource);
         } catch (DuplicateKeyException e) {
             return ResponseEntity.badRequest().body("Duplicate entry");
         }
@@ -54,7 +61,12 @@ public class AgeLimitController {
         if (ageLimit.getInvalid() != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify AgeLimit that is marked as deleted");
         }
-        if (newAgeLimit.getName() != null && newAgeLimit.getName() != "" && newAgeLimit.getName() != ageLimit.getName()) {
+        Set<ConstraintViolation<Object>> violations = validator.validate(newAgeLimit);
+        if (!violations.isEmpty()) {
+            ConstraintViolationParser constraintViolationParser = new ConstraintViolationParser(violations, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(constraintViolationParser.parse());
+        }
+        if (newAgeLimit.getName() != null && newAgeLimit.getName() != ageLimit.getName()) {
             ageLimit.setName(newAgeLimit.getName());
         }
         if (newAgeLimit.getInfo() != null && newAgeLimit.getInfo() != ageLimit.getInfo()) {

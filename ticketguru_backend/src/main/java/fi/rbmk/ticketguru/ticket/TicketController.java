@@ -1,6 +1,11 @@
 package fi.rbmk.ticketguru.ticket;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
@@ -9,6 +14,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +23,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
+import fi.rbmk.ticketguru.constraintViolationParser.ConstraintViolationParser;
 import fi.rbmk.ticketguru.eventTicket.EventTicket;
 import fi.rbmk.ticketguru.eventTicket.EventTicketLinks;
 import fi.rbmk.ticketguru.eventTicket.EventTicketRepository;
@@ -38,11 +46,18 @@ public class TicketController {
     @Autowired
     TicketService tService;
 
+    private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
     @PatchMapping(value = "/{id}", produces = "application/hal+json")
     ResponseEntity<?> edit(@RequestBody Ticket newTicket, @PathVariable Long id) {
         Ticket ticket = tRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (ticket.getInvalid() != null) {
-            return ResponseEntity.badRequest().body("Cannot modify Ticket that is marked as deleted");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify Ticket that is marked as deleted");
+        }
+        Set<ConstraintViolation<Object>> violations = validator.validate(newTicket);
+        if (!violations.isEmpty()) {
+            ConstraintViolationParser constraintViolationParser = new ConstraintViolationParser(violations, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(constraintViolationParser.parse());
         }
         if (newTicket.getTicketStatus() != null && newTicket.getTicketStatus() != ticket.getTicketStatus()) {
             ticket.setTicketStatus(newTicket.getTicketStatus());
@@ -58,7 +73,7 @@ public class TicketController {
     ResponseEntity<?> delete(@PathVariable Long id) {
         Ticket ticket = tRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invalid ID: " + id));
         if (ticket.getInvalid() != null) {
-            return ResponseEntity.badRequest().body("Cannot modify Ticket that is marked as deleted");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify Ticket that is marked as deleted");
         }
         ticket.setInvalid();
         tRepository.save(ticket);

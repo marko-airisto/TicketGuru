@@ -28,12 +28,12 @@ public class Postcode extends ResourceSupport {
 	private String postcode_id;
 
 	@NotEmpty(message = "City name is required")
-	@Length(max = 250)
+	@Length(max = 100)
 	@Column(name = "city")
 	private String city;
 
 	@NotEmpty(message = "Country name is required")
-	@Length(max = 250)
+	@Length(max = 100)
 	@Column(name = "country")
 	private String country;
 

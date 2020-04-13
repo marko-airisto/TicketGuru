@@ -56,12 +56,12 @@ public class Event extends ResourceSupport {
     @JoinColumn(name = "event_organizer_id")
     private EventOrganizer eventOrganizer;
 
-    @NotNull(message = "Event venue is required")
+    @NotNull(message = "Venue is required")
     @ManyToOne
     @JoinColumn(name = "venue_id")
     private Venue venue;
 
-    @NotNull(message = "Event ticket capacity is required")
+    @NotNull(message = "Ticket capacity is required")
     @Column(name = "ticket_capacity")
     private Long ticketCapacity;
 
