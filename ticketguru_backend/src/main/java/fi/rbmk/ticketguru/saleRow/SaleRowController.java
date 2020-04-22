@@ -80,7 +80,7 @@ public class SaleRowController {
             if (eventTicket.getInvalid() != null) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot create SaleRow with EventTicket that is marked as deleted");
             }
-            Long discount = requestBody.get("discount").asLong();
+            Long discount = requestBody.has("discount") ? requestBody.get("discount").asLong() : 0;
             SaleRow saleRow = sRRepository.save(new SaleRow(saleEvent, discount));
             tService.generateTickets(saleRow, eventTicket, requestBody.get("count").asLong());
             SaleRowLinks links = new SaleRowLinks(saleRow);
