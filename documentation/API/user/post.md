@@ -6,7 +6,7 @@ Create a User.
 
 **Method** : `POST`
 
-**Auth required** : NO
+**Auth required** : YES
 
 **Permissions required** : None
 
@@ -61,16 +61,6 @@ Provide name of User to be created.
 ```
 
 ## Error Responses
-
-**Condition** : 
-
-**Code** : 
-
-**Headers** : 
-
-**Content** : 
-
-### Or
 
 **Condition** : If fields are missed.
 
