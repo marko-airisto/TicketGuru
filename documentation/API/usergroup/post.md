@@ -16,7 +16,7 @@ Provide name of UserGroup to be created.
 
 ```json
 {
-	 "name": "[]"
+	 "name": "[VARCHAR 50 chars max]"
 }
 ```
 
