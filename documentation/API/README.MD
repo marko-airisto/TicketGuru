@@ -4,13 +4,11 @@ Here's documentation for TicketGuru REST API.
 
 ## Base-URL
 
-`http://localhost:8080/api`
+`https://rbmk-ticketguru-backend.herokuapp.com`
 
 ## Open Endpoints
 
-Open endpoints require no Authentication.
-
-At the moment all endpoints are open. Authentication will be added soon.
+There are no open endpoints.
 
 ## Endpoints that require Authentication
 
