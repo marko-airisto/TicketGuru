@@ -31,16 +31,6 @@ Edit a User.
 
 ## Error Responses
 
-**Condition** : 
-
-**Code** : 
-
-**Headers** : 
-
-**Content** : 
-
-### Or
-
 **Condition** : If fields are missed.
 
 **Code** : `400 BAD REQUEST`
