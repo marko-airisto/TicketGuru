@@ -29,7 +29,7 @@ Show all Users the active User can access and with what permission level.
 **Content** : In this example, the User can see a list of users, with a link to the Users Usergroup and sale events.
 
 ```json
-[
+
   {
   "_embedded": {
     "users": [
@@ -95,5 +95,5 @@ Show all Users the active User can access and with what permission level.
     }
   }
 }
-]
+
 ```
