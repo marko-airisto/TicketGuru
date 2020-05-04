@@ -6,13 +6,13 @@ Delete a User
 
 **Method** : `DELETE`
 
-**Auth required** : NO
+**Auth required** : YES
 
 **Permissions required** : None
 
 **Data constraints**
 
-Provide the URL of User to be deleted e.g. http://localhost:8080/api/users/4
+Provide the URL of User to be deleted e.g. https://rbmk-ticketguru-backend.herokuapp.com/api/users/4
 
 
 ## Success Response
