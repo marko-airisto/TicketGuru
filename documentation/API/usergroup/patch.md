@@ -28,6 +28,7 @@ Edit a Usergroup.
 
 **Content example**
 
+```json
 {
   "name": "administrator",
   "created": "2020-04-11T00:49:01.27566",
@@ -41,6 +42,7 @@ Edit a Usergroup.
     }
   }
 }
+
 
 ## Error Responses
 
