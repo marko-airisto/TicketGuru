@@ -52,10 +52,29 @@ In authentication, when the user successfully logs in using their credentials, a
 
 Whenever the user wants to access a protected route or resource, the user agent should send the JWT, typically in the Authorization header using the Bearer schema. The content of the header might look like the following:
 
-```Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwZXBlIiwiZXhwIjoxNTg4NTkxOTA2LCJpYXQiOjE1ODg1NzM5MDZ9.4_fRf7tDGj1zjqXqCxZz2Q1_UaS6b_aOSA5RyhaOX-l-cukIDvSJLOR81B6Vj3ASvnMbo2r-uZ7ptlrnqroyKg```
+```
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwZXBlIiwiZXhwIjoxNTg4NTkxOTA2LCJpYXQiOjE1ODg1NzM5MDZ9.4_fRf7tDGj1zjqXqCxZz2Q1_UaS6b_aOSA5RyhaOX-l-cukIDvSJLOR81B6Vj3ASvnMbo2r-uZ7ptlrnqroyKg
+```
 
 This is a stateless authentication mechanism as the user state is never saved in server memory. The server's protected routes will check for a valid JWT in the Authorization header, and if it is present, the user will be allowed to access protected resources. As JWTs are self-contained, all the necessary information is there, reducing the need to query the database multiple times.
 
-**Adding the token in query**
+**Example using fetch**
+
+```
+
+fetch('https://rbmk-ticketguru-backend.herokuapp.com/api/saleEvents', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${auth.token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user: 'https://rbmk-ticketguru-backend.herokuapp.com/api/users/3',
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => setSaleEvent(data))
+      .catch((err) => console.error(err));
+      ```
 
 
