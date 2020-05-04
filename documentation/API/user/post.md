@@ -16,7 +16,7 @@ Provide name of User to be created.
 
 ```json
 {
-    "name": "[VARCHAR 50 chars max]"
+    "username": "[VARCHAR 50 chars max]"
     "password": "[VARCHAR 100 chars max]"
     "active": "[Boolean]"
     "userGroup": "[userGoup href]"
@@ -27,10 +27,10 @@ Provide name of User to be created.
 
 ```json
 {
-    "name": "Johnny",
+    "username": "Igor",
     "password": "UliUli",
     "active": "true",
-    "userGroup" : "http://localhost:8080/api/userGroups/2"
+    "userGroup" : "https://rbmk-ticketguru-backend.herokuapp.com/api/userGroups/10"
 }
 ```
 
@@ -43,18 +43,21 @@ Provide name of User to be created.
 **Content example**
 
 ```json
- {
-  "name": "Johnny",
+{
+  "username": "Igor",
+  "name": "Igor",
+  "created": "2020-05-04T07:58:12.202",
+  "invalid": null,
   "active": true,
   "_links": {
     "self": {
-      "href": "http://localhost:8080/api/users/5"
+      "href": "https://rbmk-ticketguru-backend.herokuapp.com/api/users/6"
     },
     "userGroup": {
-      "href": "http://localhost:8080/api/users/5/userGroup"
+      "href": "https://rbmk-ticketguru-backend.herokuapp.com/api/users/6/userGroup"
     },
     "saleEvent": {
-      "href": "http://localhost:8080/api/users/5/saleEvents"
+      "href": "https://rbmk-ticketguru-backend.herokuapp.com/api/users/6/saleEvents"
     }
   }
 }
