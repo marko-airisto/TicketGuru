@@ -6,7 +6,7 @@ Edit a User.
 
 **Method** : `PATCH`
 
-**Auth required** : NO
+**Auth required** : YES
 
 **Permissions required** : None
 
