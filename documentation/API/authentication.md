@@ -75,6 +75,7 @@ fetch('https://rbmk-ticketguru-backend.herokuapp.com/api/saleEvents', {
       .then((response) => response.json())
       .then((data) => setSaleEvent(data))
       .catch((err) => console.error(err));
-      ```
+      
+```
 
 
