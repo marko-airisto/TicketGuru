@@ -25,7 +25,7 @@ Each endpoint manipulates or displays information::
 * [Users](user/post.md) : `POST /api/users/`
 * [Users](user/patch.md) : `PATCH /api/users/{id}`
 * [Users](user/delete.md) : `DELETE /api/users/{id}`
-* [Usergroups](usergroups/get.md) : `GET /api/userGroups/`
-* [Usergroups](usergroups/post.md) : `POST /api/userGroups/`
-* [Usergroups](usergroups/patch.md) : `PATCH /api/userGroups/{id}`
-* [Usergroups](usergroups/delete.md) : `DELETE /api/userGroups/{id}`
+* [Usergroups](usergroup/get.md) : `GET /api/userGroups/`
+* [Usergroups](usergroup/post.md) : `POST /api/userGroups/`
+* [Usergroups](usergroup/patch.md) : `PATCH /api/userGroups/{id}`
+* [Usergroups](usergroup/delete.md) : `DELETE /api/userGroups/{id}`
