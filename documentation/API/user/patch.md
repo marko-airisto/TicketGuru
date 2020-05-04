@@ -6,7 +6,7 @@ Edit a User.
 
 **Method** : `PATCH`
 
-**Auth required** : NO
+**Auth required** : YES
 
 **Permissions required** : None
 
@@ -30,16 +30,6 @@ Edit a User.
 **Code** : `201 Created`
 
 ## Error Responses
-
-**Condition** : 
-
-**Code** : 
-
-**Headers** : 
-
-**Content** : 
-
-### Or
 
 **Condition** : If fields are missed.
 
