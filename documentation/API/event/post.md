@@ -48,7 +48,7 @@ Provide below required values.
 
 **Condition** : If everything is OK.
 
-**Code** : `200 OK`
+**Code** : `201 Created`
 
 **Content example**
 

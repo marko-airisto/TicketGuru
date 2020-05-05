@@ -117,7 +117,68 @@ Get a single Ticket the active User can access with current permission level.
     "status": 404,
     "error": "Not Found",
     "message": "Invalid ID: {id}",
-    "path": "/api/events/{id}"
+    "path": "/api/tickets/{id}"
+}
+```
+</br>
+
+# Validate a Ticket
+
+Validate a ticket.
+
+**URL** : `https://rbmk-ticketguru-backend.herokuapp.com/api/tickets/{checksum}`
+
+**Method** : `GET`
+
+**Auth required** : Yes
+
+**Permissions required** : None
+
+**Data constraints** : `{}`
+
+## Success Response
+
+**Condition** : Ticket found.
+
+**Code** : `200 OK`
+
+**Content** :
+
+```json
+{
+  "checksum": "String",
+  "created": "LocalDateTime",
+  "invalid": "LocalDateTime",
+  "_links": {
+    "self": {
+      "href": "https://rbmk-ticketguru-backend.herokuapp.com/api/tickets/{id}"
+    },
+    "eventTicket": {
+      "href": "https://rbmk-ticketguru-backend.herokuapp.com/api/tickets/{id}/eventTicket"
+    },
+    "ticketStatus": {
+      "href": "https://rbmk-ticketguru-backend.herokuapp.com/api/tickets/{id}/ticketStatus"
+    }
+  }
+}
+```
+</br>
+
+## Failure Response
+
+**Condition** : Ticket not found or checksum.
+
+**Code** : `404 NOT FOUND`
+
+**Content** :
+
+```json
+{
+    "timestamp": "LocalDateTime",
+    "status": 404,
+    "error": "Not Found",
+    "message": "Invalid Checksum",
+    "path": "/api/tickets/validate/{checksum}"
 }
 ```
 </br>
