@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import fi.rbmk.ticketguru.eventTicket.EventTicket;
@@ -39,10 +40,10 @@ public class TicketServiceTest {
         SaleRow saleRow = saleRowRepository.findById(Integer.toUnsignedLong(1)).orElseThrow(() -> new ResourceNotFoundException());
         EventTicket eventTicket = eventTicketRepository.findById(Integer.toUnsignedLong(1)).orElseThrow(() -> new ResourceNotFoundException());
     
-        List<Ticket> ticketList = ticketService.generateTickets(saleRow, eventTicket, Integer.toUnsignedLong(10));
+        ResponseEntity<?> ticketList = ticketService.generateTickets(saleRow, eventTicket, Integer.toUnsignedLong(10));
 
-        assertEquals(10, ticketList.size());
-        for (Ticket ticket : ticketList) {
+        assertEquals(10, ((List<Ticket>)ticketList.getBody()).size());
+        for (Ticket ticket : ((List<Ticket>)ticketList.getBody())) {
             assertEquals(null, ticket.getInvalid());
             assertNotEquals(null, ticket.getChecksum());
             assertNotEquals(null, ticket.getCreated());
