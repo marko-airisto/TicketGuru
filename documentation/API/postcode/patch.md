@@ -28,8 +28,9 @@ Provide ID and values to modify.
 
 ```json
 {
-    "name": "K30",
-    "info": "Kielletty alle 30-vuotiailta!"
+    "postcode_id": "00760",
+    "city": "Puistola",
+    "country": "Suomi"
 }
 ```
 
@@ -43,16 +44,19 @@ Provide ID and values to modify.
 
 ```json
 {
-  "name": "K30",
-  "info": "Kielletty alle 30-vuotiailta!",
-  "created": "2020-04-11T00:52:20.565417",
+  "city": "Puistola",
+  "country": "Suomi",
+  "created": "2020-05-06T19:01:00.805",
   "invalid": null,
   "_links": {
     "self": {
-      "href": "https://rbmk-ticketguru-backend.herokuapp.com/api/ageLimits/3"
+      "href": "https://rbmk-ticketguru-backend.herokuapp.com/api/postcodes/00760"
     },
-    "events": {
-      "href": "https://rbmk-ticketguru-backend.herokuapp.com/api/ageLimits/3/events"
+    "eventOrganizers": {
+      "href": "https://rbmk-ticketguru-backend.herokuapp.com/api/postcodes/00760/eventOrganizers"
+    },
+    "venues": {
+      "href": "https://rbmk-ticketguru-backend.herokuapp.com/api/postcodes/00760/venues"
     }
   }
 }
@@ -68,11 +72,11 @@ Provide ID and values to modify.
 
 ```json
 {
-    "timestamp": "LocalDateTime",
+    "timestamp": "2020-05-06T19:19:55.633+0000",
     "status": 405,
     "error": "Method Not Allowed",
     "message": "Request method 'PATCH' not supported",
-    "path": "/api/ageLimits/"
+    "path": "/api/postcodes/"
 }
 ```
 </br>
@@ -85,16 +89,16 @@ Provide ID and values to modify.
 
 ```json
 {
-    "timestamp": "LocalDateTime",
+    "timestamp": "2020-05-06T19:18:05.031+0000",
     "status": 404,
     "error": "Not Found",
-    "message": "Invalid ID: {id}",
-    "path": "/api/ageLimits/{id}"
+    "message": "Invalid ID: 00799",
+    "path": "/api/postcodes/00799"
 }
 ```
 </br>
 
-**Condition** : AgeLimit is marked as deleted.
+**Condition** : postcode is marked as deleted.
 
 **Code** : `400 Bad Request`
 
@@ -102,10 +106,10 @@ Provide ID and values to modify.
 
 ```json
 {
-    "timestamp": "LocalDateTime",
+    "timestamp": "2020-05-06T19:19:19.495+0000",
     "status": 400,
     "error": "Bad Request",
-    "message": "Cannot modify AgeLimit that is marked as deleted",
-    "path": "/api/ageLimits/{id}"
+    "message": "Cannot modify Postcode that is marked as deleted",
+    "path": "/api/postcodes/00750"
 }
 ```
