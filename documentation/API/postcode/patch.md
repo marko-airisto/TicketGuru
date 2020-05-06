@@ -2,7 +2,7 @@
 
 Edit an postcode.
 
-**URL** : `https://rbmk-ticketguru-backend.herokuapp.com/api/postcodes/{id}`
+**URL** : `/api/postcodes/{id}`
 
 **Method** : `PATCH`
 
