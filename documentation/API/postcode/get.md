@@ -14,7 +14,7 @@ Get all postcodes the active User can access with current permission level.
 
 ## Success Response
 
-**Condition** : AgeLimits found.
+**Condition** : postcodes found.
 
 **Code** : `200 OK`
 
