@@ -111,7 +111,7 @@ Provide ID and values to modify.
 ```
 </br>
 
-**Condition** : saleEvent is marked as deleted.
+**Condition** : venue is marked as deleted.
 
 **Code** : `400 Bad Request`
 
