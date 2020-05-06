@@ -56,7 +56,7 @@ Get all venues the active User can access with current permission level.
 ```
 </br>
 
-**Condition** : No venues. (Miten tän saa tarkistettua? Pitääkö tuhota ensin kaikki ikärajat?)
+**Condition** : No venues
 
 **Code** : `404 Not Found`
 
@@ -83,7 +83,7 @@ Get a single venue the active User can access with current permission level.
 
 ## Success Response
 
-**Condition** : AgeLimit found.
+**Condition** : VEnue found.
 
 **Code** : `200 OK`
 
