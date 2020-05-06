@@ -18,9 +18,9 @@ Provide ID and values to modify.
 
 ```json
 {
-    "postcode_id" : "String 10 chars max",
-  	"city" : "String 500 chars max",
-	  "country" : "String 500 chars max"
+	"postcode_id" : "String 10 chars max",
+ 	"city" : "String 500 chars max",
+	"country" : "String 500 chars max"
 }
 ```
 
