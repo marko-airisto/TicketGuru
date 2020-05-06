@@ -63,7 +63,7 @@ Provide the URL of postcode to be deleted e.g. /api/postcodes/3
 ```
 </br>
 
-**Condition** : AgeLimit is already marked as deleted.
+**Condition** : postcode is already marked as deleted.
 
 **Code** : `400 Bad Request`
 
