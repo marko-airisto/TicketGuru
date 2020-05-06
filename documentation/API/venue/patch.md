@@ -1,8 +1,8 @@
-# Edit an AgeLimit
+# Edit an venue
 
-Edit an AgeLimit.
+Edit an venue.
 
-**URL** : `/api/saleEvents/{id}`
+**URL** : `/api/venues/{id}`
 
 **Method** : `PATCH`
 
