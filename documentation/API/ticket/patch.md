@@ -1,38 +1,32 @@
-# Edit an Event
+# Edit a ticket
 
-Edit an Event.
+Edit a Ticket.
 
-**URL** : `/api/eventTickets/{id}`
+**URL** : `https://rbmk-ticketguru-backend.herokuapp.com/api/tickets/{id}`
 
 **Method** : `PATCH`
 
 **Content-Type** : `application/json`
 
-**Auth required** : NO
+**Auth required** : Yes
 
 **Permissions required** : None
 
 **Data constraints**
 
-Provide id of Event to be modified.
+Provide ID and values to modify.
 
 ```json
 {
-  "ticketCount": "[LONG]",
-  "price": "[DOUBLE]",
-  "event": "[event_ID]",
-  "ticketType": "[ticketType_ID]",
+    "ticketStatus": "ticket_status_id"
 }
 ```
 
-**Data example** All required fields must be sent.
+**Data example**
 
 ```json
 {
-  "ticketCount": "500",
-  "price": 15.00,
-  "event": "http://127.0.0.1:8080/api/events/1",
-  "ticketType": "http://127.0.0.1:8080/ticketTypes/2"
+    "ticketStatus": "https://rbmk-ticketguru-backend.herokuapp.com/api/ticketStatuses/2"
 }
 ```
 
@@ -46,18 +40,18 @@ Provide id of Event to be modified.
 
 ```json
 {
-  "ticketCount": 500,
-  "price": 15.00,
-  "eventTicket_ID": 2,
+  "checksum": "65b189ckqlnag8ltmmdv2q39nf",
+  "created": "2020-04-22T10:41:57.924",
+  "invalid": null,
   "_links": {
     "self": {
-      "href": "http://127.0.0.1:8080/api/eventTickets/2"
+      "href": "https://rbmk-ticketguru-backend.herokuapp.com/api/tickets/20"
     },
-    "event": {
-      "href": "http://127.0.0.1:8080/api/eventTickets/2/event"
+    "eventTicket": {
+      "href": "https://rbmk-ticketguru-backend.herokuapp.com/api/tickets/20/eventTicket"
     },
-    "ticketType": {
-      "href": "http://127.0.0.1:8080/api/eventTickets/2/ticketType"
+    "ticketStatus": {
+      "href": "https://rbmk-ticketguru-backend.herokuapp.com/api/tickets/20/ticketStatus"
     }
   }
 }
@@ -65,55 +59,75 @@ Provide id of Event to be modified.
 
 ## Error Responses
 
-**Condition** : 
+**Condition** : ID is missing.
 
-**Code** : 
-
-**Headers** : 
-
-**Content** : 
-
-### Or
-
-**Condition** : If fields are missed.
-
-**Code** : `400 BAD REQUEST`
+**Code** : `405 Method not allowed`
 
 **Content example**
 
 ```json
 {
-    "timestamp": "2020-03-12T12:04:41.640+0000",
+    "timestamp": "LocalDateTime",
+    "status": 405,
+    "error": "Method Not Allowed",
+    "message": "Request method 'PATCH' not supported",
+    "path": "/api/tickets/"
+}
+```
+</br>
+
+**Condition** : Invalid ID.
+
+**Code** : `404 Not Found`
+
+**Content example**
+
+```json
+{
+    "timestamp": "LocalDateTime",
+    "status": 404,
+    "error": "Not Found",
+    "message": "Invalid ID: {id}",
+    "path": "/api/tickets/{id}"
+}
+```
+</br>
+
+**Condition** : Ticket is marked as deleted.
+
+**Code** : `400 Bad Request`
+
+**Content example**
+
+```json
+{
+    "timestamp": "LocalDateTime",
+    "status": 400,
+    "error": "Bad Request",
+    "message": "Cannot modify Ticket that is marked as deleted",
+    "path": "/api/tickets/{id}"
+}
+```
+
+</br>
+
+**Condition** : Invalid ticket_status_id.
+
+**Code** : `400 Bad Request`
+
+**Content example**
+
+```json
+{
+    "timestamp": "LocalDateTime",
     "status": 400,
     "error": "Bad Request",
     "errors": [
         {
-            "codes": [
-                "NotNull.eventTicket.event",
-                "NotNull.event",
-                "NotNull.fi.rbmk.ticketguru.event.Event",
-                "NotNull"
-            ],
-            "arguments": [
-                {
-                    "codes": [
-                        "eventTicket.event",
-                        "event"
-                    ],
-                    "arguments": null,
-                    "defaultMessage": "event",
-                    "code": "event"
-                }
-            ],
-            "defaultMessage": "Event must be set",
-            "objectName": "eventTicket",
-            "field": "event",
-            "rejectedValue": null,
-            "bindingFailure": false,
-            "code": "NotNull"
+            "defaultMessage": "TicketStatus is required",
+            "field": "ticketStatus",
+            "rejectedValue": "null"
         }
-    ],
-    "message": "Validation failed for object='eventTicket'. Error count: 1",
-    "path": "/api/eventTickets"
+    ]
 }
 ```

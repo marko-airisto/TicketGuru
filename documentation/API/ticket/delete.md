@@ -1,19 +1,18 @@
-# Delete a Event
+# Delete a ticket
 
-Delete a Event ticket
+Delete a Ticket
 
-**URL** : `/api/eventTickets/{id}`
+**URL** : `https://rbmk-ticketguru-backend.herokuapp.com/api/tickets/{id}`
 
 **Method** : `DELETE`
 
-**Auth required** : NO
+**Auth required** : Yes
 
 **Permissions required** : None
 
 **Data constraints**
 
-Provide the URL of Event to be deleted e.g. http://localhost:8080/api/eventTickets/4
-
+Provide the URL of Ticket to be deleted e.g. https://rbmk-ticketguru-backend.herokuapp.com/api/tickets/4
 
 ## Success Response
 
@@ -24,12 +23,30 @@ Provide the URL of Event to be deleted e.g. http://localhost:8080/api/eventTicke
 **Content example**
 
 ```json
- {}
+{}
 ```
+</br>
 
 ## Error Responses
 
-**Condition** : If {id} is missing.
+**Condition** : ID is missing.
+
+**Code** : `405 Method not allowed`
+
+**Content example**
+
+```json
+{
+    "timestamp": "LocalDateTime",
+    "status": 405,
+    "error": "Method Not Allowed",
+    "message": "Request method 'DELETE' not supported",
+    "path": "/api/tickets/"
+}
+```
+</br>
+
+**Condition** : Invalid ID.
 
 **Code** : `404 Not Found`
 
@@ -37,10 +54,27 @@ Provide the URL of Event to be deleted e.g. http://localhost:8080/api/eventTicke
 
 ```json
 {
-     "timestamp": "2020-03-12T10:57:14.902+0000",
+    "timestamp": "LocalDateTime",
     "status": 404,
     "error": "Not Found",
-    "message": "Invalid ID: 4",
-    "path": "/api/eventTickets/4"
+    "message": "Invalid ID: {id}",
+    "path": "/api/tickets/{id}"
+}
+```
+</br>
+
+**Condition** : Ticket is already marked as deleted.
+
+**Code** : `400 Bad Request`
+
+**Content example**
+
+```json
+{
+    "timestamp": "LocalDateTime",
+    "status": 400,
+    "error": "Bad Request",
+    "message": "Cannot modify Ticket that is marked as deleted",
+    "path": "/api/tickets/{id}"
 }
 ```
