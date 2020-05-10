@@ -82,11 +82,11 @@ Esimerkillinen tapahtuman luonti/editointi näkymä.
 
 ## Tietokanta
 
-- [EER-kaavio tietokannasta](https://github.com/marko-airisto/TicketGuru/blob/master/EER.pdf)
+- [EER-kaavio tietokannasta](https://github.com/marko-airisto/TicketGuru/blob/master/documentation/DB/EER.png)
 
 ## Tietohakemisto
 
-- [Tietohakemisto](https://github.com/marko-airisto/TicketGuru/blob/master/TicketGuruDB.md)
+- [Tietohakemisto](https://github.com/marko-airisto/TicketGuru/blob/master/documentation/DB/TicketGuruDB.md)
 
 ## REST API dokumentaatio
 
