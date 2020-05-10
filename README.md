@@ -122,6 +122,7 @@ https://rbmk-ticketguru-backend.herokuapp.com/api/login
   
 (Referenssitoteutus UI:sta)
 https://ticketguru-heroku.herokuapp.com/auth/login
+  
 Järjestelmään kirjaudutaan sisään joko pääkäyttäjätason tai myyntihenkilön tunnuksilla.
 
 Järjestelmää käytetään joko REST API:n kautta. Dokumentaatio API-kutsuista löytyy täältä: [Tietohakemisto](https://github.com/marko-airisto/TicketGuru/blob/master/documentation/DB/README.md)
