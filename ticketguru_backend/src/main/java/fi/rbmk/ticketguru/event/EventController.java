@@ -122,7 +122,7 @@ public class EventController {
         if (newEvent.getInfo() != null && newEvent.getInfo() != event.getInfo()) {
             event.setInfo(newEvent.getInfo());
         }
-        Set<ConstraintViolation<Object>> violations = validator.validate(newEvent);
+        Set<ConstraintViolation<Object>> violations = validator.validate(event);
         if (!violations.isEmpty()) {
             ConstraintViolationParser constraintViolationParser = new ConstraintViolationParser(violations, HttpStatus.BAD_REQUEST);
             return ResponseEntity.badRequest().body(constraintViolationParser.parse());
