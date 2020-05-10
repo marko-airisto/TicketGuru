@@ -70,23 +70,19 @@ Alkuperäinen UI wireframe dokumentti, josta näkyy perus toiminallisuus.
 
 Esimerkillinen landing page sisäänkirjautumisen jälkeen.
 
-- [Homepage](https://github.com/marko-airisto/TicketGuru/blob/master/images/Homepage.png)
+- [Homepage](https://github.com/marko-airisto/TicketGuru/blob/master/documentation/images/Homepage.png)
 
 Esimerkillinen lipunmyynti näkymä.
 
-- [Ticket Window](https://github.com/marko-airisto/TicketGuru/blob/master/images/ChooseTicket.png)
+- [Ticket Window](https://github.com/marko-airisto/TicketGuru/blob/master/documentation/images/ChooseTicket.png)
 
 Esimerkillinen tapahtuman luonti/editointi näkymä.
 
-- [Edit Event](https://github.com/marko-airisto/TicketGuru/blob/master/images/EditTicket.png)
+- [Edit Event](https://github.com/marko-airisto/TicketGuru/blob/master/documentation/images/EditTicket.png)
 
-## Tietokanta
+## Tietokantadokumentaatio
 
-- [EER-kaavio tietokannasta](https://github.com/marko-airisto/TicketGuru/blob/master/documentation/DB/EER.png)
-
-## Tietohakemisto
-
-- [Tietohakemisto](https://github.com/marko-airisto/TicketGuru/blob/master/documentation/DB/TicketGuruDB.md)
+- [Tietohakemisto](https://github.com/marko-airisto/TicketGuru/blob/master/documentation/DB/README.md)
 
 ## REST API dokumentaatio
 
