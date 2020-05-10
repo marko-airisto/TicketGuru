@@ -1,145 +1,173 @@
 ## TicketGuru-tietokanta
 
-> ### _Postcodes_
-> _Postcodes-taulu sisältää kaupunkien postinumerot sekä._
+> ### _postcodes_
+> _postcodes-taulu sisältää kaupunkien postinumerot, nimet sekä maat._
 >
 > Kenttä | Tyyppi | Kuvaus
 > ------ | ------ | ------
-> Postcode_ID | varchar(5) PK | Postinumeron id, postinumero
-> City | varchar(100) |  Postinumeroon liitetty kaupunki
-> Country | varchar(100) |  Maa, jossa postinumero sekä postinumeroon liitetty kaupunki sijaitsee
+> postcode_id | varchar(10) PK NN | Postinumeron id, postinumero
+> city | varchar(100) NN |  Postinumeroon liitetty kaupunki
+> country | varchar(100) NN |  Maa, jossa postinumero sekä postinumeroon liitetty kaupunki sijaitsee
+> created | timestamp NN | Aikaleima jolloin tietue on luotu
+> invalid | timestamp | Aikaleima jolloin tietue on merkitty poistetuksi
 
-> ### _EventTypes_
-> _EventTypes-taulu sisältää tapahtumien tyyppiluokat._
+> ### _event_types_
+> _event_types-taulu sisältää tapahtumien tyyppiluokat._
 >
 > Kenttä | Tyyppi | Kuvaus
 > ------ | ------ | ------
-> EventType_ID | int PK | Tapahtumatyypin id
-> EventTypeName | varchar(100) |  Tapahtumatyypin nimi
-> EventTypeInfo | varchar(500) | Tapahtumatyypin kuvaus (jätetään pois?)
+> event_type_id | bigint PK NN | Tapahtumatyypin id
+> name | varchar(100) NN |  Tapahtumatyypin nimi
+> info | varchar(500) | Tapahtumatyypin kuvaus (vaihtoehtoinen)
+> created | timestamp NN | Aikaleima jolloin tietue on luotu
+> invalid | timestamp | Aikaleima jolloin tietue on merkitty poistetuksi
 
-> ### _AgeLimits_
-> _AgeLimits-taulu sisältää ikärajaluokat._
+> ### _age_limits_
+> _age_limits-taulu sisältää ikärajaluokat._
 >
 > Kenttä | Tyyppi | Kuvaus
 > ------ | ------ | ------
-> AgeLimit_ID | int PK | Ikärajaluokan id
-> AgeLimitName | varchar(50) |  Ikärajaluokan nimi
-> AgeLimitSpecifier | varchar(500) | Ikärajaluokan tarkenne
+> age_limit_id | bigint PK NN | Ikärajaluokan id
+> name | varchar(50) |  Ikärajaluokan nimi
+> info | varchar(500) | Ikärajaluokan tarkenne
+> created | timestamp NN | Aikaleima jolloin tietue on luotu
+> invalid | timestamp | Aikaleima jolloin tietue on merkitty poistetuksi
 
-> ### _TicketTypes_
-> _TicketTypes-taulu sisältää lippujen tyyppiluokat._
+> ### _ticket_types_
+> _ticket_types-taulu sisältää lippujen tyyppiluokat._
 >
 > Kenttä | Tyyppi | Kuvaus
 > ------ | ------ | ------
-> TicketType_ID | int PK | Lipputyypin id
-> TicketTypeName | varchar(100) |  Lipputyypin nimi
+> ticket_type_id | bigint PK NN | Lipputyypin id
+> name | varchar(100) NN |  Lipputyypin nimi
+> created | timestamp NN | Aikaleima jolloin tietue on luotu
+> invalid | timestamp | Aikaleima jolloin tietue on merkitty poistetuksi
 
-> ### _TicketStatuses_
-> _TicketStatuses-taulu sisältää lippujen tilanneluokat._
+> ### _ticket_statuses_
+> _ticket_statuses-taulu sisältää lippujen tilanneluokat._
 >
 > Kenttä | Tyyppi | Kuvaus
 > ------ | ------ | ------
-> TicketStatus_ID | int PK | Lipun tilanne id
-> TicketStatusName | varchar(10) |  Lipun tilanteen nimi
+> ticket_status_id | bigint PK NN | Lipun tilanne id
+> name | varchar(50) NN |  Lipun tilanteen nimi
+> created | timestamp NN | Aikaleima jolloin tietue on luotu
+> invalid | timestamp | Aikaleima jolloin tietue on merkitty poistetuksi
 
-> ### _UserGroups_
-> _UserGroups-taulu sisältää käyttäjäryhmätiedot._
+> ### _user_groups_
+> _user_groups-taulu sisältää käyttäjäryhmätiedot._
 >
 > Kenttä | Tyyppi | Kuvaus
 > ------ | ------ | ------
-> UserGroup_ID | int PK | Käyttäjäryhmä id
-> UserGroupName | varchar(100) |  Käyttäjäryhmän nimi
+> user_group_id | bigint PK NN | Käyttäjäryhmä id
+> name | varchar(100) NN |  Käyttäjäryhmän nimi
+> created | timestamp NN | Aikaleima jolloin tietue on luotu
+> invalid | timestamp | Aikaleima jolloin tietue on merkitty poistetuksi
 
-> ### _Users_
-> _Users-taulu sisältää käyttäjät._
+> ### _users_
+> _users-taulu sisältää käyttäjät._
 >
 > Kenttä | Tyyppi | Kuvaus
 > ------ | ------ | ------
-> User_ID | int PK | Käyttäjä id
-> UserGroup_ID | int FK |  Käyttäjän käyttäjäryhmä, viittaus [UserGroups](#UserGroups)-tauluun
-> UserName | varchar(50) | Käyttäjän nimi 
-> Password | varchar(100) | Käyttäjän salasana
+> user_id | bigint PK NN | Käyttäjä id
+> name | varchar(100) | Käyttäjän nimi
+> usermame | varchar(50) NN | Käyttäjätunnus 
+> password | varchar(250) NN | Käyttäjän salasana hashattuna
+> user_group_id | bigint FK NN |  Käyttäjän käyttäjäryhmä, viittaus [user_groups](#user_groups)-tauluun
+> created | timestamp NN | Aikaleima jolloin tietue on luotu
+> invalid | timestamp | Aikaleima jolloin tietue on merkitty poistetuksi
 
-> ### _EventOrganizers_
-> _EventOrganizers-taulu sisältää tapahtumajärjestäjät._
+> ### _event_organizers_
+> _event_organizers-taulu sisältää tapahtumajärjestäjät._
 >
 > Kenttä | Tyyppi | Kuvaus
 > ------ | ------ | ------
-> EventOrganizer_ID | int PK | Tapahtumajärjestäjä id
-> CompanyName | varchar(100) |  Tapahtumajärjestäjän yritysnimi
-> CompanyStreetAddress | varchar(150) |  Tapahtumajärjestäjän osoite
-> Postcode_ID | int FK | Tapahtumajärjestäjän postinumero, viittaus [Postcodes](#Postcodes)-tauluun
-> CompanyTel | varchar(25) |  Tapahtumajärjestäjän puhelinnumero
-> CompanyEmail | varchar(150) |  Tapahtumajärjestäjän sähköpostiosoite
-> CompanyWWW | varchar(250) |  Tapahtumajärjestäjän www-osoite
-> CompanyContactPerson | varchar(150) |  Tapahtumajärjestäjän edustajan nimi
+> event_organizer_id | bigint PK NN | Tapahtumajärjestäjä id
+> name | varchar(100) NN |  Tapahtumajärjestäjän yritysnimi
+> street_address | varchar(150) |  Tapahtumajärjestäjän osoite
+> postcode_id | varchar(10) FK NN | Tapahtumajärjestäjän postinumero, viittaus [postcodes](#postcodes)-tauluun
+> tel | varchar(25) |  Tapahtumajärjestäjän puhelinnumero
+> email | varchar(150) |  Tapahtumajärjestäjän sähköpostiosoite
+> www | varchar(250) |  Tapahtumajärjestäjän www-osoite
+> contact_person | varchar(250) |  Tapahtumajärjestäjän edustajan nimi
+> created | timestamp NN | Aikaleima jolloin tietue on luotu
+> invalid | timestamp | Aikaleima jolloin tietue on merkitty poistetuksi
 
-> ### _Venues_
-> _Venues-taulu sisältää tapahtumapaikat._
+> ### _venues_
+> _venues-taulu sisältää tapahtumapaikat._
 >
 > Kenttä | Tyyppi | Kuvaus
 > ------ | ------ | ------
-> Venue_ID | int PK | Tapahtumapaikka id
-> VenueName | varchar(100) |  Tapahtumapaikan nimi
-> VenueStreetAddress | varchar(150) |  Tapahtumapaikan osoite
-> Postcode_ID | int FK | Tapahtumajärjestäjän postinumero, viittaus [Postcodes](#Postcodes)-tauluun
-> VenueTel | varchar(25) |  Tapahtumapaikan puhelinnumero
-> VenueEmail | varchar(150) |  Tapahtumapaikan sähköpostiosoite
-> VenueWWW | varchar(250) |  Tapahtumapaikan www-osoite
-> VenueContactPerson | varchar(150) |  Tapahtumapaikan edustajan nimi
+> venue_id | bigint PK NN | Tapahtumapaikka id
+> venueName | varchar(100) NN |  Tapahtumapaikan nimi
+> street_address | varchar(150) NN |  Tapahtumapaikan osoite
+> postcode_id | varchar(10) FK NN | Tapahtumajärjestäjän postinumero, viittaus [postcodes](#postcodes)-tauluun
+> tel | varchar(25) NN |  Tapahtumapaikan puhelinnumero
+> email | varchar(150) NN |  Tapahtumapaikan sähköpostiosoite
+> www | varchar(250) |  Tapahtumapaikan www-osoite
+> contact_person | varchar(150) NN |  Tapahtumapaikan edustajan nimi
+> created | timestamp NN | Aikaleima jolloin tietue on luotu
+> invalid | timestamp | Aikaleima jolloin tietue on merkitty poistetuksi
 
-> ### _Events_
-> _Events-taulu sisältää tapahtumat._
+> ### _events_
+> _events-taulu sisältää tapahtumat._
 >
 > Kenttä | Tyyppi | Kuvaus
 > ------ | ------ | ------
-> Event_ID | int PK | Tapahtuma id
-> EventName | varchar(250) |  Tapahtuman nimi
-> EventType_ID | int FK | Tapahtuman tyyppi, viittaus [EventTypes](#EventTypes)-tauluun
-> EventDateTime | datetime |  Tapahtuman päivämäärä ja aika
-> EventOrganizer_ID | int FK | Tapahtuman järjestäjä, viittaus [EventOrganizers](#EventOrganizers)-tauluun
-> Venue_ID | int FK | Tapahtuman tapahtumapaikka, viittaus [Venues](#Venues)-tauluun
-> TicketCapacity | int |  Tapahtumaan maksimissaan myytävien lippujen määrä
-> AgeLimit_ID | int FK | Tapahtuman mahdollinen ikärajaluokka, viittaus [AgeLimits](#AgeLimits)-tauluun
-> EventInfo | varchar(500) |  Tapahtuman tiedot
+> event_id | bigint PK NN | Tapahtuma id
+> name | varchar(250) NN |  Tapahtuman nimi
+> event_type_id | bigint FK NN | Tapahtuman tyyppi, viittaus [event_types](#event_types)-tauluun
+> datetime | datetime NN |  Tapahtuman päivämäärä ja aika
+> event_organizer_id | bigint FK NN | Tapahtuman järjestäjä, viittaus [event_organizers](#event_organizers)-tauluun
+> venue_id | bigint FK NN | Tapahtuman tapahtumapaikka, viittaus [venues](#venues)-tauluun
+> ticket_capacity | bigint NN |  Tapahtumaan maksimissaan myytävien lippujen määrä
+> age_limit_id | bigint FK NN | Tapahtuman mahdollinen ikärajaluokka, viittaus [age_limits](#age_limits)-tauluun
+> info | varchar(500) |  Tapahtuman lisätiedot tiedot
+> created | timestamp NN | Aikaleima jolloin tietue on luotu
+> invalid | timestamp | Aikaleima jolloin tietue on merkitty poistetuksi
 
-> ### _EventTickets_
-> _EventTickets-taulu sisältää tapahtumakohtaiset liput._
+> ### _event_tickets_
+> _event_tickets-taulu sisältää tapahtumakohtaiset liput._
 >
 > Kenttä | Tyyppi | Kuvaus
 > ------ | ------ | ------
-> EventTicket_ID | int PK | Tapahtumakohtaisen lipun id
-> Event_ID | int FK | Lippuun liitetty tapahtuma, viittaus [Events](#Events)-tauluun
-> TicketType_ID | int FK | Lippun lipputyyppi, viittaus [TicketTypes](#TicketTypes)-tauluun
-> TicketCount | int |  Lipun uniikki yksilöintitieto
-> Price | varchar(10) |  Lipun hintatieto
+> event_ticket_id | bigint PK NN | Tapahtumakohtaisen lipun id
+> event_id | bigint FK NN | Lippuun liitetty tapahtuma, viittaus [events](#events)-tauluun
+> ticket_type_id | bigint FK NN | Lippun lipputyyppi, viittaus [ticket_types](#ticket_types)-tauluun
+> ticket_count | bigint |  Myytävänä olevien lippujen määrä
+> price | decimal(5) |  Lipun hintatieto
+> created | timestamp NN | Aikaleima jolloin tietue on luotu
+> invalid | timestamp | Aikaleima jolloin tietue on merkitty poistetuksi
 
-> ### _SaleEvents_
-> _SaleEvents-taulu sisältää myyntitapahtumat._
+> ### _sale_events_
+> _sale_events-taulu sisältää myyntitapahtumat._
 >
 > Kenttä | Tyyppi | Kuvaus
 > ------ | ------ | ------
-> SaleEvent_ID | int PK | Myyntitapahtuma id
-> SaleEventDateTime | datetime |  Myyntitapahtuman päivämäärä ja aika
-> User_ID | int FK | Myyntitapahtuman käsittelijätieto, viittaus [Users](#Users)-tauluun
+> sale_event_id | bigint PK NN | Myyntitapahtuma id
+> user_id | bigint FK NN | Myyntitapahtuman käsittelijätieto, viittaus [users](#users)-tauluun
+> created | timestamp NN | Aikaleima jolloin tietue on luotu
+> invalid | timestamp | Aikaleima jolloin tietue on merkitty poistetuksi
 
-> ### _SaleRows_
-> _SaleRows-taulu sisältää myyntitapahtumat yksittäiset myyntirivit._
+> ### _sale_rows_
+> _sale_rows-taulu sisältää myyntitapahtumien myyntirivit._
 >
 > Kenttä | Tyyppi | Kuvaus
 > ------ | ------ | ------
-> SaleRow_ID | int PK | Myyntirivi id
-> SaleEvent_ID | int FK | Myyntitapahtumatiedot, viittaus [SaleEvents](#SaleEvents)-tauluun
-> Ticket_ID | int FK | Myyntiriviin liitetty lippu, viittaus [Tickets](#Tickets)-tauluun
-> Discount | int |  Myyntirivin mahdollinen hinnan alennus tieto
+> sale_row_id | bigint PK NN | Myyntirivi id
+> sale_event_id | bigint FK NN | Myyntitapahtumatiedot, viittaus [sale_events](#sale_events)-tauluun
+> discount | bigint |  Myyntirivin mahdollinen hinnan alennus tieto
+> created | timestamp NN | Aikaleima jolloin tietue on luotu
+> invalid | timestamp | Aikaleima jolloin tietue on merkitty poistetuksi
 
-> ### _Tickets_
-> _Tickets-taulu sisältää yksittäiset liput._
+> ### _tickets_
+> _tickets-taulu sisältää yksittäiset liput._
 >
 > Kenttä | Tyyppi | Kuvaus
 > ------ | ------ | ------
-> Ticket_ID | int PK | Lippu id
-> EventTicket_ID | int FK | Lippuun liitetyt tapahtumakohtaiset lipputiedot, viittaus [EventTickets](#EventTickets)-tauluun
-> TicketStatus_ID | int FK | Lipun tilanne, viittaus [TicketStatuses](#TicketStatuses)-tauluun
-> TicketCheckSum | varchar(20) |  Yksittäisen lipun tarkastustieto
+> ticket_id | bigint PK NN | Lippu id
+> event_ticket_id | bigint FK NN | Lippuun liitetyt tapahtumakohtaiset lipputiedot, viittaus [event_tickets](#event_tickets)-tauluun
+> ricket_status_id | bigint FK NN | Lipun tilanne, viittaus [ticket_statuses](#ticket_statuses)-tauluun
+> checksum | varchar(100) |  Lipun tarkastustieto
+> sale_row_id | bigint FK NN | Lippuun liitetty myyntirivi, viittaus [sale_rows](#sale_rows)-tauluun
+> created | timestamp NN | Aikaleima jolloin tietue on luotu
+> invalid | timestamp | Aikaleima jolloin tietue on merkitty poistetuksi
