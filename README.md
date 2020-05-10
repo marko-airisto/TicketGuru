@@ -119,7 +119,8 @@ Järjestelmä pyörii Heroku -sovelluspalvelimella.
 Sovelluksen käynnistykseen riittää allaolevan kirjautumisosoitteen avaaminen.
 (REST API)
 https://rbmk-ticketguru-backend.herokuapp.com/api/login
-Tai vaihtoehtoisesti referenssitoteutus:
+  
+(Referenssitoteutus UI:sta)
 https://ticketguru-heroku.herokuapp.com/auth/login
 Järjestelmään kirjaudutaan sisään joko pääkäyttäjätason tai myyntihenkilön tunnuksilla.
 
