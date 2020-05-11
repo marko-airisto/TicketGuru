@@ -88,17 +88,6 @@ Esimerkillinen tapahtuman luonti/editointi näkymä.
 
 - [REST API](https://github.com/marko-airisto/TicketGuru/tree/master/documentation/API)
 
-## TÄSTÄ ALASPÄIN TEHTÄVÄ!
-
-## Testaus
-
-Tässä kohdin selvitetään, miten ohjelmiston oikea toiminta varmistetaan
-testaamalla projektin aikana: millaisia testauksia tehdään ja missä vaiheessa.
-Testauksen tarkemmat sisällöt ja testisuoritusten tulosten raportit kirjataan
-erillisiin dokumentteihin.
-
-Tänne kirjataan myös lopuksi järjestelmän tunnetut ongelmat, joita ei ole korjattu.
-
 ## Asennustiedot
 
 Järjestelmän asennus on syytä dokumentoida kahdesta näkökulmasta:
