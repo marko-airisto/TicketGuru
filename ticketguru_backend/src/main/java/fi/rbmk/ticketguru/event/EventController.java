@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import fi.rbmk.ticketguru.eventType.*;
+import fi.rbmk.ticketguru.ticket.Ticket;
+import fi.rbmk.ticketguru.ticket.TicketRepository;
 import fi.rbmk.ticketguru.eventOrganizer.*;
 import fi.rbmk.ticketguru.eventTicket.*;
 import fi.rbmk.ticketguru.venue.*;
@@ -52,6 +54,8 @@ public class EventController {
     AgeLimitRepository alRepository;
     @Autowired
     EventTicketRepository eventTicketRepository;
+    @Autowired
+    TicketRepository tRepository;
 
     private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
@@ -142,6 +146,14 @@ public class EventController {
         }
         event.setInvalid();
         eRepository.save(event);
+        for (EventTicket eventTicket : event.getEventTickets()) {
+            eventTicket.setInvalid();
+            eventTicketRepository.save(eventTicket);
+            for (Ticket ticket : eventTicket.getTickets()) {
+                ticket.setInvalid();
+                tRepository.save(ticket);
+            }
+        }
         return ResponseEntity.noContent().build();
     }
 
