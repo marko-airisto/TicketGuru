@@ -172,6 +172,14 @@ public class SaleEventController {
 		}
 		saleEvent.setInvalid();
 		sERepository.save(saleEvent);
+		for (SaleRow saleRow : saleEvent.getSaleRows()) {
+            saleRow.setInvalid();
+			sRRepository.save(saleRow);
+			for (Ticket ticket : saleRow.getTickets()) {
+				ticket.setInvalid();
+				tRepository.save(ticket);
+			}
+        }
 		return ResponseEntity.noContent().build();
 	}
 

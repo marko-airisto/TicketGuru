@@ -51,6 +51,8 @@ public class SaleRowController {
     @Autowired
     TicketStatusRepository tsRepository;
     @Autowired
+    TicketRepository tRepository;
+    @Autowired
     TicketService tService;
 
     private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
@@ -153,7 +155,10 @@ public class SaleRowController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot modify SaleRow that is marked as deleted");
         }
     	saleRow.setInvalid();
-    	sRRepository.save(saleRow);
+        sRRepository.save(saleRow);
+        for (Ticket ticket : saleRow.getTickets()) {
+            tRepository.save(ticket);
+        }
     	return ResponseEntity.noContent().build();
     }
 
