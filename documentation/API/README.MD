@@ -21,7 +21,7 @@ Each endpoint manipulates or displays information::
 * [Events](event/post.md) : `POST /api/events/`
 * [Events](event/patch.md) : `PATCH /api/events/{id}`
 * [Events](event/delete.md) : `DELETE /api/events/{id}`
-* [SaleEvents](saleevent/get.md) : `GET /api/saleEvents/`
+* [SaleEvents](saleevents/get.md) : `GET /api/saleEvents/`
 * [SaleRows](salerow/get.md) : `GET /api/saleRows/`
 * [SaleRows](salerow/post.md) : `POST /api/saleRows/`
 * [SaleRows](salerow/patch.md) : `PATCH /api/saleRows/{id}`
