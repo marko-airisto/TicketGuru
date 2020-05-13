@@ -7,7 +7,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
-import javax.validation.Valid;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
@@ -37,7 +36,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import fi.rbmk.ticketguru.constraintViolationParser.ConstraintViolationParser;
 import fi.rbmk.ticketguru.eventTicket.EventTicketRepository;
-import fi.rbmk.ticketguru.jwt.WebSecurityConfig;
 import fi.rbmk.ticketguru.saleEvent.*;
 import fi.rbmk.ticketguru.userGroup.*;
 
