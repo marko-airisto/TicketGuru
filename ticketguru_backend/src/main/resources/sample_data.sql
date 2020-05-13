@@ -1,35 +1,35 @@
 
 -- USER GROUPS
 
--- INSERT INTO user_groups
---     (name)
--- VALUES
---     ('user');
--- INSERT INTO user_groups
---     (name
---     )
--- VALUES
---     ('admin');
--- INSERT INTO user_groups
---     (name
---     )
--- VALUES
---     ('boss');
+INSERT INTO user_groups
+    (name)
+VALUES
+    ('user');
+INSERT INTO user_groups
+    (name
+    )
+VALUES
+    ('admin');
+INSERT INTO user_groups
+    (name
+    )
+VALUES
+    ('boss');
 
--- -- USERS
+-- USERS
 
--- INSERT INTO users
---     (password, username, name, user_group_id, active)
--- VALUES
---     ('$2a$10$/..0qbQN09s20ZVao53j0..hr2dgkS52zVn68b0ZlGcZBzczkoH.y', 'pepe', 'pepe', 1, 1);
--- INSERT INTO users
---     (password, username, name, user_group_id, active)
--- VALUES
---     ('$2a$10$K.vSuwrxuG7arNO7nGkAyuPs0Op4JCDxd7hdhiwpF/egYpePZWYay', 'john', 'john', 2, 1);
--- INSERT INTO users
---     (password, username, name, user_group_id, active)
--- VALUES
---     ('$2a$10$tG3a9iRmIpPH3Hkj/EwLYetL8i/A6jBJIF4OQZS.UPV14sOmQB9Nq', 'kuningas', 'kuningas', 3, 1);
+INSERT INTO users
+    (password, username, name, user_group_id, active)
+VALUES
+    ('$2a$10$/..0qbQN09s20ZVao53j0..hr2dgkS52zVn68b0ZlGcZBzczkoH.y', 'pepe', 'pepe', 1, 1);
+INSERT INTO users
+    (password, username, name, user_group_id, active)
+VALUES
+    ('$2a$10$K.vSuwrxuG7arNO7nGkAyuPs0Op4JCDxd7hdhiwpF/egYpePZWYay', 'john', 'john', 2, 1);
+INSERT INTO users
+    (password, username, name, user_group_id, active)
+VALUES
+    ('$2a$10$tG3a9iRmIpPH3Hkj/EwLYetL8i/A6jBJIF4OQZS.UPV14sOmQB9Nq', 'kuningas', 'kuningas', 3, 1);
 
 
 -- EVENTTYPES
