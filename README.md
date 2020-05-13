@@ -68,17 +68,10 @@ Alkuperäinen UI wireframe dokumentti, josta näkyy perus toiminallisuus.
 
 - [UI Wireframes](https://github.com/marko-airisto/TicketGuru/blob/master/TicketGuru_UI.pdf)
 
-Esimerkillinen landing page sisäänkirjautumisen jälkeen.
+Esimerkillinen kuvakollaasi mahdollisesta front endin ulkonäöstä ja toiminnalisuudesta.
 
-- [Homepage](https://github.com/marko-airisto/TicketGuru/blob/master/documentation/images/Homepage.png)
+- [UI](https://github.com/marko-airisto/TicketGuru/blob/master/documentation/images/UI_examples.pdf)
 
-Esimerkillinen lipunmyynti näkymä.
-
-- [Ticket Window](https://github.com/marko-airisto/TicketGuru/blob/master/documentation/images/ChooseTicket.png)
-
-Esimerkillinen tapahtuman luonti/editointi näkymä.
-
-- [Edit Event](https://github.com/marko-airisto/TicketGuru/blob/master/documentation/images/EditTicket.png)
 
 ## Tietokantadokumentaatio
 
