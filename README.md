@@ -24,7 +24,7 @@ Järjestelmä on tarkoitettu käytettäväksi selaimen kautta päätteellä, ja 
 
 - TicketGuru-järjestelmän käyttäjinä ovat pääasiassa lippupisteiden jälleenmyyjät sekä lippupisteiden myyntikoordinaattorit: jälleenmyyjät toimivat kivijalkaliikkeessä myynnin puolella, myyntikoordinaattorit puolestaan toimivat linkkinä tapahtumien järjestäjiin, syöttäen tapahtumat ja niiden tiedot järjestelmään. Järjestelmän tarjoamat raportit ovat myös tärkeitä myyntikoordinaattoreille.
 
-* [User case diagram](https://github.com/marko-airisto/TicketGuru/blob/master/Usercase_RBMK_05022020.pdf)
+* [User case diagram](https://github.com/marko-airisto/TicketGuru/blob/master/TicketGuruUsercase%20copy.pdf)
 
 ### Käyttäjätarinat:
 
@@ -68,17 +68,10 @@ Alkuperäinen UI wireframe dokumentti, josta näkyy perus toiminallisuus.
 
 - [UI Wireframes](https://github.com/marko-airisto/TicketGuru/blob/master/TicketGuru_UI.pdf)
 
-Esimerkillinen landing page sisäänkirjautumisen jälkeen.
+Esimerkillinen kuvakollaasi mahdollisesta front endin ulkonäöstä ja toiminnalisuudesta.
 
-- [Homepage](https://github.com/marko-airisto/TicketGuru/blob/master/documentation/images/Homepage.png)
+- [UI](https://github.com/marko-airisto/TicketGuru/blob/master/documentation/images/UI_examples.pdf)
 
-Esimerkillinen lipunmyynti näkymä.
-
-- [Ticket Window](https://github.com/marko-airisto/TicketGuru/blob/master/documentation/images/ChooseTicket.png)
-
-Esimerkillinen tapahtuman luonti/editointi näkymä.
-
-- [Edit Event](https://github.com/marko-airisto/TicketGuru/blob/master/documentation/images/EditTicket.png)
 
 ## Tietokantadokumentaatio
 
