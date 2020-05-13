@@ -83,17 +83,26 @@ Esimerkillinen kuvakollaasi mahdollisesta front endin ulkonäöstä ja toiminnal
 
 ## Asennustiedot
 
-Järjestelmän asennus on syytä dokumentoida kahdesta näkökulmasta:
+### Kehitysympäristön käyttöönotto
 
--   järjestelmän kehitysympäristö: miten järjestelmän kehitysympäristön saisi
-    rakennettua johonkin toiseen koneeseen
+-   TicketGuru kehitysympäristön saa käyttöönsä kloonaamalla projektin (git clone https://github.com/marko-airisto/TicketGuru.git)
+    -   Projektin voi avata joko Visual Studio Codella tai Eclipsellä (VSCode riittää ticketguru_backend kansion avaaminen, eclipsellä pitää import toiminnolla tuota sama kansio muokattavaksi).
+-   Ajonaikaisen tietokannan valinta tapahtuu ticketguru_backend/src/main/java/fi/rbmk/resources kansiossa olevaa application.properties tiedostoa muokkaamalla.
+    -   Poista kommentti haluamastasi tietokannasta. Kehitysympäristössä käytössä on H2 muistinvarainen tietokanta, johon syötetään esimerkkidataa sample_data.sql tiedostolla.
 
--   järjestelmän asentaminen tuotantoympäristöön: miten järjestelmän saisi
-    asennettua johonkin uuteen ympäristöön.
+### Järjestelmän asentaminen tuotantoympäristöön
 
-Asennusohjeesta tulisi ainakin käydä ilmi, miten käytettävä tietokanta ja
-käyttäjät tulee ohjelmistoa asentaessa määritellä (käytettävä tietokanta,
-käyttäjätunnus, salasana, tietokannan luonti yms.).
+-   Tuotantokäyttöön tarkoitettu tietokanta otetaan käyttöön poistamalla application.properties tiedostosta kommentointi Production -kohdista
+-   pom.xml tiedostosta kannattaa ottaa seuraavat riippuvuudet pois ennen ohjelman kääntämistä tuotantokäyttöön:
+    -   spring-boot-devtools
+    -   h2
+-   Tietokantana toimii PostgreSQL -tietokanta (> V9)
+-   Tietokantayhteyteen tarvittavat tiedot määritellään seuraavilla ympäristömuuttujilla käyttöjärjestelmässä:
+    -   JDBC_DATABASE_URL   (muodossa postgresql://<käyttäjätunnus>:<salasana>:<yhteysosoite>:<portti>/<tietokannan nimi> tai postgresql://<yhteysosoite>:<portti>/<tietokannan nimi)
+    -   JDBC_DATABASE_USERNAME (tarvitaan vain jos ylemmässä ei ole määritelty käyttäjänimeä)
+    -   JDBC_DATABASE_PASSWORD (tarvitaan vain jos ylemmässä ei ole määritelty salasanaa)
+-   Tietokannan taulut voidaan joko luoda projektitiedostojen mukana olevan pqSchema.sql tiedoston tuomalla tai antamalla ohjelman itse generoida se.
+-   Jos järjestelmässä ei ole käyttäjiä, ensimmäisestä kirjautuvasta käyttäjästä luodaan pääkäyttäjä (/api/login POST kutsu)
 
 ## Käynnistys- ja käyttöohje
 
