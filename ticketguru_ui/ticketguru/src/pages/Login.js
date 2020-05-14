@@ -26,24 +26,24 @@ function Copyright() {
   );
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
-  }
+    margin: theme.spacing(3, 0, 2),
+  },
 }));
 
 export const Login = () => {
@@ -54,10 +54,10 @@ export const Login = () => {
     username: '',
     password: '',
     isSubmitting: false,
-    errorMessage: null
+    errorMessage: null,
   });
 
-  const handleInputChange = e => {
+  const handleInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
@@ -66,39 +66,42 @@ export const Login = () => {
     setUser({
       ...user,
       isSubmitting: true,
-      errorMessage: null
+      errorMessage: null,
     });
     const requestOptions = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        authorization: 'jwt'
+        authorization: 'jwt',
       },
       body: JSON.stringify({
         username: user.username,
-        password: user.password
-      })
+        password: user.password,
+      }),
     };
 
-    fetch('http://localhost:8080/api/login', requestOptions)
-      .then(res => {
+    fetch(
+      'https://rbmk-ticketguru-backend.herokuapp.com/api/login',
+      requestOptions
+    )
+      .then((res) => {
         if (res.ok) {
           return res.json();
         }
         throw res;
       })
-      .then(resJson => {
+      .then((resJson) => {
         dispatch({
           type: 'LOGIN_SUCCESS',
-          payload: resJson
+          payload: resJson,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         setUser({
           ...user,
           isSubmitting: false,
-          errorMessage: error.message || error.statusText
+          errorMessage: error.message || error.statusText,
         });
       });
     history.push('/app/home');

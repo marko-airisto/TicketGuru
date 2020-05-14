@@ -6,14 +6,16 @@ import moment from 'moment/moment.js';
 import ReadTicket from '../components/ReadTicket';
 import TicketStatus from '../components/TicketStatus';
 import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Input from '@material-ui/core/Input';
 
 export const TicketContext = React.createContext();
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 }));
 
 const initialState = {
@@ -21,7 +23,7 @@ const initialState = {
   isFetching: false,
   hasError: false,
   isTicketSubmitting: false,
-  songHasError: false
+  songHasError: false,
 };
 
 const reducer = (state, action) => {
@@ -30,37 +32,37 @@ const reducer = (state, action) => {
       return {
         ...state,
         isFetching: true,
-        hasError: false
+        hasError: false,
       };
     case 'FETCH_TICKETS_SUCCESS':
       return {
         ...state,
         isFetching: false,
-        tickets: action.payload
+        tickets: action.payload,
       };
     case 'FETCH_TICKETS_FAILURE':
       return {
         ...state,
         hasError: true,
-        isFetching: false
+        isFetching: false,
       };
     case 'PATCH_TICKET_REQUEST':
       return {
         ...state,
         isTicketSubmitting: true,
-        songHasError: false
+        songHasError: false,
       };
     case 'PATCH_TICKET_SUCCESS':
       return {
         ...state,
         isTicketSubmitting: false,
-        tickets: [...state.tickets, action.payload]
+        tickets: [...state.tickets, action.payload],
       };
     case 'PATCH_TICKET_FAILURE':
       return {
         ...state,
         isTicketSubmitting: false,
-        songHasError: true
+        songHasError: true,
       };
     default:
       return state;
@@ -74,31 +76,31 @@ export const Tickets = () => {
 
   useEffect(() => {
     dispatch({
-      type: 'FETCH_TICKETS_REQUEST'
+      type: 'FETCH_TICKETS_REQUEST',
     });
-    fetch('http://localhost:8080/api/tickets', {
+    fetch('https://rbmk-ticketguru-backend.herokuapp.com/api/tickets', {
       headers: {
-        Authorization: `Bearer ${auth.token}`
-      }
+        Authorization: `Bearer ${auth.token}`,
+      },
     })
-      .then(res => {
+      .then((res) => {
         if (res.ok) {
           return res.json();
         } else {
           throw res;
         }
       })
-      .then(resJson => {
+      .then((resJson) => {
         console.log(resJson._embedded.tickets);
         dispatch({
           type: 'FETCH_TICKETS_SUCCESS',
-          payload: resJson._embedded.tickets
+          payload: resJson._embedded.tickets,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         dispatch({
-          type: 'FETCH_TICKETS_FAILURE'
+          type: 'FETCH_TICKETS_FAILURE',
         });
       });
   }, [auth.token]);
@@ -110,7 +112,7 @@ export const Tickets = () => {
       filterable: false,
       width: 60,
       accessor: '_links.self.href',
-      Cell: row => <ReadTicket ticket={row.original} />
+      Cell: (row) => <ReadTicket ticket={row.original} />,
     },
     {
       Header: 'Checksum',
@@ -118,8 +120,8 @@ export const Tickets = () => {
       style: {
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center'
-      }
+        justifyContent: 'center',
+      },
     },
     {
       id: 'invalid',
@@ -127,12 +129,12 @@ export const Tickets = () => {
       style: {
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center'
+        justifyContent: 'center',
       },
-      accessor: row =>
+      accessor: (row) =>
         row.invalid === null
           ? ''
-          : moment(row.invalid).format('DD/MM/YYYY  HH:mm')
+          : moment(row.invalid).format('DD/MM/YYYY  HH:mm'),
     },
     {
       Header: '',
@@ -140,8 +142,8 @@ export const Tickets = () => {
       filterable: false,
       width: 60,
       accessor: '_links.ticketStatus.href',
-      Cell: row => <TicketStatus ticket={row.original} />
-    }
+      Cell: (row) => <TicketStatus ticket={row.original} />,
+    },
   ];
 
   return (
@@ -155,13 +157,19 @@ export const Tickets = () => {
           filterable={false}
           data={state.tickets}
           columns={columns}
-          SubComponent={row => {
+          SubComponent={(row) => {
             return (
               <div>
-                You can put any component you want here, even another React
-                Table! You even have access to the row-level data if you need!
-                Spark-charts, drill-throughs, infographics... the possibilities
-                are endless!
+                <Input
+                  align="center"
+                  type="number"
+                  id="quantity"
+                  name="quantity"
+                  defaultValue="1"
+                />
+                <Button size="small" variant="contained" color="primary">
+                  Testi
+                </Button>
               </div>
             );
           }}

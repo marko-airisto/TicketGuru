@@ -12,10 +12,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { useAuthContext } from '../utils/AuthContext';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   text: {
     paddingRight: theme.spacing(4),
@@ -25,19 +25,19 @@ const useStyles = makeStyles(theme => ({
     spacing: 4,
     alignContent: 'stretch',
     textAlign: 'center',
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
   },
   table: {
     minWidth: 650,
     textAlign: 'center',
-    color: theme.palette.text.secondary
-  }
+    color: theme.palette.text.secondary,
+  },
 }));
 
 const initialState = {
   events: [],
   isFetching: false,
-  hasError: false
+  hasError: false,
 };
 const reducer = (state, action) => {
   switch (action.type) {
@@ -45,24 +45,25 @@ const reducer = (state, action) => {
       return {
         ...state,
         isFetching: true,
-        hasError: false
+        hasError: false,
       };
     case 'FETCH_EVENTS_SUCCESS':
       return {
         ...state,
         isFetching: false,
-        events: action.payload
+        events: action.payload,
       };
     case 'FETCH_EVENTS_FAILURE':
       return {
         ...state,
         hasError: true,
-        isFetching: false
+        isFetching: false,
       };
     default:
       return state;
   }
 };
+
 export const Events = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const classes = useStyles();
@@ -70,31 +71,31 @@ export const Events = () => {
 
   React.useEffect(() => {
     dispatch({
-      type: 'FETCH_EVENTS_REQUEST'
+      type: 'FETCH_EVENTS_REQUEST',
     });
-    fetch('http://localhost:8080/api/events', {
+    fetch('https://rbmk-ticketguru-backend.herokuapp.com/api/events', {
       headers: {
-        Authorization: `Bearer ${auth.token}`
-      }
+        Authorization: `Bearer ${auth.token}`,
+      },
     })
-      .then(res => {
+      .then((res) => {
         if (res.ok) {
           return res.json();
         } else {
           throw res;
         }
       })
-      .then(resJson => {
+      .then((resJson) => {
         //console.log(resJson._embedded.events);
         dispatch({
           type: 'FETCH_EVENTS_SUCCESS',
-          payload: resJson._embedded.events
+          payload: resJson._embedded.events,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         dispatch({
-          type: 'FETCH_EVENTS_FAILURE'
+          type: 'FETCH_EVENTS_FAILURE',
         });
       });
   }, [auth.token]);
@@ -129,7 +130,7 @@ export const Events = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {state.events.map(row => (
+                  {state.events.map((row) => (
                     <TableRow key={row.name}>
                       <TableCell align="center" component="th" scope="row">
                         {row.name}
