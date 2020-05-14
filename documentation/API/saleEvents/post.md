@@ -18,8 +18,14 @@ Provide below required values.
 
 ```json
 {
-	"user" : "user_id)",
-	"user" : "salerows_id"
+	"user": "user_id",
+	"saleRows": [
+		{
+			"eventTicket": "event_ticket_id",
+			"count": Long,
+			"discount": Long
+		}
+	]
 }
 ```
 
