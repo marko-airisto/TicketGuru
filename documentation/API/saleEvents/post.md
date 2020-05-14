@@ -18,8 +18,8 @@ Provide below required values.
 
 ```json
 {
-	"created" : "[ISO 8601] (optional)",
-	"user" : "user_id"
+	"user" : "user_id)",
+	"user" : "salerows_id"
 }
 ```
 
@@ -27,8 +27,19 @@ Provide below required values.
 
 ```json
 {
-	"created" : "2020-05-06T22:44:00",
-	"user" : "https://rbmk-ticketguru-backend.herokuapp.com/api/users/3"
+	"user": "https://rbmk-ticketguru-backend.herokuapp.com/api/users/1",
+	"saleRows": [
+		{
+			"eventTicket": "https://rbmk-ticketguru-backend.herokuapp.com/api/eventTickets/1",
+			"count": 1,
+			"discount": 0
+		},
+		{
+			"eventTicket": "https://rbmk-ticketguru-backend.herokuapp.com/api/eventTickets/1",
+			"count": 1,
+			"discount": 0
+		}
+	]
 }
 ```
 
